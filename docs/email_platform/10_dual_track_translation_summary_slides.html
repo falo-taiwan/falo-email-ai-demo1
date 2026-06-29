@@ -54,19 +54,19 @@
         <div class="text-slate-500 font-mono text-lg">AI 顧問培訓教材 | Falo x Force Cheng</div>
       </section>
     
-      <!-- Slide: 📌 1. 商業痛點與設計背景 -->
+      <!-- Slide: 📌 商業痛點與設計背景 -->
       <section class="text-left px-12">
-        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">📌 1. 商業痛點與設計背景</h2>
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">📌 商業痛點與設計背景</h2>
         <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
-          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">在跨國商務或多語系企業協作中，郵件的翻譯與閱讀常面臨以下瓶頸：<br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">閱讀疲勞與時間浪費</strong>：高階主管通常沒有時間閱讀數千字的長篇外文郵件，他們需要在 3 秒內快速掌握「3 大核心重點」與「有何待辦事項 (Action Items)」。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">算力與成本浪費 (Token Abuse)</strong>：如果信件本身已是中文，使用者仍將其發送給翻譯 AI，會白白耗費伺服器 GPU 算力與 Token 費用。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">長信件輸出截斷</strong>：大語言模型若未經參數調優，預設輸出長度限制往往過低，導致長信件翻譯到一半便被迫中斷。</li></p>
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">在跨國商務或多語系企業協作中，郵件的翻譯與閱讀常面臨以下瓶頸：<br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">閱讀疲勞與時間浪費</strong>：高階主管通常沒有時間閱讀數千字的長篇外文郵件，他們需要在 3 秒內快速掌握「3 大核心重點」與「有何待辦事項 (Action Items)」。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">算力與成本浪費 (Token Abuse)</strong>：如果信件本身已是中文，使用者仍將其發送給翻譯 AI，會白白耗費伺服器 GPU 算力與 Token 費用。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">長信件輸出截斷</strong>：大語言模型若未經參數調優，預設輸出長度限制往往過低，導致長信件翻譯到一半便被迫中斷。</li></p>
 <p class="text-slate-400 text-lg leading-relaxed text-left my-3">為了同時滿足<strong class="text-indigo-300 font-bold">全文忠實對照翻譯</strong>與<strong class="text-indigo-300 font-bold">極速高管摘要</strong>，同時兼顧<strong class="text-indigo-300 font-bold">零算力損耗防錯</strong>，我們設計了「雙軌 AI 別名路由機制」。</p>
 <p class="text-slate-400 text-lg leading-relaxed text-left my-3">---</p>
         </div>
       </section>
         
-      <!-- Slide: 🛠️ 2. 雙軌分流與零成本過濾架構 (Architecture) -->
+      <!-- Slide: 🛠️ 雙軌分流與零成本過濾架構 (Architecture) -->
       <section class="text-left px-12">
-        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">🛠️ 2. 雙軌分流與零成本過濾架構 (Architecture)</h2>
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">🛠️ 雙軌分流與零成本過濾架構 (Architecture)</h2>
         <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
           <p class="text-slate-400 text-lg leading-relaxed text-left my-3">本架構在「郵件網關層」進行動態收信別名分流，免去維護多個獨立系統的硬體與運維成本：</p>
 <p class="text-slate-400 text-lg leading-relaxed text-left my-3">!<span class="text-indigo-400">Zero Token Guardrail Flow</span></p>
@@ -79,54 +79,54 @@
       <section class="text-left px-12">
         <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># 雙軌別名定義：</h2>
         <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
-          <li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">translate@</code> (全文翻譯別名)</strong>：</li>
+          <li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">translate@</code> (全文翻譯別名)</strong>：</li>
 <li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">功能</strong>：忠實全文翻譯為繁體中文，並在下方自動附加郵件原文對照。</li>
 <li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">防錯過濾</strong>：若偵測到主要內容已是中文，直接退回警示郵件，<strong class="text-indigo-300 font-bold">不呼叫 AI，零算力耗損</strong>。</li>
-<li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">translate2@</code> (摘要別名)</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">translate2@</code> (摘要別名)</strong>：</li>
 <li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">功能</strong>：只生成繁體中文的「📌 智能摘要」與「🎯 關鍵行動/待辦事項」（不做全文翻譯），並在下方自動附加原文，中英文郵件皆支援。</li>
 <p class="text-slate-400 text-lg leading-relaxed text-left my-3">---</p>
         </div>
       </section>
         
-      <!-- Slide: ⚙️ 3. 核心設計邏輯 -->
+      <!-- Slide: ⚙️ 核心設計邏輯 -->
       <section class="text-left px-12">
-        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">⚙️ 3. 核心設計邏輯</h2>
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">⚙️ 核心設計邏輯</h2>
         <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
           <p class="text-slate-400 text-lg leading-relaxed text-left my-3">為了保護企業系統架構的商業機密，我們將核心代碼抽象為以下「邊緣網關預處理邏輯」，其核心目標為<strong class="text-indigo-300 font-bold">防錯、省成本、保證穩定性</strong>：</p>
         </div>
       </section>
         
-      <!-- Slide: # A. 零成本中文偵測與阻擋邏輯 (非 AI 預處理) -->
+      <!-- Slide: # 零成本中文偵測與阻擋邏輯 (非 AI 預處理) -->
       <section class="text-left px-12">
-        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># A. 零成本中文偵測與阻擋邏輯 (非 AI 預處理)</h2>
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># 零成本中文偵測與阻擋邏輯 (非 AI 預處理)</h2>
         <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
           <p class="text-slate-400 text-lg leading-relaxed text-left my-3">在郵件抵達大模型前，邊緣網關會先執行輕量化規則判斷。若中文字元密度超過臨界點，則直接調用網關發信退件，避免調用昂貴的 AI 算力：<br><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm"></code>`<br>【網關預處理邏輯】<br>IF 收件者為 [翻譯信箱] AND 內文中文字元數量 > 10:<br>    記錄日誌："偵測到主要內容為中文，跳過翻譯，直接退信（零 Token 消耗）"<br>    直接回覆系統郵件："此信主要內容已為中文，暫不提供翻譯服務..."<br>    中止流程 (流程結束，AI Token 消耗 = 0)<br><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm"></code>`</p>
         </div>
       </section>
         
-      <!-- Slide: # B. 雙軌 AI 參數調優控制 -->
+      <!-- Slide: # 雙軌 AI 參數調優控制 -->
       <section class="text-left px-12">
-        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># B. 雙軌 AI 參數調優控制</h2>
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># 雙軌 AI 參數調優控制</h2>
         <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
-          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">為了保障超長郵件的完整性，並防止 AI 在翻譯過程中產生多餘的幻覺解釋，我們在網關呼叫大模型時實施以下參數控制策略：<br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">輸出上限控制 (Max Output Length)</strong>：將大模型的最大輸出限制放寬，容許生成更長的中文字數，解決長信件被中途截斷的痛點。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">創造力溫度壓制 (Low Temperature)</strong>：將隨機度溫度調低。這能使大模型發言更嚴謹、緊扣原文，有效杜絕翻譯時產生幻覺或多餘解釋。</li></p>
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">為了保障超長郵件的完整性，並防止 AI 在翻譯過程中產生多餘的幻覺解釋，我們在網關呼叫大模型時實施以下參數控制策略：<br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">輸出上限控制 (Max Output Length)</strong>：將大模型的最大輸出限制放寬，容許生成更長的中文字數，解決長信件被中途截斷的痛點。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">創造力溫度壓制 (Low Temperature)</strong>：將隨機度溫度調低。這能使大模型發言更嚴謹、緊扣原文，有效杜絕翻譯時產生幻覺或多餘解釋。</li></p>
 <p class="text-slate-400 text-lg leading-relaxed text-left my-3">---</p>
         </div>
       </section>
         
-      <!-- Slide: 🎯 4. 顧問教學與演示情境 (Demo Flow) -->
+      <!-- Slide: 🎯 顧問教學與演示情境 (Demo Flow) -->
       <section class="text-left px-12">
-        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">🎯 4. 顧問教學與演示情境 (Demo Flow)</h2>
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">🎯 顧問教學與演示情境 (Demo Flow)</h2>
         <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
-          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">在為企業進行示範時，可執行以下四個驗證步驟：<br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">英文全文對照翻譯 (<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">translate@</code>)</strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">發送一封英文長郵件至翻譯信箱。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">預期結果</strong>：收到回信，頂部包含完整的繁體中文翻譯，底部包含乾淨的英文原文對照。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">中文退信防護機制 (<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">translate@</code>)</strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">發送一封中文郵件至翻譯信箱。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">預期結果</strong>：瞬間收到退信通知，告知暫不提供中文至中文的服務，同時確認後端日誌中完全沒有產生任何 AI 算力費，證明零成本預防機制生效。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">高管智能摘要 (<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">translate2@</code>)</strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">發送一封英文或中文長郵件至摘要信箱。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">預期結果</strong>：收到回信，僅包含「📌 智能摘要」與「🎯 關鍵行動/待辦事項」，不做全文翻譯，大幅節省高階主管閱讀時間。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">多收件人群發功能</strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">在發信門戶中，同時向多個郵件角色群發測試信，驗證邊緣網關的群發分流能力，並在動作日誌中檢視審計明細。</li></p>
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">在為企業進行示範時，可執行以下四個驗證步驟：<br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">英文全文對照翻譯 (<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">translate@</code>)</strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">發送一封英文長郵件至翻譯信箱。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">預期結果</strong>：收到回信，頂部包含完整的繁體中文翻譯，底部包含乾淨的英文原文對照。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">中文退信防護機制 (<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">translate@</code>)</strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">發送一封中文郵件至翻譯信箱。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">預期結果</strong>：瞬間收到退信通知，告知暫不提供中文至中文的服務，同時確認後端日誌中完全沒有產生任何 AI 算力費，證明零成本預防機制生效。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">高管智能摘要 (<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">translate2@</code>)</strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">發送一封英文或中文長郵件至摘要信箱。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">預期結果</strong>：收到回信，僅包含「📌 智能摘要」與「🎯 關鍵行動/待辦事項」，不做全文翻譯，大幅節省高階主管閱讀時間。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">多收件人群發功能</strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">在發信門戶中，同時向多個郵件角色群發測試信，驗證邊緣網關的群發分流能力，並在動作日誌中檢視審計明細。</li></p>
 <p class="text-slate-400 text-lg leading-relaxed text-left my-3">---</p>
         </div>
       </section>
         
-      <!-- Slide: 📁 5. 課堂實作範例下載 (Downloadable HTML Examples) -->
+      <!-- Slide: 📁 課堂實作範例下載 (Downloadable HTML Examples) -->
       <section class="text-left px-12">
-        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">📁 5. 課堂實作範例下載 (Downloadable HTML Examples)</h2>
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">📁 課堂實作範例下載 (Downloadable HTML Examples)</h2>
         <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
-          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">為了便於顧問示範與學員練習，我們在本地目錄提供了以下 4 個測試流程中所產生的 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">.html</code> 範例信件。學員可以直接點擊在瀏覽器新分頁中開啟檢視：<br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold"><span class="text-indigo-400">01_translate_smart_summary_response.html</span></strong>：向摘要信箱發送英文郵件後，由 AI 生成的<strong class="text-indigo-300 font-bold">智能摘要與待辦行動回信範例</strong>。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold"><span class="text-indigo-400">02_translate_blocked_chinese_warning.html</span></strong>：向翻譯信箱發送中文郵件後，網關秒級攔截並退回的<strong class="text-indigo-300 font-bold">中文未處理退信通知範例</strong>。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold"><span class="text-indigo-400">03_translate_faithful_translation_alternative.html</span></strong>：翻譯信箱的全文對照回信對比範例。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold"><span class="text-indigo-400">04_translate_smart_summary_alternative.html</span></strong>：摘要信箱的智能摘要與待辦回信對比範例。</li></p>
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">為了便於顧問示範與學員練習，我們在本地目錄提供了以下 4 個測試流程中所產生的 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">.html</code> 範例信件。學員可以直接點擊在瀏覽器新分頁中開啟檢視：<br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold"><span class="text-indigo-400">01_translate_smart_summary_response.html</span></strong>：向摘要信箱發送英文郵件後，由 AI 生成的<strong class="text-indigo-300 font-bold">智能摘要與待辦行動回信範例</strong>。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold"><span class="text-indigo-400">02_translate_blocked_chinese_warning.html</span></strong>：向翻譯信箱發送中文郵件後，網關秒級攔截並退回的<strong class="text-indigo-300 font-bold">中文未處理退信通知範例</strong>。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold"><span class="text-indigo-400">03_translate_faithful_translation_alternative.html</span></strong>：翻譯信箱的全文對照回信對比範例。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold"><span class="text-indigo-400">04_translate_smart_summary_alternative.html</span></strong>：摘要信箱的智能摘要與待辦回信對比範例。</li></p>
         </div>
       </section>
         
