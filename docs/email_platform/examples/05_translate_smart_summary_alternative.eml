@@ -1,0 +1,336 @@
+Delivered-To: formosa.ai.life@gmail.com
+Received: by 2002:a2e:2e01:0:b0:395:d484:e2c0 with SMTP id u1csp2609528lju;
+        Sun, 28 Jun 2026 22:53:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=3; AHgh+RqdgcdOv9Y++9UT+utunLrAS2J1Z/8L/Kw75p2XMtVjZoHVYu3qznsn9smOumoCP4R9H5Dm4J2wQSEesuSo2Ps=@gmail.com
+X-Received: by 2002:a05:6a00:3e29:b0:847:759e:f617 with SMTP id d2e1a72fcca58-847759ef71dmr2525372b3a.44.1782712417187;
+        Sun, 28 Jun 2026 22:53:37 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1782712417; cv=pass;
+        d=google.com; s=arc-20260327;
+        b=oH27RWZhK9Umbbvg0y4DDY85mqWLRjw2R0Jtj2cuA0NUPlYmWL8xZHVJtDda7xVZsL
+         FbVBrq9MBa281+vJHIZukh/Ib+iFJ16o8a1NVmlPpbN5ukbCtIV3S8WcUd55cisYtqdj
+         zKSiPDx0eSt2N+jj2Ic2/q+OYKQz95koObOFa1HmE8AlsdvzImFAc54Wwsxb9VE6HgOC
+         r/4MxL1HWIbdGCxmecfUqm01uu0rWH/8z66X/aoSpxoM3YsQeSGHAgoV34oYZw4gwmk8
+         ZVufmhiSC233lZeVD6Fgc5GflR5eMS+A0MQcocMT+UiXqTyLjf9rJkEzLqzFlgViuWEi
+         ghJg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=mime-version:to:subject:date:message-id:from:feedback-id
+         :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
+        bh=/gSSf4/qNeERCM2Y89WMS7W8BRRgNFRA2MmF2EJpf1c=;
+        fh=RMDOOmLWX9wQ9uya/ONOVbr6Wysx3K0F8wcq7JEP+zM=;
+        b=r9ipHe8nfl2JEQtO/ekgYEt2J9b7Ms504pLwfla2yTb1IGSO9kcPwNUyCg0f5CQpEI
+         gHmostE0BLcqZHWhyL92ZeeBnFxTszQhCSNE9/jgdvg7J0kUg30+Zuk2fJHJ2XNqImxX
+         QfgmRXX7WMo5LHkuGPcymPJeKE9dl7B80GKfzZF8FMulxfGZUIDajKbA3mVHuaGsik4X
+         hcGkx7qrz2VMRrQGkEoosNwirfcfCKYWuPjvm+yaXFXvGDW9kNFszvJsH7DIR4sdenRr
+         y3tlzQiFvXogjtRZyHNiXZ22p/subnMM3tXEU1yvTPgcUEV+ekISxq1GIVfT26mAKLMx
+         9c7A==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cloudflare-email.net header.s=cf2024-1 header.b=K7YG8aBO;
+       dkim=pass header.i=@formosa-ai.com header.s=cf2024-1 header.b=EYeu59Zv;
+       dkim=pass header.i=@cloudflare-smtp.net header.s=cf2024-1 header.b=a32+Sk56;
+       dkim=pass header.i=@formosa-ai.com header.s=cf-bounce header.b=RiHvewVk;
+       arc=pass (i=1 spf=pass spfdomain=cf-bounce.formosa-ai.com dkim=pass dkdomain=cloudflare-smtp.net dkim=pass dkdomain=formosa-ai.com dmarc=pass fromdomain=formosa-ai.com);
+       spf=pass (google.com: domain of srs0=nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com designates 104.30.10.183 as permitted sender) smtp.mailfrom="SRS0=Nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=formosa-ai.com
+Return-Path: <SRS0=Nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com>
+Received: from ba-bid.cloudflare-email.net (ba-bid.cloudflare-email.net. [104.30.10.183])
+        by mx.google.com with ESMTPS id d2e1a72fcca58-845a3fd14f2si31853791b3a.36.2026.06.28.22.53.35
+        for <formosa.ai.life@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Jun 2026 22:53:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com designates 104.30.10.183 as permitted sender) client-ip=104.30.10.183;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@cloudflare-email.net header.s=cf2024-1 header.b=K7YG8aBO;
+       dkim=pass header.i=@formosa-ai.com header.s=cf2024-1 header.b=EYeu59Zv;
+       dkim=pass header.i=@cloudflare-smtp.net header.s=cf2024-1 header.b=a32+Sk56;
+       dkim=pass header.i=@formosa-ai.com header.s=cf-bounce header.b=RiHvewVk;
+       arc=pass (i=1 spf=pass spfdomain=cf-bounce.formosa-ai.com dkim=pass dkdomain=cloudflare-smtp.net dkim=pass dkdomain=formosa-ai.com dmarc=pass fromdomain=formosa-ai.com);
+       spf=pass (google.com: domain of srs0=nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com designates 104.30.10.183 as permitted sender) smtp.mailfrom="SRS0=Nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=formosa-ai.com
+DKIM-Signature: v=1; a=rsa-sha256; s=cf2024-1; d=cloudflare-email.net; c=relaxed/relaxed;
+	h=To:Subject:Date:From:Feedback-ID:from:reply-to:cc:resent-date
+	:resent-from:resent-to:resent-cc:in-reply-to:references:list-id:list-help
+	:list-unsubscribe:list-unsubscribe-post:list-subscribe:list-post
+	:list-owner:list-archive; t=1782712416; x=1783317216; bh=/gSSf4/qNeERCM2Y89
+	WMS7W8BRRgNFRA2MmF2EJpf1c=; b=K7YG8aBO6DnD3/BA8p1jRKEvV7WrfOhXESqR1u1dXtirc
+	UvFN+UKdGn6SMAc2ik0ZzOyKUkhS71Ihq5/Egde/moHpvQaBWcy5bExcAr0EkzhgMtlQJ4eBgwI
+	9UJ09WHX1BoiLXx/QhVCPfl5DoP4lWIuKQ4Sg5+4xhIROX1abgva51kf8j3+2Wp29mwGYYdQ77Y
+	W8X9g6T5xyaOFfZH6vjZP+5tEdXlMAZkdLmP6NlXoA3AQFHnNSLLwb9SB8epON4R89dNP9myOz7
+	G+I0OP0QbYdDH49Suco4MNtiUE1fmqB9KrgS0JCotKsjNYSrkFFZIrN4qjf4qcaIJ1fMw2uw==;
+DKIM-Signature: v=1; a=rsa-sha256; s=cf2024-1; d=formosa-ai.com; c=relaxed/relaxed;
+	h=To:Subject:Date:From:Feedback-ID:from:reply-to:cc:resent-date
+	:resent-from:resent-to:resent-cc:in-reply-to:references:list-id:list-help
+	:list-unsubscribe:list-unsubscribe-post:list-subscribe:list-post
+	:list-owner:list-archive; t=1782712416; x=1783317216; bh=/gSSf4/qNeERCM2Y89
+	WMS7W8BRRgNFRA2MmF2EJpf1c=; b=EYeu59ZvNXLNdWF8VO7M/hB32jX1h/Fruf8wiUpZJTrSd
+	AitkVPbYNCXjKkntE1CDkBv/ud0m0ViXZKivtAtCk0NXLy8VxKkNHx15SVDDa5h0FncXV/BQDp/
+	NxU6ROKPDXTv/LgRao+G0NSFR9ognNI5Aimja1OOx5QCIIAQNTUwMc2kDb2KkUKUfa6q5G4fSad
+	FdCmdsHVwcqRa3gRpWelLeLLLCdDsfbHY3HffJlYDI5FzoYh37/KToN5E5nLh9VE9k5C9HIccAo
+	CeAImoS1Gdw5JXWicF7G70XebLXA5T9iIen9KD97NOXCV4UasTNREnKohvLZG/9dTr3sTEMQ==;
+X-Forwarded-To: formosa.ai.life@gmail.com
+X-Forwarded-For: bounces@cf-bounce.formosa-ai.com formosa.ai.life@gmail.com
+Received: from bg-jj.cloudflare-smtp.net (104.30.16.99)
+        by cloudflare-email.net (cloudflare) id BB8dycPgvR4o
+        for <bounces@cf-bounce.formosa-ai.com>; Mon, 29 Jun 2026 05:53:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=cf2024-1; d=cloudflare-email.net; cv=none;
+	b=M6LBrpmSG+nWrohX2NimbdYWnUvQkUPH3W1OsxWnnJyp4MIsn3zMdb5WxF459WdyKOFHflMev
+	fFBAxZ1rgTBwfDV2rQeXYv7QNseKSBYQXdzaDcdD82rCHcxEHEPV+y47MVtxu5D6K26TIvDM4/L
+	UHDqk63Ff8krFdLW/dDwfSNkt+2rVI7WbECdVKna3cQ44yuBzd3wKQHvddqPB3C0TXDTjNI/PW7
+	lcih1bTAQYjRxY8scxEM6UAjeEjxkqhl8G9Mlen71HG4bCLKJ2sMA/yetBT+3EgXfMK5h0ScNwU
+	pQAMKZG73iKweTaZf4QSJYTV1KptqzbvUU92nkxo5jeA==;
+ARC-Message-Signature: i=1; a=rsa-sha256; s=cf2024-1; d=cloudflare-email.net; c=relaxed/relaxed;
+	h=To:Subject:Date:From:from:reply-to:cc:resent-date:resent-from:resent-to
+	:resent-cc:in-reply-to:references:list-id:list-help:list-subscribe
+	:list-post:list-owner:list-archive; t=1782712413; x=1783317213; bh=/gSSf4/q
+	NeERCM2Y89WMS7W8BRRgNFRA2MmF2EJpf1c=; b=Z7L5ynaFG8QZNzgJ+IMJ6h5l8XFf/lB6yBT
+	XdRts2qRzuNKHjX9CVVxwa75S9qBwY74NCUNm9wxzF0dnqsQ8FNOUnPYTrKrzqgIKNtKJwlJkZY
+	5mzo2IjOaT47REwxI1Q3VpyTBX9NNLjAWqDsNxSYLBFz7MZnS2o7whNxNplXCRPCfPakq6JYpDi
+	0is80hht94IrXJ99+xdVLnQRIzju/5msxODXcmekCGjMyxi427HrI7d7dSbQ8XjnTggFNZWszUZ
+	HR0iz1RSu0jg7qPzISkCg2ON8v8sTjbNU7N71PHJCJfpVKy+yn+vLCwI05JASU4nIkgEYv2KF8F
+	NZz2c7g==;
+ARC-Authentication-Results: i=1; mx.cloudflare.net;
+	dkim=pass header.d=cloudflare-smtp.net header.s=cf2024-1 header.b=a32+Sk56;
+	dkim=pass header.d=formosa-ai.com header.s=cf-bounce header.b=RiHvewVk;
+	dmarc=pass header.from=formosa-ai.com policy.dmarc=reject;
+	spf=none (mx.cloudflare.net: no SPF records found for postmaster@bg-jj.cloudflare-smtp.net) smtp.helo=bg-jj.cloudflare-smtp.net;
+	spf=pass (mx.cloudflare.net: domain of bounces@cf-bounce.formosa-ai.com designates 104.30.16.99 as permitted sender) smtp.mailfrom=bounces@cf-bounce.formosa-ai.com;
+	arc=none smtp.remote-ip=104.30.16.99
+Received-SPF: pass (mx.cloudflare.net: domain of bounces@cf-bounce.formosa-ai.com designates 104.30.16.99 as permitted sender)
+	receiver=mx.cloudflare.net; client-ip=104.30.16.99; envelope-from="bounces@cf-bounce.formosa-ai.com"; helo=bg-jj.cloudflare-smtp.net;
+Authentication-Results: mx.cloudflare.net;
+	dkim=pass header.d=cloudflare-smtp.net header.s=cf2024-1 header.b=a32+Sk56;
+	dkim=pass header.d=formosa-ai.com header.s=cf-bounce header.b=RiHvewVk;
+	dmarc=pass header.from=formosa-ai.com policy.dmarc=reject;
+	spf=none (mx.cloudflare.net: no SPF records found for postmaster@bg-jj.cloudflare-smtp.net) smtp.helo=bg-jj.cloudflare-smtp.net;
+	spf=pass (mx.cloudflare.net: domain of bounces@cf-bounce.formosa-ai.com designates 104.30.16.99 as permitted sender) smtp.mailfrom=bounces@cf-bounce.formosa-ai.com;
+	arc=none smtp.remote-ip=104.30.16.99
+X-CF-SpamH-Score: 1
+DKIM-Signature: v=1; a=rsa-sha256; s=cf2024-1; d=cloudflare-smtp.net; c=relaxed/relaxed;
+	h=To:Subject:Date:From:Feedback-ID:from:reply-to:cc:resent-date
+	:resent-from:resent-to:resent-cc:in-reply-to:references:list-id:list-help
+	:list-unsubscribe:list-unsubscribe-post:list-subscribe:list-post
+	:list-owner:list-archive; t=1782712413; x=1783317213; bh=/gSSf4/qNeERCM2Y89
+	WMS7W8BRRgNFRA2MmF2EJpf1c=; b=a32+Sk564oZo3OPrQUOt0CUUErmFoaXCJvhaanRlNDoNU
+	rBD3aCaEiP3rLH1DbVunC9amaI/ZY6957yZmzG9Ytx05//jYa2kQlACpFsMSsf4DWzvwir+rGcS
+	1KjGMPh/W38dK4pd5pwXZaEEP3GTcc2hKMmOUJgKQsnXXdJdMVdxlMk9DAf7sPFY8SmVXohqx0n
+	ZPEnTQCjUVuGKSMKLeWVCQ/lmpOlVL8jcxdPDcGFlYbWP7FhGJheLeyDLx2Hr4pg5g3sCvDaRjc
+	Hdsadg/l1ZZdB9cnDuvQA09MDYHoaInzwrKCUzvXG2M+sqOosCrZHLaJzlZsDf3Yu+vJisMg==;
+DKIM-Signature: v=1; a=rsa-sha256; s=cf-bounce; d=formosa-ai.com; c=relaxed/relaxed;
+	h=To:Subject:Date:From:Feedback-ID:from:reply-to:cc:resent-date
+	:resent-from:resent-to:resent-cc:in-reply-to:references:list-id:list-help
+	:list-unsubscribe:list-unsubscribe-post:list-subscribe:list-post
+	:list-owner:list-archive; t=1782712413; x=1783317213; bh=/gSSf4/qNeERCM2Y89
+	WMS7W8BRRgNFRA2MmF2EJpf1c=; b=RiHvewVkbAOIXh3ES8tNr5L5vM13hsp+HVKR+Nx0KB0/O
+	mSbVvDruHQ9V5XONHb05KY7MHxojZbOEgXu0ZPlns1vpVtuG7xBX82in0FqwIWwdwg/YPb8SR7w
+	0oedgp2fGMnG6spiDltmAUm9695EgaVSAHpEpE0yFsOEno3lKYTVzWQMBasmtn6qaBNvcmUf8YU
+	ay3nkGcOV9iNcojfb5vNPou+IV3dB19g9yszBJxz6uvWY5vGQZdhJXddK3IU56sxMl8PRUu4bKx
+	NyyFak77qjO9gBSf6JmwQ8A7jAc26idXFPqm4P3TUZQbYZDdK1yfxe07BQmYIaPlQz6/g5Gg==;
+Feedback-ID: formosa-ai.com:5:5:Cloudflare
+From: "FALO AI Translator" <translate2@formosa-ai.com>
+Message-ID: <QrCnvF3qdy4iRCK9N9uenzKaEWlDuOeDwtEI@formosa-ai.com>
+Date: Mon, 29 Jun 2026 05:53:30 +0000
+Subject: [FALO AI] Re: =?utf-8?b?57+76K2vMw==?= test email (Summary)
+To: Recipient <bounces@cf-bounce.formosa-ai.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="1meTDCJA3Ygg3qCWRPJ9NCHSe8zYvAHgbFmTAdsN"
+
+--1meTDCJA3Ygg3qCWRPJ9NCHSe8zYvAHgbFmTAdsN
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+FALO AI =E6=99=BA=E8=83=BD=E9=83=B5=E4=BB=B6=E6=91=98=E8=A6=81=EF=BC=9A
+
+-------------------------
+
+### =F0=9F=93=8C =E6=99=BA=E8=83=BD=E6=91=98=E8=A6=81 (Executive Summary)
+- AI =E6=9C=83=E5=8F=96=E4=BB=A3=E5=B7=A5=E4=BD=9C=E5=B8=82=E5=A0=B4=EF=BC=
+=8C=E4=BD=86 Gates =E9=A0=90=E6=B8=AC=E4=B8=89=E5=80=8B=E8=A1=8C=E6=A5=AD=
+=E6=9C=83=E5=AD=98=E6=B4=BB=E4=B8=8B=E4=BE=86=E3=80=82
+- =E9=80=99=E4=B8=89=E5=80=8B=E8=A1=8C=E6=A5=AD=E6=98=AF=E7=A8=8B=E5=BC=8F=
+=E8=A8=AD=E8=A8=88=E5=B8=AB=E3=80=81=E8=83=BD=E6=BA=90=E5=B0=88=E5=AE=B6=E5=
+=92=8C=E7=94=9F=E7=89=A9=E5=AD=B8=E5=AE=B6=E3=80=82
+- AI =E6=9C=83=E5=8F=96=E4=BB=A3=E4=B8=80=E4=BA=9B=E5=B7=A5=E4=BD=9C=EF=BC=
+=8C=E4=BD=86=E9=80=99=E4=B8=89=E5=80=8B=E8=A1=8C=E6=A5=AD=E4=BB=8D=E9=9C=80=
+=E8=A6=81=E4=BA=BA=E9=A1=9E=E7=9A=84=E5=8F=83=E8=88=87=E3=80=82
+
+### =F0=9F=8E=AF =E9=97=9C=E9=8D=B5=E8=A1=8C=E5=8B=95 / =E5=BE=85=E8=BE=A6=
+=E4=BA=8B=E9=A0=85 (Action Items)
+- =E7=A8=8B=E5=BC=8F=E8=A8=AD=E8=A8=88=E5=B8=AB=E6=87=89=E8=A9=B2=E7=B9=BC=
+=E7=BA=8C=E5=9F=B9=E9=A4=8A=E6=8A=80=E8=83=BD=EF=BC=8C=E4=BB=A5=E6=87=89=E5=
+=B0=8D=E6=9C=AA=E4=BE=86=E7=9A=84=E9=9C=80=E6=B1=82=E3=80=82
+- =E8=83=BD=E6=BA=90=E5=B0=88=E5=AE=B6=E6=87=89=E8=A9=B2=E7=B9=BC=E7=BA=8C=
+=E8=B2=A0=E8=B2=AC=E8=83=BD=E6=BA=90=E7=B3=BB=E7=B5=B1=E7=9A=84=E5=AE=89=E5=
+=85=A8=E5=92=8C=E7=AD=96=E7=95=A5=E3=80=82
+- =E7=94=9F=E7=89=A9=E5=AD=B8=E5=AE=B6=E6=87=89=E8=A9=B2=E7=B9=BC=E7=BA=8C=
+=E7=99=BC=E6=8F=AE=E5=89=B5=E9=80=A0=E5=8A=9B=E5=92=8C=E7=9B=B4=E8=A6=BA=EF=
+=BC=8C=E4=BB=A5=E6=8E=A8=E5=8B=95=E7=94=9F=E7=89=A9=E5=AD=B8=E7=9A=84=E9=80=
+=B2=E6=AD=A5=E3=80=82
+
+-------------------------
+=E3=80=90=E4=BB=A5=E4=B8=8B=E7=82=BA=E9=83=B5=E4=BB=B6=E5=8E=9F=E6=96=87 / =
+Original Text=E3=80=91
+
+Bill Gates predicts AI will replace the job market but 3 careers will survi=
+ve.
+
+The 3 jobs that will survive the AI revolution
+
+According to Gates, three fields will survive (and thrive) in the AI era. W=
+hy? Because AI isn=E2=80=99t ready to replace them just yet.=20
+
+Here=E2=80=99s the breakdown:
+
+1. Coders =E2=80=93 Because AI Can=E2=80=99t Code Itself (Yet)
+
+Developers are still needed to refine, debug and push AI development forwar=
+d.
+AI is only as good as the humans training it.
+
+Gates believes that as AI evolves, coders will be in higher demand to creat=
+e and optimize these systems.
+
+=E2=80=9CAI will need human coders to evolve. If you=E2=80=99re in tech, yo=
+u=E2=80=99re not out of the game.=E2=80=9D
+
+2. Energy Experts =E2=80=93 Too High-Stakes to Automate
+
+Energy grids, nuclear plants, and renewable systems are too complex to hand=
+ over to machines.
+
+Gates believes human oversight is critical for safety and strategy.
+
+AI can assist but the responsibility for keeping the lights on (literally) =
+stays with humans.
+
+ =E2=80=9CWould you trust AI to run a nuclear reactor? Didn=E2=80=99t think=
+ so.=E2=80=9D
+
+3. Biologists =E2=80=93 AI Can Analyze, But It Can=E2=80=99t Discover
+
+AI can identify patterns in data, but it can=E2=80=99t replicate human intu=
+ition and creativity.
+
+Breakthroughs in biology from gene editing to disease cures require human i=
+nnovation.
+
+AI can support biologists, but it can=E2=80=99t replace the human mind behi=
+nd major discoveries.
+
+ =E2=80=9CAI can process data. But it takes a human to make the breakthroug=
+h.=E2=80=9D
+
+The Future of Work =3D Adapt or Get Left Behind
+
+Gates isn=E2=80=99t sugarcoating this because AI will change everything. Ag=
+ree??
+
+-------------------------
+=E6=9C=AC=E4=BF=A1=E4=BB=B6=E7=94=B1 FALO AI Email Platform =E8=87=AA=E5=8B=
+=95=E8=99=95=E7=90=86=E7=99=BC=E9=80=81=E3=80=82
+--1meTDCJA3Ygg3qCWRPJ9NCHSe8zYvAHgbFmTAdsN
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+            <div style=3D"font-family: sans-serif; max-width: 600px; margin=
+: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; ba=
+ckground-color: #fafafa;">
+              <h2 style=3D"color: #4f46e5; margin-bottom: 20px;">FALO AI =
+=E6=99=BA=E8=83=BD=E9=83=B5=E4=BB=B6=E6=91=98=E8=A6=81</h2>
+              <div style=3D"background-color: #ffffff; padding: 15px; borde=
+r-radius: 8px; border: 1px solid #cbd5e1; font-size: 16px; line-height: 1.6=
+; color: #1e293b; white-space: pre-wrap; margin-bottom: 20px;">### =F0=9F=
+=93=8C =E6=99=BA=E8=83=BD=E6=91=98=E8=A6=81 (Executive Summary)
+- AI =E6=9C=83=E5=8F=96=E4=BB=A3=E5=B7=A5=E4=BD=9C=E5=B8=82=E5=A0=B4=EF=BC=
+=8C=E4=BD=86 Gates =E9=A0=90=E6=B8=AC=E4=B8=89=E5=80=8B=E8=A1=8C=E6=A5=AD=
+=E6=9C=83=E5=AD=98=E6=B4=BB=E4=B8=8B=E4=BE=86=E3=80=82
+- =E9=80=99=E4=B8=89=E5=80=8B=E8=A1=8C=E6=A5=AD=E6=98=AF=E7=A8=8B=E5=BC=8F=
+=E8=A8=AD=E8=A8=88=E5=B8=AB=E3=80=81=E8=83=BD=E6=BA=90=E5=B0=88=E5=AE=B6=E5=
+=92=8C=E7=94=9F=E7=89=A9=E5=AD=B8=E5=AE=B6=E3=80=82
+- AI =E6=9C=83=E5=8F=96=E4=BB=A3=E4=B8=80=E4=BA=9B=E5=B7=A5=E4=BD=9C=EF=BC=
+=8C=E4=BD=86=E9=80=99=E4=B8=89=E5=80=8B=E8=A1=8C=E6=A5=AD=E4=BB=8D=E9=9C=80=
+=E8=A6=81=E4=BA=BA=E9=A1=9E=E7=9A=84=E5=8F=83=E8=88=87=E3=80=82
+
+### =F0=9F=8E=AF =E9=97=9C=E9=8D=B5=E8=A1=8C=E5=8B=95 / =E5=BE=85=E8=BE=A6=
+=E4=BA=8B=E9=A0=85 (Action Items)
+- =E7=A8=8B=E5=BC=8F=E8=A8=AD=E8=A8=88=E5=B8=AB=E6=87=89=E8=A9=B2=E7=B9=BC=
+=E7=BA=8C=E5=9F=B9=E9=A4=8A=E6=8A=80=E8=83=BD=EF=BC=8C=E4=BB=A5=E6=87=89=E5=
+=B0=8D=E6=9C=AA=E4=BE=86=E7=9A=84=E9=9C=80=E6=B1=82=E3=80=82
+- =E8=83=BD=E6=BA=90=E5=B0=88=E5=AE=B6=E6=87=89=E8=A9=B2=E7=B9=BC=E7=BA=8C=
+=E8=B2=A0=E8=B2=AC=E8=83=BD=E6=BA=90=E7=B3=BB=E7=B5=B1=E7=9A=84=E5=AE=89=E5=
+=85=A8=E5=92=8C=E7=AD=96=E7=95=A5=E3=80=82
+- =E7=94=9F=E7=89=A9=E5=AD=B8=E5=AE=B6=E6=87=89=E8=A9=B2=E7=B9=BC=E7=BA=8C=
+=E7=99=BC=E6=8F=AE=E5=89=B5=E9=80=A0=E5=8A=9B=E5=92=8C=E7=9B=B4=E8=A6=BA=EF=
+=BC=8C=E4=BB=A5=E6=8E=A8=E5=8B=95=E7=94=9F=E7=89=A9=E5=AD=B8=E7=9A=84=E9=80=
+=B2=E6=AD=A5=E3=80=82</div>
+             =20
+              <h4 style=3D"color: #64748b; margin-bottom: 8px;">=E9=83=B5=
+=E4=BB=B6=E5=8E=9F=E6=96=87 (Original Text)</h4>
+              <div style=3D"background-color: #f1f5f9; padding: 12px; borde=
+r-radius: 8px; border: 1px solid #e2e8f0; font-size: 14px; line-height: 1.5=
+; color: #475569; white-space: pre-wrap;">Bill Gates predicts AI will repla=
+ce the job market but 3 careers will survive.
+
+The 3 jobs that will survive the AI revolution
+
+According to Gates, three fields will survive (and thrive) in the AI era. W=
+hy? Because AI isn=E2=80=99t ready to replace them just yet.=20
+
+Here=E2=80=99s the breakdown:
+
+1. Coders =E2=80=93 Because AI Can=E2=80=99t Code Itself (Yet)
+
+Developers are still needed to refine, debug and push AI development forwar=
+d.
+AI is only as good as the humans training it.
+
+Gates believes that as AI evolves, coders will be in higher demand to creat=
+e and optimize these systems.
+
+=E2=80=9CAI will need human coders to evolve. If you=E2=80=99re in tech, yo=
+u=E2=80=99re not out of the game.=E2=80=9D
+
+2. Energy Experts =E2=80=93 Too High-Stakes to Automate
+
+Energy grids, nuclear plants, and renewable systems are too complex to hand=
+ over to machines.
+
+Gates believes human oversight is critical for safety and strategy.
+
+AI can assist but the responsibility for keeping the lights on (literally) =
+stays with humans.
+
+ =E2=80=9CWould you trust AI to run a nuclear reactor? Didn=E2=80=99t think=
+ so.=E2=80=9D
+
+3. Biologists =E2=80=93 AI Can Analyze, But It Can=E2=80=99t Discover
+
+AI can identify patterns in data, but it can=E2=80=99t replicate human intu=
+ition and creativity.
+
+Breakthroughs in biology from gene editing to disease cures require human i=
+nnovation.
+
+AI can support biologists, but it can=E2=80=99t replace the human mind behi=
+nd major discoveries.
+
+ =E2=80=9CAI can process data. But it takes a human to make the breakthroug=
+h.=E2=80=9D
+
+The Future of Work =3D Adapt or Get Left Behind
+
+Gates isn=E2=80=99t sugarcoating this because AI will change everything. Ag=
+ree??</div>
+             =20
+              <hr style=3D"border: none; border-top: 1px solid #e2e8f0; mar=
+gin: 25px 0;">
+              <p style=3D"font-size: 12px; color: #64748b; text-align: cent=
+er;">=E6=9C=AC=E9=83=B5=E4=BB=B6=E7=94=B1 FALO AI =E9=82=8A=E7=B7=A3=E7=AB=
+=AF (Cloudflare Workers) =E8=87=AA=E4=B8=BB=E8=99=95=E7=90=86=E4=B8=A6=E7=
+=99=BC=E9=80=81=EF=BC=8C=E7=84=A1=E9=A0=88=E5=9B=9E=E4=BF=A1=E3=80=82</p>
+            </div>
+         =20
+--1meTDCJA3Ygg3qCWRPJ9NCHSe8zYvAHgbFmTAdsN--
+
+

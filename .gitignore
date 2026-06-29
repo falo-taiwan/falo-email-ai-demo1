@@ -1,0 +1,14 @@
+# Local Binaries and Downloads
+bin/
+cloudflared*
+*.tgz
+*.tar.gz
+
+# Secrets and Local Configurations
+.env
+.env.local
+.secrets/
+
+# OS specific files
+.DS_Store
+Thumbs.db

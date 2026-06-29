@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>Chapter 09: FALO Edge 發信門戶與動作審計模組 (Edge Email Portal & Activity Audit) - 投影片簡報</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+  <style>
+    .reveal {
+      background: radial-gradient(circle at center, #0b0f19 0%, #020617 100%) !important;
+    }
+    .slide-gradient {
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .glass-box {
+      background: rgba(30, 41, 59, 0.4);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    pre {
+      background-color: #0f1420 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Back button to return to reading HTML -->
+  <div class="fixed top-4 left-4 z-50">
+    <a href="chapter_09.html" class="inline-flex items-center gap-2 py-1.5 px-3 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 text-xs font-semibold text-indigo-400 transition border border-slate-700/50 backdrop-blur-sm">
+      <i class="fa-solid fa-file-lines"></i> 切換為閱讀模式
+    </a>
+  </div>
+
+  <div class="reveal">
+    <div class="slides text-slate-200">
+      
+      <!-- Cover Slide -->
+      <section class="text-left px-12">
+        <div class="text-indigo-400 font-semibold uppercase tracking-wider mb-2 font-mono text-xl">
+          <i class="fa-solid fa-graduation-cap mr-2"></i> FALO AI Email Platform
+        </div>
+        <h1 class="text-5xl font-extrabold mb-6 leading-tight slide-gradient">Chapter 09: FALO Edge 發信門戶與動作審計模組 (Edge Email Portal & Activity Audit)</h1>
+        <p class="text-2xl text-slate-400 mb-8 max-w-2xl leading-relaxed">本章將引導學員與企業客戶了解如何利用 Cloudflare Workers 與 KV 邊緣資料庫，建置一個**具備權限控管、多發信角色切換、以及動作審計日誌 (Audit Trail)** 的 Edge Web 發信平台。這適合作為 AI 教學與顧問演示（Demo）的實務案例。</p>
+        <div class="text-slate-500 font-mono text-lg">AI 顧問培訓教材 | Falo x Force Cheng</div>
+      </section>
+    
+      <!-- Slide: 📌 1. 商業痛點與設計背景 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">📌 1. 商業痛點與設計背景</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">在企業環境中，電子郵件外發管理通常面臨以下挑戰：<br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">SMTP 被阻擋</strong>：許多雲端伺服器或公司防火牆會阻擋對外的 Port 25/465/587，導致程式無法寄信。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">缺乏發信審計</strong>：員工以共用信箱寄信給客戶時，管理員無法追蹤是「誰」在「什麼時間」、「從哪個 IP」發了這封信。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">網域信譽風險</strong>：未受控的發信管道容易被濫用寄送垃圾信，導致企業網域被 Gmail 或 Outlook 列入黑名單。</li></p>
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3">---</p>
+        </div>
+      </section>
+        
+      <!-- Slide: 🛠️ 2. 邊緣計算解決方案 (Architecture) -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">🛠️ 2. 邊緣計算解決方案 (Architecture)</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">本模組完全運行於 <strong class="text-indigo-300 font-bold">Cloudflare 邊緣網路</strong>，具備無伺服器 (Serverless)、高安全、零維護成本的優勢：</p>
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm"></code>`mermaid<br>graph TD<br>    Client[瀏覽器前端 UI] -- 1. 帳密登入 / 寄信 / 查詢 --> Worker[Cloudflare Worker]<br>    Worker -- 2. 驗證 & 寫入日誌 --> KV[(USERS_KV 邊緣資料庫)]<br>    Worker -- 3. 發送郵件 --> CF_Email[Cloudflare Email Sending]<br>    CF_Email -- 4. 外發給客戶 --> Customer[客戶信箱]<br>    CF_Email -- 5. 自動備份 BCC --> Archive[gmail 歸檔信箱]<br><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm"></code>`</p>
+        </div>
+      </section>
+        
+      <!-- Slide: # 系統核心組件： -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># 系統核心組件：</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">Glassmorphism SPA 前端</strong>：單頁 Web 介面，支援行動端自適應。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">權限分級制</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">超級管理員 (<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">force</code>)</strong>：解鎖「發信」、「帳密管理」與「動作審計日誌」三大面板。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">普通使用者</strong>：僅限使用「發信」功能，其餘管理介面皆處於安全隔離狀態。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">動態審計 (Audit Logs)</strong>：每一次操作（登入、發信、管理員帳號增刪）均會即時擷取台北時間、使用者、動作類型、客戶端 IP，並持久化寫入 KV 資料庫。</li>
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3">---</p>
+        </div>
+      </section>
+        
+      <!-- Slide: ⚙️ 3. 核心程式碼實作 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">⚙️ 3. 核心程式碼實作</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          
+        </div>
+      </section>
+        
+      <!-- Slide: # A. 設定檔 wrangler.toml -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># A. 設定檔 wrangler.toml</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">綁定發信服務與 KV 命名空間：<br><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm"></code>`toml<br>name = "falo-email-portal"<br>main = "index.js"<br>compatibility_date = "2026-06-29"</p>
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3">[observability]<br>enabled = true</p>
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3">[[kv_namespaces]]<br>binding = "USERS_KV"<br>id = "b08cae3fdde5415ba8cf206985060cf5"</p>
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3">[[send_email]]<br>name = "EMAIL"<br><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm"></code>`</p>
+        </div>
+      </section>
+        
+      <!-- Slide: # B. 後端 API 與日誌寫入 (部分程式碼) -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># B. 後端 API 與日誌寫入 (部分程式碼)</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">在後端邏輯中，我們定義了 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">logAction</code> 方法，在每一次 API 調用時記錄行為：<br><pre><code class="language-javascript text-sm">async function logAction(env, username, action, ip, details) {<br>  const timestamp = new Date().toISOString();<br>  const logKey = <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">log:${timestamp}</code>;<br>  const logData = { timestamp, username, action, ip, details };<br>  // 儲存日誌，並設定 7 天過期以防資源堆積<br>  await env.USERS_KV.put(logKey, JSON.stringify(logData), { expirationTtl: 604800 });<br>}</code></pre></p>
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3">---</p>
+        </div>
+      </section>
+        
+      <!-- Slide: 🎯 4. 顧問教學與演示步驟 (Demo Scenario) -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">🎯 4. 顧問教學與演示步驟 (Demo Scenario)</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">在向客戶或學生演示此系統時，可遵循以下情境：<br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">超級管理員登入</strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">使用預設超級管理員帳密（<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">force</code> / <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">0922764763</code>）登入。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">展示「帳密管理」與「動作日誌」面板，說明超級管理員擁有的最高權限。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">動態建立普通帳號</strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">在「帳密管理」新增一個使用者 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">sales_agent</code>。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">系統會自動記錄日誌，並對密碼進行 SHA-256 加密儲存。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">權限隔離展示</strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">登出 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">force</code>，改以 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">sales_agent</code> 登入。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">展示介面上的「帳密管理」與「動作日誌」已被完全隱藏，API 也已從後端阻斷。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">安全發信與動作追蹤</strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">以 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">sales_agent</code> 身分發送一封郵件。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">重新以 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">force</code> 登入，進入「動作日誌」檢視：可以清楚看到 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">sales_agent</code> 在何時、從哪個 IP、發信給了誰、主旨為何。</li></p>
+        </div>
+      </section>
+        
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      transition: 'fade'
+    });
+    hljs.highlightAll();
+  </script>
+</body>
+</html>

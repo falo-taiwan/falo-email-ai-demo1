@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌐 FALO Go Gateway - 成果摘要說明書</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9dc6158d34.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        dark: {
+                            950: '#060813',
+                            900: '#0B0F19',
+                            800: '#1E293B',
+                            700: '#334155',
+                            600: '#475569',
+                        },
+                        neon: {
+                            blue: '#00F0FF',
+                            indigo: '#8B5CF6',
+                            emerald: '#10B981',
+                            pink: '#EC4899',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #060813;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 240, 255, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+        .glow-indigo {
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.35);
+        }
+        .glow-blue {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.35);
+        }
+    </style>
+</head>
+<body class="text-slate-300 font-sans min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto space-y-8">
+        
+        <!-- Header -->
+        <header class="glass-card rounded-3xl p-8 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-neon-indigo/10 rounded-full blur-3xl"></div>
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-neon-blue to-neon-indigo flex items-center justify-center text-white text-2xl font-bold font-outfit shadow-lg shadow-neon-blue/20">
+                    FG
+                </div>
+                <div>
+                    <h1 class="text-3xl font-extrabold font-outfit text-white tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">FALO Go Gateway</h1>
+                    <p class="text-sm text-slate-400 font-medium">專案實作成果與架構摘要說明書 (Human-Readable)</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-xs bg-dark-900 border border-slate-700/50 text-neon-emerald px-4 py-2 rounded-full font-semibold flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-neon-emerald animate-pulse"></span>
+                    完全部署完成 (Production Ready)
+                </span>
+            </div>
+        </header>
+
+        <!-- Main Body -->
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Info Panel (2 cols on large screen) -->
+            <div class="lg:col-span-2 space-y-8">
+                
+                <!-- Overview -->
+                <section class="glass-card rounded-3xl p-8 space-y-4">
+                    <h2 class="text-xl font-bold font-outfit text-white flex items-center gap-2">
+                        <i class="fa-solid fa-cube text-neon-blue"></i> 專案概述 & 技術特點
+                    </h2>
+                    <p class="text-sm leading-relaxed text-slate-400">
+                        本專案旨在本地端實作一個基於 <code class="text-slate-200 font-mono">Caddy</code> 與 <code class="text-slate-200 font-mono">Cloudflare Tunnel</code> 的高性能轉址閘道。我們為其打造了動態規則編輯、安全認證及狀態掌控的 Python 管理平台。
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div class="p-4 bg-dark-950/60 rounded-2xl border border-slate-800">
+                            <h3 class="text-xs font-bold text-neon-blue tracking-wider uppercase mb-1">🔗 自動化 Cloudflare DNS/Ingress</h3>
+                            <p class="text-xs text-slate-400">全自動註冊 CNAME DNS 紀錄，並透過 Cloudflare API 同步 Ingress 路由，無須登入後台手動操作。</p>
+                        </div>
+                        <div class="p-4 bg-dark-950/60 rounded-2xl border border-slate-800">
+                            <h3 class="text-xs font-bold text-neon-indigo tracking-wider uppercase mb-1">🔄 Caddy 規則熱重載 (Hot-Reload)</h3>
+                            <p class="text-xs text-slate-400">當您在後台新增規則時，Caddyfile 會自動重新編譯並熱載入，現有連線不中斷，即時生效。</p>
+                        </div>
+                        <div class="p-4 bg-dark-950/60 rounded-2xl border border-slate-800">
+                            <h3 class="text-xs font-bold text-neon-emerald tracking-wider uppercase mb-1">📁 本地實體空間目錄對接</h3>
+                            <p class="text-xs text-slate-400">支援將特定網址路徑直接對應到 Mac 本地的絕對路徑或家目錄 (~)，作為靜態網頁伺服器。</p>
+                        </div>
+                        <div class="p-4 bg-dark-950/60 rounded-2xl border border-slate-800">
+                            <h3 class="text-xs font-bold text-neon-pink tracking-wider uppercase mb-1">🔐 密碼保護與連線日誌</h3>
+                            <p class="text-xs text-slate-400">公網訪問強制驗證（falo / force），底層自動解析 JSON 存取日誌，提供排序、過濾與 CSV 匯出。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Port Configuration -->
+                <section class="glass-card rounded-3xl p-8 space-y-4">
+                    <h2 class="text-xl font-bold font-outfit text-white flex items-center gap-2">
+                        <i class="fa-solid fa-network-wired text-neon-indigo"></i> 系統網域 & 連接埠配置
+                    </h2>
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400 tracking-wider">
+                                <th class="py-3 px-2">對外公網網址</th>
+                                <th class="py-3 px-2">本地埠口 (Mac)</th>
+                                <th class="py-3 px-2">安全與職能描述</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/40 text-slate-300 font-mono">
+                            <tr>
+                                <td class="py-3 px-2 text-neon-blue font-bold">go.formosa-ai.com</td>
+                                <td class="py-3 px-2 text-neon-indigo">localhost:8080</td>
+                                <td class="py-3 px-2 text-slate-400 font-sans">Caddy 轉址閘道，處理 302 轉址、Proxy 與本地靜態檔案服務。</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-2 text-neon-blue font-bold">go-admin.formosa-ai.com</td>
+                                <td class="py-3 px-2 text-neon-indigo">localhost:8088</td>
+                                <td class="py-3 px-2 text-slate-400 font-sans">Python Flask 管理後台，已啟用 HTTP Basic Auth 帳密防護。</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-2 text-slate-500">-</td>
+                                <td class="py-3 px-2 text-slate-500">localhost:2019</td>
+                                <td class="py-3 px-2 text-slate-500 font-sans">Caddy 原生 Admin API，用於 Caddyfile 熱重載通訊。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- Operation Commands -->
+                <section class="glass-card rounded-3xl p-8 space-y-4">
+                    <h2 class="text-xl font-bold font-outfit text-white flex items-center gap-2">
+                        <i class="fa-solid fa-terminal text-neon-emerald"></i> 運作管理指令集
+                    </h2>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400 mb-1">A. 手動啟動所有服務（背景常駐 + Caddy + Tunnel）：</p>
+                            <div class="bg-dark-950 rounded-xl p-3 font-mono text-xs text-slate-300 flex justify-between items-center border border-slate-800">
+                                <span>cd /Users/force/Google_Antigravity/Cloudflare_falo/caddy && ./start.sh</span>
+                                <button onclick="copyCommand('cd /Users/force/Google_Antigravity/Cloudflare_falo/caddy && ./start.sh')" class="text-slate-500 hover:text-white transition-all"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400 mb-1">B. 手動優雅關閉所有服務：</p>
+                            <div class="bg-dark-950 rounded-xl p-3 font-mono text-xs text-slate-300 flex justify-between items-center border border-slate-800">
+                                <span>cd /Users/force/Google_Antigravity/Cloudflare_falo/caddy && ./stop.sh</span>
+                                <button onclick="copyCommand('cd /Users/force/Google_Antigravity/Cloudflare_falo/caddy && ./stop.sh')" class="text-slate-500 hover:text-white transition-all"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400 mb-1">C. 安裝為 macOS 系統開機登入自啟動 (launchd)：</p>
+                            <div class="bg-dark-950 rounded-xl p-3 font-mono text-xs text-slate-300 flex justify-between items-center border border-slate-800">
+                                <span>cp ./launchd/com.falo.caddy-admin.plist ~/Library/LaunchAgents/</span>
+                                <button onclick="copyCommand('cp ./launchd/com.falo.caddy-admin.plist ~/Library/LaunchAgents/')" class="text-slate-500 hover:text-white transition-all"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Right Directory Panel (1 col) -->
+            <div class="space-y-8">
+                
+                <!-- File Map -->
+                <section class="glass-card rounded-3xl p-8 space-y-4 h-full">
+                    <h2 class="text-xl font-bold font-outfit text-white flex items-center gap-2">
+                        <i class="fa-solid fa-folder-open text-neon-blue"></i> 檔案與目錄樹狀圖
+                    </h2>
+                    <div class="font-mono text-xs space-y-1.5 text-slate-400">
+                        <div class="text-white"><i class="fa-solid fa-folder text-neon-indigo"></i> caddy/</div>
+                        <div class="pl-4">├── <i class="fa-solid fa-folder text-slate-500"></i> bin/</div>
+                        <div class="pl-8">└── <i class="fa-solid fa-file-code text-slate-300"></i> caddy <span class="text-slate-600">(macOS 二進位檔)</span></div>
+                        <div class="pl-4">├── <i class="fa-solid fa-folder text-slate-500"></i> scripts/</div>
+                        <div class="pl-8">├── <i class="fa-solid fa-file-code text-neon-emerald"></i> dns_setup.py <span class="text-slate-600">(CF DNS 註冊)</span></div>
+                        <div class="pl-8">└── <i class="fa-solid fa-file-code text-neon-emerald"></i> tunnel_setup.py <span class="text-slate-600">(CF 路由註冊)</span></div>
+                        <div class="pl-4">├── <i class="fa-solid fa-file-code text-white font-semibold"></i> Caddyfile <span class="text-slate-600">(編譯設定檔)</span></div>
+                        <div class="pl-4">├── <i class="fa-solid fa-file-shield text-slate-300"></i> rules.json <span class="text-slate-600">(規則資料庫)</span></div>
+                        <div class="pl-4">├── <i class="fa-solid fa-play text-neon-blue"></i> start.sh</div>
+                        <div class="pl-4">├── <i class="fa-solid fa-stop text-red-400"></i> stop.sh</div>
+                        <div class="pl-4">├── <i class="fa-solid fa-folder text-slate-500"></i> launchd/</div>
+                        <div class="pl-8">└── <i class="fa-solid fa-file-lines text-slate-400"></i> com.falo.caddy-admin.plist</div>
+                        <div class="pl-4 text-white">└── <i class="fa-solid fa-folder text-neon-indigo"></i> admin_ui/</div>
+                        <div class="pl-8">├── <i class="fa-solid fa-file-code text-white"></i> app.py <span class="text-slate-600">(Flask 主程式)</span></div>
+                        <div class="pl-8">├── <i class="fa-solid fa-file-code text-slate-300"></i> caddy_manager.py</div>
+                        <div class="pl-8">├── <i class="fa-solid fa-file-code text-slate-300"></i> tunnel_manager.py</div>
+                        <div class="pl-8">└── <i class="fa-solid fa-folder text-slate-500"></i> templates/</div>
+                        <div class="pl-12">└── <i class="fa-solid fa-file-code text-slate-300"></i> index.html <span class="text-slate-600">(後台 HTML)</span></div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer Signature -->
+        <footer class="glass-card rounded-3xl p-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500 relative overflow-hidden">
+            <div>
+                <p>本專案成果由 Antigravity Coding Assistant 部署完成並生成摘要。</p>
+            </div>
+            <div class="flex items-center gap-2 text-slate-300 font-outfit text-sm font-semibold bg-dark-900 px-4 py-2 rounded-xl border border-slate-800">
+                <i class="fa-solid fa-pen-nib text-neon-blue"></i>
+                Falo x Force Cheng <span class="text-slate-500 font-normal">2026/6/28</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Notification system -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 pointer-events-none"></div>
+
+    <script>
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = "p-4 rounded-xl bg-slate-900 border border-neon-blue/30 text-neon-blue font-medium text-xs shadow-2xl transition-all duration-300 translate-y-4 opacity-0";
+            toast.innerHTML = `<i class="fa-solid fa-check-circle mr-2"></i> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-4', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        function copyCommand(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("指令已複製到剪貼簿！");
+            }).catch(() => {
+                showToast("複製失敗，請手動複製");
+            });
+        }
+    </script>
+</body>
+</html>

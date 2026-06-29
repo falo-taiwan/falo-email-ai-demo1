@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FALO AI Email Platform - Module 8: AI 智能雙向翻譯郵箱 (AI Translation Mailbox)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Microsoft JhengHei', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Highlight.js for code highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <!-- Mermaid.js for architecture diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    hljs.highlightAll();
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    pre {
+      background-color: #0f1420 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    code {
+      font-family: 'Fira Code', 'Courier New', Courier, monospace !important;
+    }
+    .mermaid {
+      background: #0f1420;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin: 1.5rem 0;
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+  
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen">
+
+  <!-- Header -->
+  
+  <header class="relative overflow-hidden py-10 border-b border-slate-800 bg-slate-900/40">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.1),transparent_40%)]"></div>
+    <div class="max-w-6xl mx-auto px-6 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <a href="README.html" class="inline-flex items-center gap-2 text-indigo-400 text-sm font-semibold hover:underline mb-2">
+          <i class="fa-solid fa-arrow-left"></i> 返回目錄總覽
+        </a>
+        <h1 class="text-3xl font-bold font-outfit text-slate-100">FALO AI Email Platform - Module 8: AI 智能雙向翻譯郵箱 (AI Translation Mailbox)</h1>
+      </div>
+      <div>
+        <a href="falo_ai_email_platform_-_module_8_slides.html" class="inline-flex items-center gap-2 py-2.5 px-5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-sm font-semibold transition shadow-lg shadow-indigo-500/10">
+          <i class="fa-solid fa-person-chalkboard"></i> 開啟顧問投影片
+        </a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- Layout Grid -->
+  
+  <div class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <aside class="lg:col-span-3 lg:sticky lg:top-8 h-fit hidden lg:block">
+      <div class="glass-card rounded-2xl p-5">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 font-outfit mb-4">本章導覽 (TOC)</h2>
+        <nav class="space-y-1.5 flex flex-col border-l border-slate-800">
+          <a href="#1.-業務痛點與-ai-解決方案" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">1. 業務痛點與 AI 解決方案</a>
+<a href="#傳統翻譯痛點" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">傳統翻譯痛點</a>
+<a href="#falo-ai-解決方案" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">FALO AI 解決方案</a>
+<a href="#2.-系統架構圖-mermaid" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">2. 系統架構圖 (Mermaid)</a>
+<a href="#3.-技術實現細節" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">3. 技術實現細節</a>
+<a href="#a.-邊緣發信設定-outbound-email-sending" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">A. 邊緣發信設定 (Outbound Email Sending)</a>
+<a href="#b.-worker-資源綁定-wrangler.toml" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">B. Worker 資源綁定 (wrangler.toml)</a>
+<a href="#c.-郵件地址強型態檢核-emailaddress-strict-typing" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">C. 郵件地址強型態檢核 (EmailAddress Strict Typing)</a>
+<a href="#4.-效益評估" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">4. 效益評估</a>
+
+        </nav>
+      </div>
+    </aside>
+    <article class="lg:col-span-9 glass-card rounded-3xl p-8 md:p-10 min-w-0">
+      <p class="text-slate-300 leading-relaxed my-4">本章節介紹如何利用 Cloudflare Email Routing、Workers AI (Llama 3.1 Fast) 與 Cloudflare Email Sending API 建立 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">translate@formosa-ai.com</code> 智能雙向翻譯郵箱，實現自動偵測語言、雙向互譯並自動回信與 BCC 備份的無伺服器 (Serverless) 架構。</p>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="1.-業務痛點與-ai-解決方案" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>1. 業務痛點與 AI 解決方案</h2>
+<h3 id="傳統翻譯痛點" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">傳統翻譯痛點</h3>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>人工耗時</strong>：外貿、國際客服或跨國團隊在收到外文郵件時，需要手動複製至翻譯軟體，翻譯後再行回覆，效率低下。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>流程斷裂</strong>：翻譯軟體與電子郵件系統分離，資訊無法在郵件流中自動化。</li>
+<h3 id="falo-ai-解決方案" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">FALO AI 解決方案</h3>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>郵件級整合</strong>：用戶只需將郵件發送或轉寄至 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">translate@formosa-ai.com</code>。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>智能雙向互譯</strong>：Edge 端的 Worker 自動解析內文，經由 Llama 3.1 偵測語言：</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">中文 ──> 翻譯為英文</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">英文 ──> 翻譯為繁體中文</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>自主發信回覆</strong>：無需人工干預，數秒內將排版美觀的翻譯結果回信給原寄件人，並同時發送 BCC 密件抄送給企業備份信箱。</li>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="2.-系統架構圖-mermaid" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>2. 系統架構圖 (Mermaid)</h2>
+<div class="mermaid">sequence flow
+  Sender ->> Cloudflare MX: 寄送郵件至 translate@formosa-ai.com
+  Cloudflare MX ->> Email Routing: 比對路由規則 (優先權 0)
+  Email Routing ->> translate-worker: 觸發 email() 處理程序
+  translate-worker ->> Workers AI: 調用 llama-3.1-8b-instruct-fast 進行翻譯
+  Workers AI -->> translate-worker: 回傳翻譯後純文字
+  translate-worker ->> Email Sending API: 發送回信 (Bcc 備份至 Gmail)
+  Email Sending API -->> Sender: 送達翻譯回信</div>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="3.-技術實現細節" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>3. 技術實現細節</h2>
+<h3 id="a.-邊緣發信設定-outbound-email-sending" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">A. 邊緣發信設定 (Outbound Email Sending)</h3>
+在 Cloudflare 中設定發信網域以通過 SPF/DKIM 驗證，防止郵件被判定為垃圾信：
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">啟用 <strong>【Email Service】 > 【Email Sending】</strong>。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">綁定 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">formosa-ai.com</code>，並自動生成輔助的 CNAME/MX/TXT 發信專屬 DNS 紀錄 (selector: <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">cf-bounce</code>)。</li>
+<h3 id="b.-worker-資源綁定-wrangler.toml" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">B. Worker 資源綁定 (wrangler.toml)</h3>
+<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`toml
+name = "translate-worker"
+main = "index.js"
+compatibility_date = "2026-06-29"
+<p class="text-slate-300 leading-relaxed my-4">[observability]<br>enabled = true  # 永久啟用邊緣日誌</p>
+<p class="text-slate-300 leading-relaxed my-4">[ai]<br>binding = "AI"  # 綁定 Workers AI 引擎</p>
+<p class="text-slate-300 leading-relaxed my-4">[[send_email]]<br>name = "EMAIL"  # 綁定原生發信服務<br><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`</p>
+<h3 id="c.-郵件地址強型態檢核-emailaddress-strict-typing" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">C. 郵件地址強型態檢核 (EmailAddress Strict Typing)</h3>
+Cloudflare <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">env.EMAIL.send</code> 的 C++ 底層檢核非常嚴格，傳入的收發件人必須是完整的 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">EmailAddress</code> 物件且 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">name</code> 欄位不可缺失或為 undefined，否則會拋出型態錯誤。
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>正確格式</strong>：</li>
+  <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`javascript
+  to: [{ email: fromAddress, name: "Recipient" }]
+  <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="4.-效益評估" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>4. 效益評估</h2>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>零基礎設施維護成本</strong>：完全基於 Cloudflare Edge 運行，無須租用虛擬主機 (VPS) 或維護 SMTP 伺服器。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>近乎免費的運行成本</strong>：使用 Workers AI 每日的免費額度或極低的 Paid 費率，相比 OpenAI API 節省 90% 以上成本。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>極致性能</strong>：Edge 端冷啟動近乎為零，翻譯至回信在 5 秒內完成。</li>
+    </article>
+  </div>
+
+
+  <!-- Footer -->
+  
+  <footer class="border-t border-slate-800 mt-20 py-8 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>© 2026 FALO AI Edge Platform. All rights reserved.</div>
+      <div class="flex gap-4">
+        <a href="README.html" class="hover:text-slate-400">目錄總覽</a>
+        <a href="#" class="hover:text-slate-400">Security SOP</a>
+        <a href="#" class="hover:text-slate-400">Docs</a>
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+</html>

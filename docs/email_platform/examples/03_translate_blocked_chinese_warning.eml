@@ -1,0 +1,183 @@
+Delivered-To: formosa.ai.life@gmail.com
+Received: by 2002:a2e:2e01:0:b0:395:d484:e2c0 with SMTP id u1csp2608848lju;
+        Sun, 28 Jun 2026 22:50:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=3; AHgh+Rpf0GVi5LPFj6JMlbGKibtMbn+irdXXSoGgF2232dp189cVj+mVd0xJe/rLVDYu3w6GCrOe3s9Bv5lzvD3Q/vA=@gmail.com
+X-Received: by 2002:a17:90b:1a8b:b0:369:7f25:cec0 with SMTP id 98e67ed59e1d1-37df9d55f51mr14356598a91.0.1782712251299;
+        Sun, 28 Jun 2026 22:50:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1782712251; cv=pass;
+        d=google.com; s=arc-20260327;
+        b=ZvhUa//eNgm4M98PlgG8PvN4Yc2JDddCfYbQO8YEs/9nrjJk3mrFy0KfjFJrzX3s5Y
+         0MOPlqCCnNC46mIFNm78ivRaTSRT+dK5j3e5FuixuNoxusSqP3ZZOXtIZQKLMBcVkOin
+         gGYO34aCYJE0BVUdfp2lRCWiBnKAE9FUYMsaeIpLOplbvSiSpi4AiFBUBbjCjgZDKxBC
+         +MdeH8DjWES0Pxx99wTGUw939X72MdIh002NJwNikVcHCVjeMVooLeOD5CqPNsjsaQS8
+         eO0U/TF3iibwCiViwAiNGuMF8Mhd2ZhQ6fuE3VGgeufvXOFe57R21MKMVBxJhlfmbhdw
+         K0og==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=mime-version:to:subject:date:message-id:from:feedback-id
+         :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
+        bh=V01aXnP9YKCp7MH6QZdgPlogQQ7CCqamVBJBToH9OUU=;
+        fh=RMDOOmLWX9wQ9uya/ONOVbr6Wysx3K0F8wcq7JEP+zM=;
+        b=Ud62x0JaEsPMQLH+THkdmldP4HkkIF3Sxa7KPJY0EWoPIEY/YYWcK0Pr9XsWTzDiVD
+         nsSvhqPUlDxTGFJ6oEkBkSvMHSKHk5kzIUIalLiRrW0pt5Shq1qygfBEUO7NHVt58kQZ
+         Cwcg0loTn+46Ibg/N76jJZomCDm8qW6UkRVDoqJz8Ar+SpS8Ar2HIdU0qsIMakkvjgAJ
+         8n37YzR37FqWDf2Wx8Nn8A1tRM4YESk5dLJrV3dJ6gS5eciy8uUffI6t4EmnzmSDHYpl
+         n+MPehzKYzq6B2SwSNdx95M5e9pBD156ugDS+3aI5AVwzp6HQIvJkTqB1ElORunkelhT
+         gaUg==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cloudflare-email.net header.s=cf2024-1 header.b=PeYYi0Pe;
+       dkim=pass header.i=@formosa-ai.com header.s=cf2024-1 header.b="GwZX2uy/";
+       dkim=pass header.i=@cloudflare-smtp.net header.s=cf2024-1 header.b=O8Q+CBWK;
+       dkim=pass header.i=@formosa-ai.com header.s=cf-bounce header.b=ANo4zyFb;
+       arc=pass (i=1 spf=pass spfdomain=cf-bounce.formosa-ai.com dkim=pass dkdomain=cloudflare-smtp.net dkim=pass dkdomain=formosa-ai.com dmarc=pass fromdomain=formosa-ai.com);
+       spf=pass (google.com: domain of srs0=nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com designates 104.30.10.63 as permitted sender) smtp.mailfrom="SRS0=Nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=formosa-ai.com
+Return-Path: <SRS0=Nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com>
+Received: from ba-gd.cloudflare-email.net (ba-gd.cloudflare-email.net. [104.30.10.63])
+        by mx.google.com with ESMTPS id 98e67ed59e1d1-37e7100e828si15022590a91.7.2026.06.28.22.50.49
+        for <formosa.ai.life@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Jun 2026 22:50:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com designates 104.30.10.63 as permitted sender) client-ip=104.30.10.63;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@cloudflare-email.net header.s=cf2024-1 header.b=PeYYi0Pe;
+       dkim=pass header.i=@formosa-ai.com header.s=cf2024-1 header.b="GwZX2uy/";
+       dkim=pass header.i=@cloudflare-smtp.net header.s=cf2024-1 header.b=O8Q+CBWK;
+       dkim=pass header.i=@formosa-ai.com header.s=cf-bounce header.b=ANo4zyFb;
+       arc=pass (i=1 spf=pass spfdomain=cf-bounce.formosa-ai.com dkim=pass dkdomain=cloudflare-smtp.net dkim=pass dkdomain=formosa-ai.com dmarc=pass fromdomain=formosa-ai.com);
+       spf=pass (google.com: domain of srs0=nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com designates 104.30.10.63 as permitted sender) smtp.mailfrom="SRS0=Nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=formosa-ai.com
+DKIM-Signature: v=1; a=rsa-sha256; s=cf2024-1; d=cloudflare-email.net; c=relaxed/relaxed;
+	h=To:Subject:Date:From:Feedback-ID:from:reply-to:cc:resent-date
+	:resent-from:resent-to:resent-cc:in-reply-to:references:list-id:list-help
+	:list-unsubscribe:list-unsubscribe-post:list-subscribe:list-post
+	:list-owner:list-archive; t=1782712250; x=1783317050; bh=V01aXnP9YKCp7MH6QZ
+	dgPlogQQ7CCqamVBJBToH9OUU=; b=PeYYi0Pe25y3ugSRdZudsXH6E3ru8VcaZaxbop9f2JWts
+	9MWHrfzSV5DZOn0gUnQWhRD0j/S44UECaZayYg6JbRqLk+zLSF46jGLKocL/32I2KZ1WcLIgc94
+	mTTtA4BOykie6Fsew9EU/8ifhimdPkNVE+n+WEr9VSjVCK8b81EqZUnDPITYzOiR6W5xlR+Jc9P
+	PO9yB7Y8ZEdZEmAIkgBTX/GAhYl74I78SHmG1bypva27X8FX+33f0A9fxNOPFU8CEwa4a14QC16
+	TxP/ZreJeIA3A44oECQSlvrmAs01fY7ytxas7y+7pJl9uPT2d2Pslf8UAzRIRSdYqvgSHdhg==;
+DKIM-Signature: v=1; a=rsa-sha256; s=cf2024-1; d=formosa-ai.com; c=relaxed/relaxed;
+	h=To:Subject:Date:From:Feedback-ID:from:reply-to:cc:resent-date
+	:resent-from:resent-to:resent-cc:in-reply-to:references:list-id:list-help
+	:list-unsubscribe:list-unsubscribe-post:list-subscribe:list-post
+	:list-owner:list-archive; t=1782712250; x=1783317050; bh=V01aXnP9YKCp7MH6QZ
+	dgPlogQQ7CCqamVBJBToH9OUU=; b=GwZX2uy/sdM0cBHuUTZUbZfBK3g4NdaKtSohM2yP/qRIG
+	pzdQmoGV4wJvUVCBY5WcQPy705U6E/wUycQoVObTZYAocAwRqCrZv0myfW0R5jgCsY0o9n4CRSs
+	LkpDlDwI66FVu+t6l2O8NyxX03lvbKQe09MM7g0nFQyFupQInV8iVjcprzAv3C3a4gsU/f2so+9
+	oNOKiG2h1cVlPyKjRuav5wD8qfixr7QrrvbWxYTAhsOODlUEb1tFakYLYScqi0GBWX9OX/SZIc1
+	wBIBdhJlQx5mIMWQVaYw5V/h+BZ99aHAP4DbWmSl/zuLoXGyEb/z3yESvkbghlYSgLr6Hhww==;
+X-Forwarded-To: formosa.ai.life@gmail.com
+X-Forwarded-For: bounces@cf-bounce.formosa-ai.com formosa.ai.life@gmail.com
+Received: from bg-jj.cloudflare-smtp.net (104.30.16.99)
+        by cloudflare-email.net (cloudflare) id nEJrKXqYWYS1
+        for <bounces@cf-bounce.formosa-ai.com>; Mon, 29 Jun 2026 05:50:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=cf2024-1; d=cloudflare-email.net; cv=none;
+	b=GlkZAr0p5c0oltAFCmF+CKAjb5f+i/l6GSw92a0GOVn8jJjc9PbKvJXlhnsog784H1LhGdhU9
+	zzIbDuFpVleiQYeAfIioO5bP8DFq3YzMlJWJFwCZz/HfB1cDLw6qxePGs6kGCg26RcvxbP3ld+e
+	plXGDhI2yXMufP2SMz8flVqC/IpmGnLK0I9ilLN0xPm2Xs076YNMffhNGsE3pn71rmjtuDo67TP
+	ghqfbuoz5vwbACWqz8071Q9limT9uWHPMOlLCE4kCsFFNcKBDHSxRQaYfw+SPrjb0RAC3elsPP5
+	Iy+BNC8O8/4jnRQNrmkI19xbBLbJ/3DzCQGrU9zIJ3Ew==;
+ARC-Message-Signature: i=1; a=rsa-sha256; s=cf2024-1; d=cloudflare-email.net; c=relaxed/relaxed;
+	h=To:Subject:Date:From:from:reply-to:cc:resent-date:resent-from:resent-to
+	:resent-cc:in-reply-to:references:list-id:list-help:list-subscribe
+	:list-post:list-owner:list-archive; t=1782712248; x=1783317048; bh=V01aXnP9
+	YKCp7MH6QZdgPlogQQ7CCqamVBJBToH9OUU=; b=fDzcb0WJXo/uSB51qZNotFBMBtSH28tzmHk
+	8TPEwmR7nuZJik6Rul4jf76uPTHU25NQWRKMvWZ0OXZ3eBlXCVPUCGuXhZUvTD9O6e320LFfndM
+	ojxeKWsRXei23MKvA60K8kUHJFyaQCDH7CWjKYQzSHNifja3PTOMMBcedHnk6Jguy5vFD8NsJPp
+	7j4+d6lAgdk+GcF/4tQ9EDV6ykcIoi5ZWghOsCexiTAui6nPNZbotvq5JRku+a9+t+IEGu+01Pt
+	kGxnJZVBLnFw/ttuF9MUNZhltdByIR7n5SmnzbqNOn+XzqygQBfbl9gDP4QbNplXvFibKdjMfsh
+	mIQqLhQ==;
+ARC-Authentication-Results: i=1; mx.cloudflare.net;
+	dkim=pass header.d=cloudflare-smtp.net header.s=cf2024-1 header.b=O8Q+CBWK;
+	dkim=pass header.d=formosa-ai.com header.s=cf-bounce header.b=ANo4zyFb;
+	dmarc=pass header.from=formosa-ai.com policy.dmarc=reject;
+	spf=none (mx.cloudflare.net: no SPF records found for postmaster@bg-jj.cloudflare-smtp.net) smtp.helo=bg-jj.cloudflare-smtp.net;
+	spf=pass (mx.cloudflare.net: domain of bounces@cf-bounce.formosa-ai.com designates 104.30.16.99 as permitted sender) smtp.mailfrom=bounces@cf-bounce.formosa-ai.com;
+	arc=none smtp.remote-ip=104.30.16.99
+Received-SPF: pass (mx.cloudflare.net: domain of bounces@cf-bounce.formosa-ai.com designates 104.30.16.99 as permitted sender)
+	receiver=mx.cloudflare.net; client-ip=104.30.16.99; envelope-from="bounces@cf-bounce.formosa-ai.com"; helo=bg-jj.cloudflare-smtp.net;
+Authentication-Results: mx.cloudflare.net;
+	dkim=pass header.d=cloudflare-smtp.net header.s=cf2024-1 header.b=O8Q+CBWK;
+	dkim=pass header.d=formosa-ai.com header.s=cf-bounce header.b=ANo4zyFb;
+	dmarc=pass header.from=formosa-ai.com policy.dmarc=reject;
+	spf=none (mx.cloudflare.net: no SPF records found for postmaster@bg-jj.cloudflare-smtp.net) smtp.helo=bg-jj.cloudflare-smtp.net;
+	spf=pass (mx.cloudflare.net: domain of bounces@cf-bounce.formosa-ai.com designates 104.30.16.99 as permitted sender) smtp.mailfrom=bounces@cf-bounce.formosa-ai.com;
+	arc=none smtp.remote-ip=104.30.16.99
+X-CF-SpamH-Score: 1
+DKIM-Signature: v=1; a=rsa-sha256; s=cf2024-1; d=cloudflare-smtp.net; c=relaxed/relaxed;
+	h=To:Subject:Date:From:Feedback-ID:from:reply-to:cc:resent-date
+	:resent-from:resent-to:resent-cc:in-reply-to:references:list-id:list-help
+	:list-unsubscribe:list-unsubscribe-post:list-subscribe:list-post
+	:list-owner:list-archive; t=1782712248; x=1783317048; bh=V01aXnP9YKCp7MH6QZ
+	dgPlogQQ7CCqamVBJBToH9OUU=; b=O8Q+CBWKOsR9YouDN3q+mI8qL7nw4nvBTzI1BhWkuECpR
+	Gw3mqLNvPG6YF9pRQae4ZzCQJ3V+azeImjTiVOLIhge3zTUlBTfrk693QemTXCrpAgR90/akyVW
+	ZRKF9p8yV8HiLD1rAX2DCIlU39H4OW6k4sMiTVXsEN6/JcejEAKqpyLtt37erf7ElGKftV/5UVF
+	hix6Km5esMlMVuVnKBgrONmHJdhfGitrNgQkTO6DOz/MkVGfRi+esXJViwOWsHl+gZjQY2gGlru
+	Q2atnYX7U+srMNqbEMrQyKLFOywuR7a6uQOsR5J//iUEIfsS9HAB11rENtmRCGot3p54nfgQ==;
+DKIM-Signature: v=1; a=rsa-sha256; s=cf-bounce; d=formosa-ai.com; c=relaxed/relaxed;
+	h=To:Subject:Date:From:Feedback-ID:from:reply-to:cc:resent-date
+	:resent-from:resent-to:resent-cc:in-reply-to:references:list-id:list-help
+	:list-unsubscribe:list-unsubscribe-post:list-subscribe:list-post
+	:list-owner:list-archive; t=1782712248; x=1783317048; bh=V01aXnP9YKCp7MH6QZ
+	dgPlogQQ7CCqamVBJBToH9OUU=; b=ANo4zyFbbjmWSI/U9JSSB3yK0FyyFTN1lUbltXHrUAPjg
+	kWApqGstUSbcetiPoZnnCY+bHtfaOCYMF+WQquu6Oaa6lidHYoe0G+TEwUWX4QcTHWsA0qIVuAc
+	m1SSoFCy6Y64cxq8PGcYAR7aZlSmGB/1laPnS/WFYC8AxiT+tEZWUeO8zgAt+xxMdjKA+s49k7c
+	RQHzhcdRdHe2EkzSMSJahLnLO5SWEahWKiu4NmbnzjBihjEbOIMSY3X8wl5GHw7W0hQafhQFcZ0
+	/e9+7+PIiOQmXSMQiqX19Nqg41roxncT/c56ur2i2gsKRpFoNHcNlmn7uIXsvebnHBqHENnw==;
+Feedback-ID: formosa-ai.com:5:5:Cloudflare
+From: "FALO AI Translator" <translate@formosa-ai.com>
+Message-ID: <UeIG5YVkeXQ3vX89DFVQXVQy3j1nwYe9IfU5@formosa-ai.com>
+Date: Mon, 29 Jun 2026 05:50:45 +0000
+Subject: [FALO AI] =?utf-8?b?6YO15Lu25pyq6JmV55CG6YCa55+lOg==?=
+ =?utf-8?b?57+76K2vMg==?= test email
+To: Recipient <bounces@cf-bounce.formosa-ai.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="BltFqvLCSMhErk9LQVqRALm1vWR7ZJqgO8p6PMGs"
+
+--BltFqvLCSMhErk9LQVqRALm1vWR7ZJqgO8p6PMGs
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+
+5oKo55qE6YO15Lu257+76K2v6KuL5rGC5pyq6JmV55CG77yM5Y6f5Zug5aaC5LiL77yaDQoNCuWB
+tea4rOWIsOatpOmDteS7tuS5i+S4u+imgeWFp+WuueW3sueCuuS4reaWh++8jOezu+e1seaaq+S4
+jeaPkOS+m+S4reaWh+iHs+S4reaWh+eahOe/u+itr+acjeWLmeOAgg0KDQroi6XmgqjmnInoi7Hm
+lofmiJblhbbku5blpJboqp7pg7Xku7bvvIzmraHov47lr4TpgIHoh7PmnKzkv6HnrrHpgLLooYzn
+v7vora/jgIINCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K5pys5L+h5Lu255SxIEZBTE8g
+QUkgRW1haWwgUGxhdGZvcm0g6Ieq5YuV5qqi5ris55m86YCB44CC
+--BltFqvLCSMhErk9LQVqRALm1vWR7ZJqgO8p6PMGs
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+              <div style=3D"font-family: sans-serif; max-width: 600px; marg=
+in: 0 auto; padding: 20px; border: 1px solid #fca5a5; border-radius: 12px; =
+background-color: #fef2f2;">
+                <h2 style=3D"color: #dc2626; margin-bottom: 20px;">FALO AI =
+=E9=83=B5=E4=BB=B6=E8=99=95=E7=90=86=E6=8F=90=E7=A4=BA</h2>
+                <div style=3D"background-color: #ffffff; padding: 15px; bor=
+der-radius: 8px; border: 1px solid #fee2e2; font-size: 16px; line-height: 1=
+.6; color: #7f1d1d; margin-bottom: 15px;">
+                  =E5=81=B5=E6=B8=AC=E5=88=B0=E6=AD=A4=E9=83=B5=E4=BB=B6=E4=
+=B9=8B=E4=B8=BB=E8=A6=81=E5=85=A7=E5=AE=B9=E5=B7=B2=E7=82=BA<strong>=E4=B8=
+=AD=E6=96=87</strong>=EF=BC=8C=E7=B3=BB=E7=B5=B1=E6=9A=AB=E4=B8=8D=E6=8F=90=
+=E4=BE=9B=E4=B8=AD=E6=96=87=E8=87=B3=E4=B8=AD=E6=96=87=E7=9A=84=E7=BF=BB=E8=
+=AD=AF=E6=9C=8D=E5=8B=99=E3=80=82
+                </div>
+                <p style=3D"font-size: 14px; color: #4b5563;">=E8=8B=A5=E6=
+=82=A8=E6=9C=89=E8=8B=B1=E6=96=87=E6=88=96=E5=85=B6=E5=AE=83=E5=A4=96=E8=AA=
+=9E=E4=BF=A1=E4=BB=B6=EF=BC=8C=E6=AD=A1=E8=BF=8E=E9=9A=A8=E6=99=82=E5=AF=84=
+=E9=80=81=E8=87=B3=E6=9C=AC=E4=BF=A1=E7=AE=B1=E9=80=B2=E8=A1=8C=E7=BF=BB=E8=
+=AD=AF=E3=80=82</p>
+                <hr style=3D"border: none; border-top: 1px solid #fecaca; m=
+argin: 25px 0;">
+                <p style=3D"font-size: 12px; color: #9ca3af; text-align: ce=
+nter;">=E6=9C=AC=E9=83=B5=E4=BB=B6=E7=94=B1 FALO AI =E9=82=8A=E7=B7=A3=E7=
+=AB=AF (Cloudflare Workers) =E8=87=AA=E4=B8=BB=E5=81=B5=E6=B8=AC=E7=99=BC=
+=E9=80=81=EF=BC=8C=E7=84=A1=E9=A0=88=E5=9B=9E=E4=BF=A1=E3=80=82</p>
+              </div>
+           =20
+--BltFqvLCSMhErk9LQVqRALm1vWR7ZJqgO8p6PMGs--
+
+

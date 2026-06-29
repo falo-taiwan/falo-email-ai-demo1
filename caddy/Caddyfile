@@ -1,0 +1,42 @@
+{
+    # Caddy 管理 API，用於監控與動態載入
+    admin localhost:2019
+
+    # 輸出日誌到檔案 (JSON 格式以供管理端點解析)
+    log {
+        output file caddy.log
+        format json
+    }
+}
+
+# go.formosa-ai.com 的 Caddy 轉址服務 (預設監聽 8080 埠口)
+http://go.formosa-ai.com:8080, http://localhost:8080 {
+    
+    # 記錄存取日誌到 caddy.log 且為 JSON 格式
+    log {
+        output file caddy.log
+        format json
+    }
+    
+    # 健康檢查端點
+    respond /caddy-health "OK" 200
+
+    # 預設首頁或未匹配時的回應 (顯示為轉址入口系統)
+    # respond "FALO Go Redirection Gateway is active." 200
+
+    # [DYNAMIC_RULES_START]
+
+    # 測試重新導向
+    redir /test https://www.google.com.tw 302
+
+    # 
+    redir /news https://news.google.com.tw 302
+
+    # 工作區實體目錄對接
+    redir /works /works/ 308
+    handle_path /works/* {
+        root * /Users/force/work-area
+        file_server
+    }
+    # [DYNAMIC_RULES_END]
+}

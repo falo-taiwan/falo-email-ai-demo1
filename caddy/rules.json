@@ -1,0 +1,23 @@
+[
+    {
+        "active": true,
+        "description": "測試重新導向",
+        "path": "/test",
+        "target": "https://www.google.com.tw",
+        "type": "redirect"
+    },
+    {
+        "path": "/news",
+        "type": "redirect",
+        "target": "https://news.google.com.tw",
+        "description": "",
+        "active": true
+    },
+    {
+        "path": "/works",
+        "type": "static",
+        "target": "/Users/force/work-area",
+        "description": "工作區實體目錄對接",
+        "active": true
+    }
+]

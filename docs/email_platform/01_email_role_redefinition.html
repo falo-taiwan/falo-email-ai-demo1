@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 1: Email 2.0 角色定義與 AI Email Service</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Microsoft JhengHei', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Highlight.js for code highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <!-- Mermaid.js for architecture diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    hljs.highlightAll();
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    pre {
+      background-color: #0f1420 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    code {
+      font-family: 'Fira Code', 'Courier New', Courier, monospace !important;
+    }
+    .mermaid {
+      background: #0f1420;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin: 1.5rem 0;
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+  
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen">
+
+  <!-- Header -->
+  
+  <header class="relative overflow-hidden py-10 border-b border-slate-800 bg-slate-900/40">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.1),transparent_40%)]"></div>
+    <div class="max-w-6xl mx-auto px-6 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <a href="README.html" class="inline-flex items-center gap-2 text-indigo-400 text-sm font-semibold hover:underline mb-2">
+          <i class="fa-solid fa-arrow-left"></i> 返回目錄總覽
+        </a>
+        <h1 class="text-3xl font-bold font-outfit text-slate-100">Module 1: Email 2.0 角色定義與 AI Email Service</h1>
+      </div>
+      <div>
+        <a href="module_1_slides.html" class="inline-flex items-center gap-2 py-2.5 px-5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-sm font-semibold transition shadow-lg shadow-indigo-500/10">
+          <i class="fa-solid fa-person-chalkboard"></i> 開啟顧問投影片
+        </a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- Layout Grid -->
+  
+  <div class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <aside class="lg:col-span-3 lg:sticky lg:top-8 h-fit hidden lg:block">
+      <div class="glass-card rounded-2xl p-5">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 font-outfit mb-4">本章導覽 (TOC)</h2>
+        <nav class="space-y-1.5 flex flex-col border-l border-slate-800">
+          <a href="#1.-email-的角色重新定義：從-communication-tool-到-enterprise-event-gateway" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">1. Email 的角色重新定義：從 Communication Tool 到 Enterprise Event Gateway</a>
+<a href="#📊-email-1.0-vs-email-2.0-比較" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">📊 Email 1.0 vs Email 2.0 比較</a>
+<a href="#🔄-演進軌跡-evolution-path" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">🔄 演進軌跡 (Evolution Path)</a>
+<a href="#2.-ai-email-service：一個-email-地址，就是一個-ai-function" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">2. AI Email Service：一個 Email 地址，就是一個 AI Function</a>
+<a href="#🛠️-標準服務信箱矩陣與-ai-行為定義" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">🛠️ 標準服務信箱矩陣與 AI 行為定義</a>
+<a href="#3.-「無痛升級」的核心設計：適應既有工作流" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">3. 「無痛升級」的核心設計：適應既有工作流</a>
+
+        </nav>
+      </div>
+    </aside>
+    <article class="lg:col-span-9 glass-card rounded-3xl p-8 md:p-10 min-w-0">
+      <p class="text-slate-300 leading-relaxed my-4">本模組深入探討將 Email 從「人際通訊工具」升級為「企業事件閘道（Enterprise Event Gateway）」的架構哲學，並定義如何將每一個 Email 地址轉化為獨立的 AI 服務（AI Email Services）。</p>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="1.-email-的角色重新定義：從-communication-tool-到-enterprise-event-gateway" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>1. Email 的角色重新定義：從 Communication Tool 到 Enterprise Event Gateway</h2>
+<p class="text-slate-300 leading-relaxed my-4">在傳統企業資訊架構中，Email 扮演的是「非即時通訊工具」角色。然而，在 AI 原生（AI-Native）的時代，我們將其重新定義為<strong>企業事件的通用入口</strong>。</p>
+<h3 id="📊-email-1.0-vs-email-2.0-比較" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">📊 Email 1.0 vs Email 2.0 比較</h3>
+<div class="overflow-x-auto rounded-xl border border-slate-800 my-8"><table class="min-w-full divide-y divide-slate-800"><th class="px-4 py-3 text-slate-200 font-semibold tracking-wider text-sm uppercase bg-slate-900 border-b border-slate-800 text-left">維度</th><th class="px-4 py-3 text-slate-200 font-semibold tracking-wider text-sm uppercase bg-slate-900 border-b border-slate-800 text-left">Email 1.0 (傳統通訊)</th><th class="px-4 py-3 text-slate-200 font-semibold tracking-wider text-sm uppercase bg-slate-900 border-b border-slate-800 text-left">Email 2.0 (AI 事件閘道)</th><tbody><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>主要定位</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">人與人（Human-to-Human）的溝通管道</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">人/系統與 AI（Human/System-to-AI）的閘道</td></tr><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>終端處理者</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">人類員工（手動閱讀、分類、輸入系統）</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">AI Agent（自動解析、執行工作流、通知相關人）</td></tr><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>處理時效</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">數小時至數天（受限於人類上班時間）</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">幾秒至數分鐘（自動化即時處理）</td></tr><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>資料結構化</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">非結構化（主旨、內文、附件需人工整理）</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">自動結構化（MIME 解析成 JSON，LLM 提取 Key-Value）</td></tr><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>系統邊界</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">孤立的收件匣（Mailbox Silo）</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">企業級 Event Hub，連接 ERP、LINE、Workspace</td></tr><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>維護成本</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">需為每位員工購買收件匣授權（高成本）</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">使用免費別名（Alias）與 Workers，近乎零新增成本</td></tr></tbody></table></div>
+<h3 id="🔄-演進軌跡-evolution-path" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">🔄 演進軌跡 (Evolution Path)</h3>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>Email 1.0 (傳統模式)</strong>：</li>
+   <div class="text-center my-4 font-mono text-indigo-300">\[\text{User Send} \longrightarrow \text{Mail Server (Gmail/Exchange)} \longrightarrow \text{Mailbox Inbox} \longrightarrow \text{Human Action (Read \& Process)}\]</div>
+   *痛點*：高人力耗費、重複登入、效率低下、舊系統資料手動輸入容易出錯。
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>Email 2.0 (AI 邊緣路由模式)</strong>：</li>
+   <div class="text-center my-4 font-mono text-indigo-300">\[\text{User Send} \longrightarrow \text{Cloudflare Email Routing} \longrightarrow \text{Email Worker (JS)} \longrightarrow \text{FALO AI Event Gateway} \longrightarrow \text{Python Agent/Workflow} \longrightarrow \text{Target (ERP/LINE/Sheets)}\]</div>
+   *優勢*：使用者不需要學習任何新工具，也無需改變發信習慣；AI 在後台完成一切，舊系統（如不支援 API 的舊 ERP）免改動即完成 AI 升級。
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="2.-ai-email-service：一個-email-地址，就是一個-ai-function" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>2. AI Email Service：一個 Email 地址，就是一個 AI Function</h2>
+<p class="text-slate-300 leading-relaxed my-4">在 FALO AI Email Platform 中，我們將 <strong>「Email Address」</strong> 映射為 <strong>「AI Function/Service」</strong>。企業內部的每一個功能型信箱，都代表著一個獨立的 AI Agent 工作流。</p>
+<p class="text-slate-300 leading-relaxed my-4">以下為 FALO 規劃的標準 AI Email Address 矩陣：</p>
+<h3 id="🛠️-標準服務信箱矩陣與-ai-行為定義" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">🛠️ 標準服務信箱矩陣與 AI 行為定義</h3>
+<p class="text-slate-300 leading-relaxed my-4">#### 1. 發票與單據處理：<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">invoice@company.com</code> / <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">ocr@company.com</code><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 任務</strong>：發票解析、合約/單據圖像文字辨識與結構化。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>輸入</strong>：Email 附件（PDF、JPG、PNG 格式的發票或收據）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 工作流</strong>：</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">Worker 偵測到附件，將檔案上傳至 <strong>Cloudflare R2</strong> 儲存。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">觸發 Python OCR 模組提取單據上的文字與表格。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">LLM 根據企業 Prompt 提取關鍵欄位：<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">統編</code>、<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">發票號碼</code>、<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">交易日期</code>、<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">品名</code>、<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">總金額</code>、<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">稅額</code>。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">進行 SaaS/ERP 系統整合判斷（詳見 <a href="03_ai_workflow_event_gateway.md" class="text-indigo-400 hover:underline">Module 3</a>），若為 ERP 可接受格式，則透過 Webhook 寫入 ERP 暫存檔。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">發送 LINE 訊息通知財務人員：「已自動解析來自 [廠商名稱] 的發票，金額 $XXX，請點此審核：[連結]」。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">#### 2. 會議摘要與逐字稿：<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">meeting@company.com</code><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 任務</strong>：會議記錄彙整、摘要生成、待辦清單（To-do List）提取。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>輸入</strong>：Email 內文（手寫草稿）或附件（語音檔 MP3/WAV、會議文字紀錄）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 工作流</strong>：</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">若為語音檔，先透過 Whisper API / 語音轉文字服務生成逐字稿。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">LLM 進行語意段落分割，整理出：「會議主題」、「決議事項」、「待辦執行人與 Deadline」。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">自動將整理好的會議記錄寫入 <strong>Google Docs</strong>，並在 <strong>Google Sheets</strong> 中為相關執行人新增待辦項目。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">發送郵件回覆給所有與會者，並同步發送至部門 LINE 群組。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">#### 3. 企業合規與 AI 稽核：<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">audit@company.com</code><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 任務</strong>：合約條款風險審查、報銷憑證合理性稽核。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>輸入</strong>：Email 內文說明與合約草案（Word/PDF）或費用報銷明細。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 工作流</strong>：</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">讀取合約內容，比對企業合約範本庫（透過 RAG 檢索）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">偵測風險條款（如：無限期保密協議、不合理的罰則、付款條件衝突）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">生成「AI 稽核報告」，以紅黃綠燈標示風險等級，並回信給寄件者：「已完成初審，發現 2 處潛在風險，請檢閱附件報告」。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">#### 4. 履歷解析與人才篩選：<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">resume@company.com</code><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 任務</strong>：HR 履歷解析、技能標籤提取、職缺配對度評估。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>輸入</strong>：求職者投遞的履歷附件（PDF、Word）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 工作流</strong>：</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">抽取履歷文字，結構化為求職者 Profile（姓名、學歷、工作年資、專業技能）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">根據目前企業開放的職缺描述（JD）進行 LLM 評分與配對。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">自動將求職者資料寫入 <strong>Google Sheets</strong>（HR 追蹤表）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">若配對分數高於 80 分，自動向面試官發送 LINE 通知，並透過 Calendar API 發送面試時間預約。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">#### 5. 多國語言翻譯：<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">translate@company.com</code><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 任務</strong>：多語系商務郵件自動翻譯與回信草稿生成。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>輸入</strong>：外語郵件（如日文、英文、德文）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 工作流</strong>：</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">自動偵測郵件語系。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">翻譯為企業指定的母語（如繁體中文）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">根據上下文，自動生成母語與對應外語的回信草稿（Draft）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">回信給寄件人，讓寄件人可以「一鍵複製」或在 Gmail 草稿匣中直接點擊發送。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">#### 6. 企業知識庫檢索：<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">km@company.com</code> / <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">pm@company.com</code><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 任務</strong>：根據企業內部知識庫解答問題，或者回報專案進度。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>輸入</strong>：問答查詢（例如：「公司的加班費申報規定是什麼？」）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 工作流</strong>：</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">提取查詢字詞，在 Google Drive / NotebookLM 中的企業知識文件進行向量檢索（RAG）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">彙整出精準解答，並附上參考文件來源網址（file link）。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">自動以郵件回覆給提問員工。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="3.-「無痛升級」的核心設計：適應既有工作流" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>3. 「無痛升級」的核心設計：適應既有工作流</h2>
+<p class="text-slate-300 leading-relaxed my-4">在此架構下，企業員工和外部合作夥伴的行為完全不變：<br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>外部供應商</strong>：依然將發票寄到 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">invoice@yourcompany.com</code>。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>面試者/獵頭</strong>：依然將履歷寄到 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">resume@yourcompany.com</code>。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>業務人員</strong>：將客戶的日文需求信「轉寄」到 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">translate@yourcompany.com</code>。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">這極大地降低了企業推動 AI 數位轉型的「摩擦阻力」。AI 扮演的是一個<strong>全天候、零失誤、運行於邊緣的數位助理</strong>。</p>
+    </article>
+  </div>
+
+
+  <!-- Footer -->
+  
+  <footer class="border-t border-slate-800 mt-20 py-8 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>© 2026 FALO AI Edge Platform. All rights reserved.</div>
+      <div class="flex gap-4">
+        <a href="README.html" class="hover:text-slate-400">目錄總覽</a>
+        <a href="#" class="hover:text-slate-400">Security SOP</a>
+        <a href="#" class="hover:text-slate-400">Docs</a>
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+</html>

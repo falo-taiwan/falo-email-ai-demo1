@@ -1,0 +1,289 @@
+Delivered-To: formosa.ai.life@gmail.com
+Received: by 2002:a2e:2e01:0:b0:395:d484:e2c0 with SMTP id u1csp2609530lju;
+        Sun, 28 Jun 2026 22:53:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=3; AFNElJ/60Z88xhCDM05O3PqIth2+bkfZtlKFHIJpYMswG+/5xZf2y2NbRS22fXdMDLJcpotFbsA6uaosRqfMTNZUp+k=@gmail.com
+X-Received: by 2002:a05:6a21:3a4a:b0:3bf:a1e5:ff62 with SMTP id adf61e73a8af0-3bfa1e61610mr1567299637.47.1782712417300;
+        Sun, 28 Jun 2026 22:53:37 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1782712417; cv=pass;
+        d=google.com; s=arc-20260327;
+        b=l6IGUh3wQaOdwiKNHtUFJIucj6vwHUlPUmucFaQ9tIyIQqRLwmg50WTG93NjcUD8NY
+         F97KFwBERRh0NECsQ8TxlUAS+jIb+VeT8KFB+QWYVXb/XRagwLor5bNeh2GJ0N93uTU8
+         vML1Xn9JeVq25z0QSc4XiNJ4vQgKkJZ6jYr3xm/x0rxb6CdtadQZcEYrPwZCghMoqA0j
+         vkm1OkT8Rib51s7CAhEcWUCXyx7/OxatJv4e6MHCx7IW4Wuzi9ayzdpqdeQctj4z2iK3
+         lItfpR5by/JRdptAwJfizBC/2cHX56YzreDU5ocfWxcbSP1LR/1KG7igoEw53hTmm3k3
+         XttQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=mime-version:to:subject:date:message-id:from:feedback-id
+         :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
+        bh=tioLC9YLQnzdPMasWN4XGL80o8cW9SiYZoB0Z8TLjQA=;
+        fh=RMDOOmLWX9wQ9uya/ONOVbr6Wysx3K0F8wcq7JEP+zM=;
+        b=fbn2UJUilAtS+UgySi/61YU5SspmPKiaV2Ji0k9ZA3k4ybmG0q7GaILCBvwiCj/JFv
+         iM6I1npacbjZH8jb7r9v4O68FL9Dc6P84gKhdOXi0Wfw/aakLw7K9VV3tOJzK9/6nKFA
+         FS4qsKIcGzLcAQA3NNLHSNuK/MTkbWqTaICHbciQm2JW94UvJwJN4thTnUjORvENrQtl
+         TGRHncnINCtmuOc5L+/iH/5VCn9YhY8WquhRTujD4kZPeuMq7jr86zndXqMU1rqQA09j
+         aYKqoGRqNb36aE+Q+1tbUYdQxpTS9f0f0/V08fw/wQHagdCK2XCNkxKboFTrpbjoEgqf
+         srjw==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cloudflare-email.net header.s=cf2024-1 header.b="NzMf/8Ia";
+       dkim=pass header.i=@formosa-ai.com header.s=cf2024-1 header.b=C0xVJ7X7;
+       dkim=pass header.i=@cloudflare-smtp.net header.s=cf2024-1 header.b=Pm0YBi4h;
+       dkim=pass header.i=@formosa-ai.com header.s=cf-bounce header.b=EhpW9v7j;
+       arc=pass (i=1 spf=pass spfdomain=cf-bounce.formosa-ai.com dkim=pass dkdomain=cloudflare-smtp.net dkim=pass dkdomain=formosa-ai.com dmarc=pass fromdomain=formosa-ai.com);
+       spf=pass (google.com: domain of srs0=nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com designates 104.30.10.183 as permitted sender) smtp.mailfrom="SRS0=Nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=formosa-ai.com
+Return-Path: <SRS0=Nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com>
+Received: from ba-bid.cloudflare-email.net (ba-bid.cloudflare-email.net. [104.30.10.183])
+        by mx.google.com with ESMTPS id 41be03b00d2f7-c96f1f70117si5670224a12.278.2026.06.28.22.53.35
+        for <formosa.ai.life@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Jun 2026 22:53:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com designates 104.30.10.183 as permitted sender) client-ip=104.30.10.183;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@cloudflare-email.net header.s=cf2024-1 header.b="NzMf/8Ia";
+       dkim=pass header.i=@formosa-ai.com header.s=cf2024-1 header.b=C0xVJ7X7;
+       dkim=pass header.i=@cloudflare-smtp.net header.s=cf2024-1 header.b=Pm0YBi4h;
+       dkim=pass header.i=@formosa-ai.com header.s=cf-bounce header.b=EhpW9v7j;
+       arc=pass (i=1 spf=pass spfdomain=cf-bounce.formosa-ai.com dkim=pass dkdomain=cloudflare-smtp.net dkim=pass dkdomain=formosa-ai.com dmarc=pass fromdomain=formosa-ai.com);
+       spf=pass (google.com: domain of srs0=nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com designates 104.30.10.183 as permitted sender) smtp.mailfrom="SRS0=Nnv7=ze=cf-bounce.formosa-ai.com=bounces@formosa-ai.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=formosa-ai.com
+DKIM-Signature: v=1; a=rsa-sha256; s=cf2024-1; d=cloudflare-email.net; c=relaxed/relaxed;
+	h=To:Subject:Date:From:Feedback-ID:from:reply-to:cc:resent-date
+	:resent-from:resent-to:resent-cc:in-reply-to:references:list-id:list-help
+	:list-unsubscribe:list-unsubscribe-post:list-subscribe:list-post
+	:list-owner:list-archive; t=1782712416; x=1783317216; bh=tioLC9YLQnzdPMasWN
+	4XGL80o8cW9SiYZoB0Z8TLjQA=; b=NzMf/8IacfCXReRbUsB0z9AHRhdqXb931MJJaOLVMhAta
+	kwMMa6+mWfnpyomilJsDpQFeuIvvlsVga+F8xaccbdGzvj/w1PhyKv1H8JJTBYomiAWT4ciQdGU
+	qIZftAZ0dccpJqWY0I4hCaGHK4o2YI34HbGgsViyscwn9h/7qRT0HCwgT9UGUaBPNWOdymtrbhD
+	E1SSgI+bsdTaHU1jihLC6kJJ3evzkbLSRPcTqtY5jhZMKyJtZys85f3Yk2KPY7ZRcLSePuhkDv6
+	zJxMeQF1B8UPHf0AiUwYZQyQqBQkm2n5lVSUinw4ROG0qRbrm6zXieN1YEzoT+YtCqW0ICug==;
+DKIM-Signature: v=1; a=rsa-sha256; s=cf2024-1; d=formosa-ai.com; c=relaxed/relaxed;
+	h=To:Subject:Date:From:Feedback-ID:from:reply-to:cc:resent-date
+	:resent-from:resent-to:resent-cc:in-reply-to:references:list-id:list-help
+	:list-unsubscribe:list-unsubscribe-post:list-subscribe:list-post
+	:list-owner:list-archive; t=1782712416; x=1783317216; bh=tioLC9YLQnzdPMasWN
+	4XGL80o8cW9SiYZoB0Z8TLjQA=; b=C0xVJ7X7k/yYwc1HBrCUn5jIkTJVhpcHVrpecauLpP05I
+	G4px98lcuGNX6Ol1zz/32B60q971RgTu9E4eI+xt4dIOirQTQ8MhkcVF4rqEhVakT1kpvuyNXlO
+	rAXNcPs0NHHjqa2U25RT6ATlhBm2pycdyGaLHKSPqxnwb3R4GsZUx6CnzbWzg1SCDy7MQkRDn+L
+	q6PuQyUDPsLS09SAvb68PvE7ZH+Lzoavv0UDp5jfZN8LkFo227gLGeo3ag1OnFEgKllS+tjq+eT
+	FJSI75OSmMe+XXnYChzuo1z7F20WYavJwg76MtG/mxBQKJFeNB7LCUg4WcUa8YYI/oha1txw==;
+X-Forwarded-To: formosa.ai.life@gmail.com
+X-Forwarded-For: bounces@cf-bounce.formosa-ai.com formosa.ai.life@gmail.com
+Received: from bg-jj.cloudflare-smtp.net (104.30.16.99)
+        by cloudflare-email.net (cloudflare) id jIuRoTrAYFD4
+        for <bounces@cf-bounce.formosa-ai.com>; Mon, 29 Jun 2026 05:53:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=cf2024-1; d=cloudflare-email.net; cv=none;
+	b=EWK/bbmDkspeohoYNE2Ay9bcIu6T2vqi8pvA27OywMAVl1dqxmDudfBlO7UKQUqx6CLnqBPJR
+	TOz/Q0s4v1kCn7dLiNYwL84LH0OuE3dY2aVUJN/Tm+Rem1AlfuZPatiTpJEiWHtfG1zbSQrvhuK
+	6DhLHnBLFZhA6pwOzRaJALmRwkQewM0jTYbN7PX11KfOhlYHC6VJQSApPdAV+Vsg4wUpfq80vAH
+	Z5XCvzhCf9gu32xAMljw3Efsn3HhXLpDNpy5c6uzDablcUWUaAf5bmy/sYq8TV5Q65ZAzFTuNEb
+	fZmxYA2n6VwfGqPhWRgz5sAipR0ozke/buJfGxyVYE5A==;
+ARC-Message-Signature: i=1; a=rsa-sha256; s=cf2024-1; d=cloudflare-email.net; c=relaxed/relaxed;
+	h=To:Subject:Date:From:from:reply-to:cc:resent-date:resent-from:resent-to
+	:resent-cc:in-reply-to:references:list-id:list-help:list-subscribe
+	:list-post:list-owner:list-archive; t=1782712413; x=1783317213; bh=tioLC9YL
+	QnzdPMasWN4XGL80o8cW9SiYZoB0Z8TLjQA=; b=fBIQ6fa1FkehhuwWgFPI02pbqUQBs60YBeh
+	siAEc0XIgyhAUlwZ/8cFXovWpewqPEFx5r4wN6qwsouyU4Pimc5kdQb+pgmdcXQJw3yOqExOhOz
+	b+UeOQH1rx1JAxzbGK3cNIxBWIFjYvLibSSwA14WYJziV4AFNJWoBIJ84kd5bEYdLmxZCnmTn89
+	6562krFeibzK01hf33wASyN4sPjznkhHJTL8HIfYzvuHoV6OH93PjG93l8ydvd7LGZblWfiIliz
+	wTfYf2ZF71EK3ojub5gmNjoeasXqUDjr4rP8eGjHjaDK5oTUy+7UptjJzQSbTbFj4lZXTUBjGib
+	LsYkWgg==;
+ARC-Authentication-Results: i=1; mx.cloudflare.net;
+	dkim=pass header.d=cloudflare-smtp.net header.s=cf2024-1 header.b=Pm0YBi4h;
+	dkim=pass header.d=formosa-ai.com header.s=cf-bounce header.b=EhpW9v7j;
+	dmarc=pass header.from=formosa-ai.com policy.dmarc=reject;
+	spf=none (mx.cloudflare.net: no SPF records found for postmaster@bg-jj.cloudflare-smtp.net) smtp.helo=bg-jj.cloudflare-smtp.net;
+	spf=pass (mx.cloudflare.net: domain of bounces@cf-bounce.formosa-ai.com designates 104.30.16.99 as permitted sender) smtp.mailfrom=bounces@cf-bounce.formosa-ai.com;
+	arc=none smtp.remote-ip=104.30.16.99
+Received-SPF: pass (mx.cloudflare.net: domain of bounces@cf-bounce.formosa-ai.com designates 104.30.16.99 as permitted sender)
+	receiver=mx.cloudflare.net; client-ip=104.30.16.99; envelope-from="bounces@cf-bounce.formosa-ai.com"; helo=bg-jj.cloudflare-smtp.net;
+Authentication-Results: mx.cloudflare.net;
+	dkim=pass header.d=cloudflare-smtp.net header.s=cf2024-1 header.b=Pm0YBi4h;
+	dkim=pass header.d=formosa-ai.com header.s=cf-bounce header.b=EhpW9v7j;
+	dmarc=pass header.from=formosa-ai.com policy.dmarc=reject;
+	spf=none (mx.cloudflare.net: no SPF records found for postmaster@bg-jj.cloudflare-smtp.net) smtp.helo=bg-jj.cloudflare-smtp.net;
+	spf=pass (mx.cloudflare.net: domain of bounces@cf-bounce.formosa-ai.com designates 104.30.16.99 as permitted sender) smtp.mailfrom=bounces@cf-bounce.formosa-ai.com;
+	arc=none smtp.remote-ip=104.30.16.99
+X-CF-SpamH-Score: 1
+DKIM-Signature: v=1; a=rsa-sha256; s=cf2024-1; d=cloudflare-smtp.net; c=relaxed/relaxed;
+	h=To:Subject:Date:From:Feedback-ID:from:reply-to:cc:resent-date
+	:resent-from:resent-to:resent-cc:in-reply-to:references:list-id:list-help
+	:list-unsubscribe:list-unsubscribe-post:list-subscribe:list-post
+	:list-owner:list-archive; t=1782712413; x=1783317213; bh=tioLC9YLQnzdPMasWN
+	4XGL80o8cW9SiYZoB0Z8TLjQA=; b=Pm0YBi4hJtVWq/IJh0zQ1eimm+yrS4AmNZQkVUW5nXuNE
+	K3ofvLfVNIKnC8O4xzgo8YCG14u+airSi3FRxEir/JO/JqFTd9gXR3Ayu+4JugWb8n16GBEwxFm
+	mPImDBPorLnlGFckUhdQrCeqtl+HuBHddO9ldU4R+s0edYjVpeuV3ZSUeBdRXYaKIMyJeBZweFo
+	RPgHnTg6h97ITJRBSZLBBZiIdKt4xBNxXKTgQbs03t5tMSKaWyGkCprPXiGHEv9KEEjE/lRBmS+
+	hSyclKG25MWw3VLX0vBHVM31vDRWHcMb0Q73B//1wtqu0hlnugzaZF+Ro0Eu5l10jw/xiTlQ==;
+DKIM-Signature: v=1; a=rsa-sha256; s=cf-bounce; d=formosa-ai.com; c=relaxed/relaxed;
+	h=To:Subject:Date:From:Feedback-ID:from:reply-to:cc:resent-date
+	:resent-from:resent-to:resent-cc:in-reply-to:references:list-id:list-help
+	:list-unsubscribe:list-unsubscribe-post:list-subscribe:list-post
+	:list-owner:list-archive; t=1782712413; x=1783317213; bh=tioLC9YLQnzdPMasWN
+	4XGL80o8cW9SiYZoB0Z8TLjQA=; b=EhpW9v7jUM+theDp/QsJppBCnBu9PijppxYanUBlxPNz0
+	Afkc+X8/jRy8Gibwr4kU4teuhpOB49jDYj0KBc2QGhOGbPaHLBObZR99hnWH96rodxDlotcVIhh
+	bAti00BEpg8h6gYDZfrTaj4R6fYmNF1TKaD1jSYa8eVeldOo9DYj7mczhpUU4r9dqSM6hySW2Nu
+	WwHUlbpzDQ6BrxTfGx13g4NfYTEHUfjVvPNe4R0TDKCIv4GA9OYZi/qdw8SMwKgQ/i/OfiSFM6E
+	HMTW8qTVxxsgbb1D1zvyFe303nZk1xRyO9twZl0nNQTeAtt/cTdv3ENkDnw6o6ltUOI3SdGg==;
+Feedback-ID: formosa-ai.com:5:5:Cloudflare
+From: "FALO AI Translator" <translate@formosa-ai.com>
+Message-ID: <bBTKPY4PEOnmeqCohi4MDk72O6LjwUCIAdGu@formosa-ai.com>
+Date: Mon, 29 Jun 2026 05:53:32 +0000
+Subject: [FALO AI] Re: =?utf-8?b?57+76K2vMw==?= test email (Translated)
+To: Recipient <bounces@cf-bounce.formosa-ai.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="Q7tgSqm7FWvN2MDspiVWZ120W4o70X4Ahl1kYWWm"
+
+--Q7tgSqm7FWvN2MDspiVWZ120W4o70X4Ahl1kYWWm
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+
+RkFMTyBBSSDmmbrog73nv7vora/ntZDmnpzvvJoNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LQ0KDQrmr5TniL7ok4vojLLpoJDmuKzkurrlt6XmmbrmhafmnIPlj5bku6Plt6XkvZzluILloLTv
+vIzkvYbmnIkgMyDlgIvogbfmpa3mnIPlrZjmtLvkuIvkvobjgIINCg0K5pyD5a2Y5rS75Lq65bel
+5pm65oWn6Z2p5ZG955qEIDMg5YCL5bel5L2cDQoNCuagueaTmuiTi+iMsueahOiqquazle+8jOS4
+ieWAi+mgmOWfn+acg+WcqOS6uuW3peaZuuaFp+aZguS7o+WtmOa0u++8iOS4puS4lOiMgeWjr+aI
+kOmVt++8ieOAgueCuuS7gOm6vO+8n+WboOeCuuS6uuW3peaZuuaFp+mChOaykuaciea6luWCmeWl
+veWPluS7o+mAmeS6m+mgmOWfn+OAgg0KDQrku6XkuIvmmK/lhbfpq5Tmg4Xms4HvvJoNCg0KMS4g
+56iL5bqP5ZOhIOKAkyDlm6Dngrrkurrlt6XmmbrmhafpgoTkuI3og73oh6rmiJHnt6jnqIsNCg0K
+56iL5byP5ZOh5LuN54S26ZyA6KaB55So5L6G5YSq5YyW44CB5L+u5q2j5ZKM5o6o5YuV5Lq65bel
+5pm65oWn55m85bGV44CCDQoNCuS6uuW3peaZuuaFp+eahOWlveWjnuWPluaxuuaWvOiok+e3tOWu
+g+eahOS6uuOAgg0KDQrok4vojLLoqo3ngrrvvIzpmqjokZfkurrlt6XmmbrmhafnmoTpgLLmraXv
+vIznqIvlvI/lk6HlsIfmnIPooqvopoHmsYLmm7TlpJrlnLDkvoblibXpgKDlkozlhKrljJbpgJnk
+upvns7vntbHjgIINCg0K44CM5Lq65bel5pm65oWn6ZyA6KaB5Lq66aGe56iL5byP5ZOh5L6G6IyB
+5aOv5oiQ6ZW344CC5aaC5p6c5L2g5Zyo56eR5oqA6aCY5Z+f77yM5L2g5LiN5pyD6KKr5reY5rGw
+5Ye65bGA44CC44CNDQoNCjIuIOiDvea6kOWwiOWutiDigJMg5aSq6YGO5pa85Y2x6Zqq5L6G6K6T
+5qmf5Zmo6Ieq5YuV5YyWDQoNCuiDvea6kOe2sui3r+OAgeaguOmbu+ermeWSjOWPr+WGjeeUn+iD
+vea6kOezu+e1seWkqumBjuikh+mbnO+8jOS4jeiDveiuk+apn+WZqOS+huaOp+WItuOAgg0KDQro
+k4vojLLoqo3ngrrvvIzkurrpoZ7nmoTnm6PnnaPmmK/lronlhajlkozmiLDnlaXnmoTpl5zpjbXj
+gIINCg0K5Lq65bel5pm65oWn5Y+v5Lul5o+Q5L6b5Y2U5Yqp77yM5L2G5L+d6K2J54eI5YWJ5LiN
+5pa35Lqu6JGX77yI5a+m6Zqb5LiK5piv5oyH6IO95rqQ5a6J5YWo77yJ55qE6LKs5Lu75LuN54S2
+5Zyo5Lq66aGe6Lqr5LiK44CCDQoNCuOAjOS9oOacg+S/oeS7u+S6uuW3peaZuuaFp+S+huaOp+WI
+tuaguOmbu+ermeWXju+8n+aIkeaDs+S9oOS5n+S4jeacg+OAguOAjQ0KDQozLiDnlJ/nianlrbjl
+rrYg4oCTIOS6uuW3peaZuuaFp+WPr+S7peWIhuaekO+8jOS9huS4jeiDveeZvOePvuaWsOS6i+eJ
+qQ0KDQrkurrlt6Xmmbrmhaflj6/ku6XorZjliKXmlbjmk5rkuK3nmoTmqKHlvI/vvIzkvYblroPk
+uI3og73mqKHku7/kurrpoZ7nmoTnm7ToprrlkozlibXpgKDlipvjgIINCg0K55Sf54mp5a2455qE
+56qB56C05b6e5Z+65Zug57eo6Lyv5Yiw55a+55eF5rK755mC6YO96ZyA6KaB5Lq66aGe55qE5Ym1
+5paw44CCDQoNCuS6uuW3peaZuuaFp+WPr+S7peaUr+aMgeeUn+eJqeWtuOWutu+8jOS9huWug+S4
+jeiDveWPluS7o+S6uumhnuWkp+iGveeahOWJteaWsOOAgg0KDQrjgIzkurrlt6Xmmbrmhaflj6/k
+u6XomZXnkIbmlbjmk5rjgILkvYbmmK/vvIzpnIDopoHkurrpoZ7kvoblr6bnj77nqoHnoLTjgILj
+gI0NCg0K5pyq5L6G55qE5bel5L2cID0g6YCy5YyW5oiW6KKr5reY5rGwDQoNCuiTi+iMsuS4puS4
+jemBnuezluiho+eCruW9iO+8jOWboOeCuuS6uuW3peaZuuaFp+Wwh+acg+aUueiuiuS4gOWIh+OA
+guS9oOWQjOaEj+WXju+8nw0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQrjgJDku6XkuIvn
+grrpg7Xku7bljp/mlocgLyBPcmlnaW5hbCBUZXh044CRDQoNCkJpbGwgR2F0ZXMgcHJlZGljdHMg
+QUkgd2lsbCByZXBsYWNlIHRoZSBqb2IgbWFya2V0IGJ1dCAzIGNhcmVlcnMgd2lsbCBzdXJ2aXZl
+Lg0KDQpUaGUgMyBqb2JzIHRoYXQgd2lsbCBzdXJ2aXZlIHRoZSBBSSByZXZvbHV0aW9uDQoNCkFj
+Y29yZGluZyB0byBHYXRlcywgdGhyZWUgZmllbGRzIHdpbGwgc3Vydml2ZSAoYW5kIHRocml2ZSkg
+aW4gdGhlIEFJIGVyYS4gV2h5PyBCZWNhdXNlIEFJIGlzbuKAmXQgcmVhZHkgdG8gcmVwbGFjZSB0
+aGVtIGp1c3QgeWV0LiANCg0KSGVyZeKAmXMgdGhlIGJyZWFrZG93bjoNCg0KMS4gQ29kZXJzIOKA
+kyBCZWNhdXNlIEFJIENhbuKAmXQgQ29kZSBJdHNlbGYgKFlldCkNCg0KRGV2ZWxvcGVycyBhcmUg
+c3RpbGwgbmVlZGVkIHRvIHJlZmluZSwgZGVidWcgYW5kIHB1c2ggQUkgZGV2ZWxvcG1lbnQgZm9y
+d2FyZC4NCkFJIGlzIG9ubHkgYXMgZ29vZCBhcyB0aGUgaHVtYW5zIHRyYWluaW5nIGl0Lg0KDQpH
+YXRlcyBiZWxpZXZlcyB0aGF0IGFzIEFJIGV2b2x2ZXMsIGNvZGVycyB3aWxsIGJlIGluIGhpZ2hl
+ciBkZW1hbmQgdG8gY3JlYXRlIGFuZCBvcHRpbWl6ZSB0aGVzZSBzeXN0ZW1zLg0KDQrigJxBSSB3
+aWxsIG5lZWQgaHVtYW4gY29kZXJzIHRvIGV2b2x2ZS4gSWYgeW914oCZcmUgaW4gdGVjaCwgeW91
+4oCZcmUgbm90IG91dCBvZiB0aGUgZ2FtZS7igJ0NCg0KMi4gRW5lcmd5IEV4cGVydHMg4oCTIFRv
+byBIaWdoLVN0YWtlcyB0byBBdXRvbWF0ZQ0KDQpFbmVyZ3kgZ3JpZHMsIG51Y2xlYXIgcGxhbnRz
+LCBhbmQgcmVuZXdhYmxlIHN5c3RlbXMgYXJlIHRvbyBjb21wbGV4IHRvIGhhbmQgb3ZlciB0byBt
+YWNoaW5lcy4NCg0KR2F0ZXMgYmVsaWV2ZXMgaHVtYW4gb3ZlcnNpZ2h0IGlzIGNyaXRpY2FsIGZv
+ciBzYWZldHkgYW5kIHN0cmF0ZWd5Lg0KDQpBSSBjYW4gYXNzaXN0IGJ1dCB0aGUgcmVzcG9uc2li
+aWxpdHkgZm9yIGtlZXBpbmcgdGhlIGxpZ2h0cyBvbiAobGl0ZXJhbGx5KSBzdGF5cyB3aXRoIGh1
+bWFucy4NCg0KIOKAnFdvdWxkIHlvdSB0cnVzdCBBSSB0byBydW4gYSBudWNsZWFyIHJlYWN0b3I/
+IERpZG7igJl0IHRoaW5rIHNvLuKAnQ0KDQozLiBCaW9sb2dpc3RzIOKAkyBBSSBDYW4gQW5hbHl6
+ZSwgQnV0IEl0IENhbuKAmXQgRGlzY292ZXINCg0KQUkgY2FuIGlkZW50aWZ5IHBhdHRlcm5zIGlu
+IGRhdGEsIGJ1dCBpdCBjYW7igJl0IHJlcGxpY2F0ZSBodW1hbiBpbnR1aXRpb24gYW5kIGNyZWF0
+aXZpdHkuDQoNCkJyZWFrdGhyb3VnaHMgaW4gYmlvbG9neSBmcm9tIGdlbmUgZWRpdGluZyB0byBk
+aXNlYXNlIGN1cmVzIHJlcXVpcmUgaHVtYW4gaW5ub3ZhdGlvbi4NCg0KQUkgY2FuIHN1cHBvcnQg
+YmlvbG9naXN0cywgYnV0IGl0IGNhbuKAmXQgcmVwbGFjZSB0aGUgaHVtYW4gbWluZCBiZWhpbmQg
+bWFqb3IgZGlzY292ZXJpZXMuDQoNCiDigJxBSSBjYW4gcHJvY2VzcyBkYXRhLiBCdXQgaXQgdGFr
+ZXMgYSBodW1hbiB0byBtYWtlIHRoZSBicmVha3Rocm91Z2gu4oCdDQoNClRoZSBGdXR1cmUgb2Yg
+V29yayA9IEFkYXB0IG9yIEdldCBMZWZ0IEJlaGluZA0KDQpHYXRlcyBpc27igJl0IHN1Z2FyY29h
+dGluZyB0aGlzIGJlY2F1c2UgQUkgd2lsbCBjaGFuZ2UgZXZlcnl0aGluZy4gQWdyZWU/Pw0KDQot
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQrmnKzkv6Hku7bnlLEgRkFMTyBBSSBFbWFpbCBQbGF0
+Zm9ybSDoh6rli5XomZXnkIbnmbzpgIHjgII=
+--Q7tgSqm7FWvN2MDspiVWZ120W4o70X4Ahl1kYWWm
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+DQogICAgICAgICAgICA8ZGl2IHN0eWxlPSJmb250LWZhbWlseTogc2Fucy1zZXJpZjsgbWF4LXdp
+ZHRoOiA2MDBweDsgbWFyZ2luOiAwIGF1dG87IHBhZGRpbmc6IDIwcHg7IGJvcmRlcjogMXB4IHNv
+bGlkICNlMmU4ZjA7IGJvcmRlci1yYWRpdXM6IDEycHg7IGJhY2tncm91bmQtY29sb3I6ICNmYWZh
+ZmE7Ij4NCiAgICAgICAgICAgICAgPGgyIHN0eWxlPSJjb2xvcjogIzRmNDZlNTsgbWFyZ2luLWJv
+dHRvbTogMjBweDsiPkZBTE8gQUkg5pm66IO957+76K2v57WQ5p6cPC9oMj4NCiAgICAgICAgICAg
+ICAgPGRpdiBzdHlsZT0iYmFja2dyb3VuZC1jb2xvcjogI2ZmZmZmZjsgcGFkZGluZzogMTVweDsg
+Ym9yZGVyLXJhZGl1czogOHB4OyBib3JkZXI6IDFweCBzb2xpZCAjY2JkNWUxOyBmb250LXNpemU6
+IDE2cHg7IGxpbmUtaGVpZ2h0OiAxLjY7IGNvbG9yOiAjMWUyOTNiOyB3aGl0ZS1zcGFjZTogcHJl
+LXdyYXA7IG1hcmdpbi1ib3R0b206IDIwcHg7Ij7mr5TniL7ok4vojLLpoJDmuKzkurrlt6Xmmbrm
+hafmnIPlj5bku6Plt6XkvZzluILloLTvvIzkvYbmnIkgMyDlgIvogbfmpa3mnIPlrZjmtLvkuIvk
+vobjgIINCg0K5pyD5a2Y5rS75Lq65bel5pm65oWn6Z2p5ZG955qEIDMg5YCL5bel5L2cDQoNCuag
+ueaTmuiTi+iMsueahOiqquazle+8jOS4ieWAi+mgmOWfn+acg+WcqOS6uuW3peaZuuaFp+aZguS7
+o+WtmOa0u++8iOS4puS4lOiMgeWjr+aIkOmVt++8ieOAgueCuuS7gOm6vO+8n+WboOeCuuS6uuW3
+peaZuuaFp+mChOaykuaciea6luWCmeWlveWPluS7o+mAmeS6m+mgmOWfn+OAgg0KDQrku6XkuIvm
+mK/lhbfpq5Tmg4Xms4HvvJoNCg0KMS4g56iL5bqP5ZOhIOKAkyDlm6Dngrrkurrlt6Xmmbrmhafp
+goTkuI3og73oh6rmiJHnt6jnqIsNCg0K56iL5byP5ZOh5LuN54S26ZyA6KaB55So5L6G5YSq5YyW
+44CB5L+u5q2j5ZKM5o6o5YuV5Lq65bel5pm65oWn55m85bGV44CCDQoNCuS6uuW3peaZuuaFp+ea
+hOWlveWjnuWPluaxuuaWvOiok+e3tOWug+eahOS6uuOAgg0KDQrok4vojLLoqo3ngrrvvIzpmqjo
+kZfkurrlt6XmmbrmhafnmoTpgLLmraXvvIznqIvlvI/lk6HlsIfmnIPooqvopoHmsYLmm7TlpJrl
+nLDkvoblibXpgKDlkozlhKrljJbpgJnkupvns7vntbHjgIINCg0K44CM5Lq65bel5pm65oWn6ZyA
+6KaB5Lq66aGe56iL5byP5ZOh5L6G6IyB5aOv5oiQ6ZW344CC5aaC5p6c5L2g5Zyo56eR5oqA6aCY
+5Z+f77yM5L2g5LiN5pyD6KKr5reY5rGw5Ye65bGA44CC44CNDQoNCjIuIOiDvea6kOWwiOWutiDi
+gJMg5aSq6YGO5pa85Y2x6Zqq5L6G6K6T5qmf5Zmo6Ieq5YuV5YyWDQoNCuiDvea6kOe2sui3r+OA
+geaguOmbu+ermeWSjOWPr+WGjeeUn+iDvea6kOezu+e1seWkqumBjuikh+mbnO+8jOS4jeiDveiu
+k+apn+WZqOS+huaOp+WItuOAgg0KDQrok4vojLLoqo3ngrrvvIzkurrpoZ7nmoTnm6PnnaPmmK/l
+ronlhajlkozmiLDnlaXnmoTpl5zpjbXjgIINCg0K5Lq65bel5pm65oWn5Y+v5Lul5o+Q5L6b5Y2U
+5Yqp77yM5L2G5L+d6K2J54eI5YWJ5LiN5pa35Lqu6JGX77yI5a+m6Zqb5LiK5piv5oyH6IO95rqQ
+5a6J5YWo77yJ55qE6LKs5Lu75LuN54S25Zyo5Lq66aGe6Lqr5LiK44CCDQoNCuOAjOS9oOacg+S/
+oeS7u+S6uuW3peaZuuaFp+S+huaOp+WItuaguOmbu+ermeWXju+8n+aIkeaDs+S9oOS5n+S4jeac
+g+OAguOAjQ0KDQozLiDnlJ/nianlrbjlrrYg4oCTIOS6uuW3peaZuuaFp+WPr+S7peWIhuaekO+8
+jOS9huS4jeiDveeZvOePvuaWsOS6i+eJqQ0KDQrkurrlt6Xmmbrmhaflj6/ku6XorZjliKXmlbjm
+k5rkuK3nmoTmqKHlvI/vvIzkvYblroPkuI3og73mqKHku7/kurrpoZ7nmoTnm7ToprrlkozlibXp
+gKDlipvjgIINCg0K55Sf54mp5a2455qE56qB56C05b6e5Z+65Zug57eo6Lyv5Yiw55a+55eF5rK7
+55mC6YO96ZyA6KaB5Lq66aGe55qE5Ym15paw44CCDQoNCuS6uuW3peaZuuaFp+WPr+S7peaUr+aM
+geeUn+eJqeWtuOWutu+8jOS9huWug+S4jeiDveWPluS7o+S6uumhnuWkp+iGveeahOWJteaWsOOA
+gg0KDQrjgIzkurrlt6Xmmbrmhaflj6/ku6XomZXnkIbmlbjmk5rjgILkvYbmmK/vvIzpnIDopoHk
+urrpoZ7kvoblr6bnj77nqoHnoLTjgILjgI0NCg0K5pyq5L6G55qE5bel5L2cID0g6YCy5YyW5oiW
+6KKr5reY5rGwDQoNCuiTi+iMsuS4puS4jemBnuezluiho+eCruW9iO+8jOWboOeCuuS6uuW3peaZ
+uuaFp+Wwh+acg+aUueiuiuS4gOWIh+OAguS9oOWQjOaEj+WXju+8nzwvZGl2Pg0KICAgICAgICAg
+ICAgICANCiAgICAgICAgICAgICAgPGg0IHN0eWxlPSJjb2xvcjogIzY0NzQ4YjsgbWFyZ2luLWJv
+dHRvbTogOHB4OyI+6YO15Lu25Y6f5paHIChPcmlnaW5hbCBUZXh0KTwvaDQ+DQogICAgICAgICAg
+ICAgIDxkaXYgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6ICNmMWY1Zjk7IHBhZGRpbmc6IDEycHg7
+IGJvcmRlci1yYWRpdXM6IDhweDsgYm9yZGVyOiAxcHggc29saWQgI2UyZThmMDsgZm9udC1zaXpl
+OiAxNHB4OyBsaW5lLWhlaWdodDogMS41OyBjb2xvcjogIzQ3NTU2OTsgd2hpdGUtc3BhY2U6IHBy
+ZS13cmFwOyI+QmlsbCBHYXRlcyBwcmVkaWN0cyBBSSB3aWxsIHJlcGxhY2UgdGhlIGpvYiBtYXJr
+ZXQgYnV0IDMgY2FyZWVycyB3aWxsIHN1cnZpdmUuDQoNClRoZSAzIGpvYnMgdGhhdCB3aWxsIHN1
+cnZpdmUgdGhlIEFJIHJldm9sdXRpb24NCg0KQWNjb3JkaW5nIHRvIEdhdGVzLCB0aHJlZSBmaWVs
+ZHMgd2lsbCBzdXJ2aXZlIChhbmQgdGhyaXZlKSBpbiB0aGUgQUkgZXJhLiBXaHk/IEJlY2F1c2Ug
+QUkgaXNu4oCZdCByZWFkeSB0byByZXBsYWNlIHRoZW0ganVzdCB5ZXQuIA0KDQpIZXJl4oCZcyB0
+aGUgYnJlYWtkb3duOg0KDQoxLiBDb2RlcnMg4oCTIEJlY2F1c2UgQUkgQ2Fu4oCZdCBDb2RlIEl0
+c2VsZiAoWWV0KQ0KDQpEZXZlbG9wZXJzIGFyZSBzdGlsbCBuZWVkZWQgdG8gcmVmaW5lLCBkZWJ1
+ZyBhbmQgcHVzaCBBSSBkZXZlbG9wbWVudCBmb3J3YXJkLg0KQUkgaXMgb25seSBhcyBnb29kIGFz
+IHRoZSBodW1hbnMgdHJhaW5pbmcgaXQuDQoNCkdhdGVzIGJlbGlldmVzIHRoYXQgYXMgQUkgZXZv
+bHZlcywgY29kZXJzIHdpbGwgYmUgaW4gaGlnaGVyIGRlbWFuZCB0byBjcmVhdGUgYW5kIG9wdGlt
+aXplIHRoZXNlIHN5c3RlbXMuDQoNCuKAnEFJIHdpbGwgbmVlZCBodW1hbiBjb2RlcnMgdG8gZXZv
+bHZlLiBJZiB5b3XigJlyZSBpbiB0ZWNoLCB5b3XigJlyZSBub3Qgb3V0IG9mIHRoZSBnYW1lLuKA
+nQ0KDQoyLiBFbmVyZ3kgRXhwZXJ0cyDigJMgVG9vIEhpZ2gtU3Rha2VzIHRvIEF1dG9tYXRlDQoN
+CkVuZXJneSBncmlkcywgbnVjbGVhciBwbGFudHMsIGFuZCByZW5ld2FibGUgc3lzdGVtcyBhcmUg
+dG9vIGNvbXBsZXggdG8gaGFuZCBvdmVyIHRvIG1hY2hpbmVzLg0KDQpHYXRlcyBiZWxpZXZlcyBo
+dW1hbiBvdmVyc2lnaHQgaXMgY3JpdGljYWwgZm9yIHNhZmV0eSBhbmQgc3RyYXRlZ3kuDQoNCkFJ
+IGNhbiBhc3Npc3QgYnV0IHRoZSByZXNwb25zaWJpbGl0eSBmb3Iga2VlcGluZyB0aGUgbGlnaHRz
+IG9uIChsaXRlcmFsbHkpIHN0YXlzIHdpdGggaHVtYW5zLg0KDQog4oCcV291bGQgeW91IHRydXN0
+IEFJIHRvIHJ1biBhIG51Y2xlYXIgcmVhY3Rvcj8gRGlkbuKAmXQgdGhpbmsgc28u4oCdDQoNCjMu
+IEJpb2xvZ2lzdHMg4oCTIEFJIENhbiBBbmFseXplLCBCdXQgSXQgQ2Fu4oCZdCBEaXNjb3Zlcg0K
+DQpBSSBjYW4gaWRlbnRpZnkgcGF0dGVybnMgaW4gZGF0YSwgYnV0IGl0IGNhbuKAmXQgcmVwbGlj
+YXRlIGh1bWFuIGludHVpdGlvbiBhbmQgY3JlYXRpdml0eS4NCg0KQnJlYWt0aHJvdWdocyBpbiBi
+aW9sb2d5IGZyb20gZ2VuZSBlZGl0aW5nIHRvIGRpc2Vhc2UgY3VyZXMgcmVxdWlyZSBodW1hbiBp
+bm5vdmF0aW9uLg0KDQpBSSBjYW4gc3VwcG9ydCBiaW9sb2dpc3RzLCBidXQgaXQgY2Fu4oCZdCBy
+ZXBsYWNlIHRoZSBodW1hbiBtaW5kIGJlaGluZCBtYWpvciBkaXNjb3Zlcmllcy4NCg0KIOKAnEFJ
+IGNhbiBwcm9jZXNzIGRhdGEuIEJ1dCBpdCB0YWtlcyBhIGh1bWFuIHRvIG1ha2UgdGhlIGJyZWFr
+dGhyb3VnaC7igJ0NCg0KVGhlIEZ1dHVyZSBvZiBXb3JrID0gQWRhcHQgb3IgR2V0IExlZnQgQmVo
+aW5kDQoNCkdhdGVzIGlzbuKAmXQgc3VnYXJjb2F0aW5nIHRoaXMgYmVjYXVzZSBBSSB3aWxsIGNo
+YW5nZSBldmVyeXRoaW5nLiBBZ3JlZT8/PC9kaXY+DQogICAgICAgICAgICAgIA0KICAgICAgICAg
+ICAgICA8aHIgc3R5bGU9ImJvcmRlcjogbm9uZTsgYm9yZGVyLXRvcDogMXB4IHNvbGlkICNlMmU4
+ZjA7IG1hcmdpbjogMjVweCAwOyI+DQogICAgICAgICAgICAgIDxwIHN0eWxlPSJmb250LXNpemU6
+IDEycHg7IGNvbG9yOiAjNjQ3NDhiOyB0ZXh0LWFsaWduOiBjZW50ZXI7Ij7mnKzpg7Xku7bnlLEg
+RkFMTyBBSSDpgornt6Pnq68gKENsb3VkZmxhcmUgV29ya2Vycykg6Ieq5Li76JmV55CG5Lim55m8
+6YCB77yM54Sh6aCI5Zue5L+h44CCPC9wPg0KICAgICAgICAgICAgPC9kaXY+DQogICAgICAgICAg
+--Q7tgSqm7FWvN2MDspiVWZ120W4o70X4Ahl1kYWWm--
+
+

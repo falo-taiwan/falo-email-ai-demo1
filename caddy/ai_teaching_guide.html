@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 AI 協同開發與示範教學指南 - Falo x Force Cheng</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9dc6158d34.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        dark: {
+                            950: '#060813',
+                            900: '#0B0F19',
+                            800: '#1E293B',
+                            700: '#334155',
+                            600: '#475569',
+                        },
+                        neon: {
+                            blue: '#00F0FF',
+                            indigo: '#8B5CF6',
+                            emerald: '#10B981',
+                            pink: '#EC4899',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #060813;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 240, 255, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="text-slate-300 font-sans min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto space-y-8">
+        
+        <!-- Header -->
+        <header class="glass-card rounded-3xl p-8 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-neon-indigo/10 rounded-full blur-3xl"></div>
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-neon-emerald to-neon-blue flex items-center justify-center text-white text-2xl font-bold font-outfit shadow-lg shadow-neon-blue/20">
+                    AI
+                </div>
+                <div>
+                    <h1 class="text-3xl font-extrabold font-outfit text-white tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">AI 協同開發教學指南</h1>
+                    <p class="text-sm text-slate-400 font-medium">以 FALO Go Gateway 為案例的 Prompt 工程與架構教學說明書</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 bg-dark-900 border border-slate-700/50 text-neon-blue px-4 py-2 rounded-xl text-xs font-semibold">
+                <i class="fa-solid fa-graduation-cap"></i> 教學專用手冊
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="flex items-center gap-2 bg-dark-900/50 p-1.5 rounded-2xl border border-slate-800/80">
+            <button onclick="switchTab('tab-philosophy')" id="btn-philosophy" class="flex-1 py-3 px-4 text-sm font-semibold rounded-xl transition-all bg-neon-blue/10 text-neon-blue border border-neon-blue/20">
+                <i class="fa-solid fa-brain mr-1.5"></i> 核心溝通心法
+            </button>
+            <button onclick="switchTab('tab-case')" id="btn-case" class="flex-1 py-3 px-4 text-sm font-semibold rounded-xl transition-all text-slate-400 hover:text-white">
+                <i class="fa-solid fa-route mr-1.5"></i> 實作心路歷程
+            </button>
+            <button onclick="switchTab('tab-pitfalls')" id="btn-pitfalls" class="flex-1 py-3 px-4 text-sm font-semibold rounded-xl transition-all text-slate-400 hover:text-white">
+                <i class="fa-solid fa-shield-halved mr-1.5"></i> 開發防坑守則
+            </button>
+            <button onclick="switchTab('tab-prompts')" id="btn-prompts" class="flex-1 py-3 px-4 text-sm font-semibold rounded-xl transition-all text-slate-400 hover:text-white">
+                <i class="fa-solid fa-code mr-1.5"></i> 精選實用 Prompt
+            </button>
+        </div>
+
+        <!-- Content Area -->
+        <main class="space-y-8">
+            
+            <!-- Tab 1: Philosophy -->
+            <section id="tab-philosophy" class="glass-card rounded-3xl p-8 space-y-6">
+                <div class="space-y-2">
+                    <h2 class="text-2xl font-bold font-outfit text-white">🧠 心法：如何馴服 AI 進行高效 pair-programming</h2>
+                    <p class="text-sm text-slate-400">寫程式不是拼速度，而是精準度。與 AI 共舞有三大黃金定律：</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="p-6 bg-dark-900/50 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="text-xs font-bold text-neon-blue bg-neon-blue/10 px-2.5 py-1 rounded-full uppercase tracking-wider">定律一</span>
+                        <h3 class="text-lg font-bold text-slate-200 font-outfit">「先討論，別動手」的決策緩衝</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            AI 的天性是「討好人類」，收到需求會立即開始寫程式碼，甚至會大範圍覆寫您的專案。在交付複雜任務前，先下達指令限制其修改權限，要求它<strong>「先列出修改計劃並詢問回饋，待確認後才可動手」</strong>，這是防範專案被 AI 寫爛的最強手段。
+                        </p>
+                    </div>
+                    
+                    <div class="p-6 bg-dark-900/50 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="text-xs font-bold text-neon-indigo bg-neon-indigo/10 px-2.5 py-1 rounded-full uppercase tracking-wider">定律二</span>
+                        <h3 class="text-lg font-bold text-slate-200 font-outfit">架構切片與局部實作</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            不要一次叫 AI 寫完一整套系統。以本專案為例，我們先叫 AI 「只下載 Caddy 並啟動」，再叫它「寫 Python API 讀取 JSON」，然後是「設計前端面板」，最後才是「串接 Cloudflare」。一步一步驗證，Bug 就不會滾雪球。
+                        </p>
+                    </div>
+                    
+                    <div class="p-6 bg-dark-900/50 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="text-xs font-bold text-neon-emerald bg-neon-emerald/10 px-2.5 py-1 rounded-full uppercase tracking-wider">定律三</span>
+                        <h3 class="text-lg font-bold text-slate-200 font-outfit">自建 AI 讀取手冊 (Manifest)</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            當專案變大、對話被截斷時，AI 會忘記上下文。每次開發到一個段落，讓 AI 寫一個專為 AI 解析的 <code class="text-slate-200 font-mono">PROJECT_SUMMARY.md</code>。當新的 AI 接手時，叫它第一步先讀這份檔案，即可瞬間無縫融入專案。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 2: Case Study -->
+            <section id="tab-case" class="glass-card rounded-3xl p-8 space-y-6 hidden">
+                <div class="space-y-2">
+                    <h2 class="text-2xl font-bold font-outfit text-white">🚀 FALO Go Gateway 實作心路歷程</h2>
+                    <p class="text-sm text-slate-400">回顧我們是如何一步步完成這套高度自動化的雲端轉址網關系統：</p>
+                </div>
+                
+                <div class="relative border-l-2 border-slate-800 pl-6 ml-4 space-y-8 text-sm">
+                    <!-- Step 1 -->
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-neon-blue glow-blue"></div>
+                        <h3 class="font-bold text-slate-200 text-base">階段一：建立獨立閘道結構與下載 Caddy</h3>
+                        <p class="text-slate-400 mt-1">
+                            建立獨立的 <code class="text-slate-200 font-mono">caddy/</code> 目錄以利後續 Git 對應。AI 撰寫 Shell 腳本自動辨識 macOS 架構（Intel vs Apple Silicon），精準下載官方 Caddy 二進位檔。
+                        </p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-neon-indigo"></div>
+                        <h3 class="font-bold text-slate-200 text-base">階段二：架設 Python API 與 Flask 後台</h3>
+                        <p class="text-slate-400 mt-1">
+                            使用 Flask 3.1 實作輕量級管理伺服器。定義 <code class="text-slate-200 font-mono">rules.json</code> 結構化儲存，並在此階段將原訂 Port 8010 更改為 8088，成功排除本地衝突。
+                        </p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-neon-emerald"></div>
+                        <h3 class="font-bold text-slate-200 text-base">階段三：介面優化與 macOS launchd 常駐自啟</h3>
+                        <p class="text-slate-400 mt-1">
+                            實作 Glassmorphism 毛玻璃暗黑風管理面板。優化轉址路徑點擊跳轉與「一鍵複製公網網址」按鈕，並編寫 macOS <code class="text-slate-200 font-mono">launchd</code> plist，實現開機免開終端機自動背景運作。
+                        </p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-neon-pink"></div>
+                        <h3 class="font-bold text-slate-200 text-base">階段四：Cloudflare API 自動對接</h3>
+                        <p class="text-slate-400 mt-1">
+                            這也是最酷的自動化部分！我們整合專案的 SDK，撰寫腳本自動註冊 CNAME DNS 紀錄，並寫入 Tunnel 的遠端 Ingress 路由，徹底排除公網訪問的 404 故障，真正做到全自動化部署。
+                        </p>
+                    </div>
+                    <!-- Step 5 -->
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-neon-emerald"></div>
+                        <h3 class="font-bold text-slate-200 text-base">階段五：安全防護與訪問統計</h3>
+                        <p class="text-slate-400 mt-1">
+                            因應公網暴露需求，為後台加入 Basic Auth（帳密 falo / force）。同時讓 Caddy 輸出 JSON 格式日誌，後端解析生成實時連線統計，支援欄位排序、搜尋、CSV 匯出及清除紀錄。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 3: Pitfalls -->
+            <section id="tab-pitfalls" class="glass-card rounded-3xl p-8 space-y-6 hidden">
+                <div class="space-y-2">
+                    <h2 class="text-2xl font-bold font-outfit text-white">🛡️ AI 開發防踩坑守則 (防 Bug 聖經)</h2>
+                    <p class="text-sm text-slate-400">在開發這套網關的過程中，我們解決了數個底層硬體與服務溝通的經典 Bug，未來的開發者與 AI 應引以為戒：</p>
+                </div>
+                
+                <div class="space-y-4 text-sm">
+                    <div class="p-6 bg-dark-900/50 rounded-2xl border border-slate-800 space-y-2">
+                        <h3 class="text-base font-bold text-slate-200 flex items-center gap-2">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Bug 1：Python 啟動背景 Daemon 被 PIPE 阻塞 hang 死
+                        </h3>
+                        <p class="text-slate-400 leading-relaxed">
+                            <strong>現象</strong>：當使用 Python 的 <code class="text-slate-200 font-mono">subprocess.Popen</code> 啟動 Caddy 或 Tunnel 時，如果將 <code class="text-slate-200 font-mono">stdout/stderr</code> 設定為 <code class="text-slate-200 font-mono">subprocess.PIPE</code>，Python 會陷入無限期阻塞等待。<br>
+                            <strong>防踩坑解法</strong>：因為背景進程會一直運作，Pipe 的緩衝區滿了就會卡死。應該將輸出重定向至實體日誌檔案（如 <code class="text-slate-200 font-mono">open('caddy.log', 'w')</code>）或使用 <code class="text-slate-200 font-mono">DEVNULL</code>，不要用 PIPE！
+                        </p>
+                    </div>
+                    
+                    <div class="p-6 bg-dark-900/50 rounded-2xl border border-slate-800 space-y-2">
+                        <h3 class="text-base font-bold text-slate-200 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-nodes text-neon-blue"></i> Bug 2：Caddy 全域日誌與站台存取日誌 (Access Log) 區別
+                        </h3>
+                        <p class="text-slate-400 leading-relaxed">
+                            <strong>現象</strong>：在 Caddyfile 全域宣告了 `log` block 後，發現 `/test` 的存取紀錄依然沒有寫入 `caddy.log`。<br>
+                            <strong>防踩坑解法</strong>：Caddy 的全域 `log` 只記錄 Caddy 系統本身的啟動和錯誤。若要記錄網站的訪問日誌（用於解析連線紀錄），必須<strong>在網站區塊 (Site Block) 內部</strong>單獨再配置 `log` 指令。
+                        </p>
+                    </div>
+                    
+                    <div class="p-6 bg-dark-900/50 rounded-2xl border border-slate-800 space-y-2">
+                        <h3 class="text-base font-bold text-slate-200 flex items-center gap-2">
+                            <i class="fa-solid fa-shield text-neon-emerald"></i> Bug 3：macOS 系統 DNS 快取造成的 ERR_NAME_NOT_RESOLVED
+                        </h3>
+                        <p class="text-slate-400 leading-relaxed">
+                            <strong>現象</strong>：在 Cloudflare 註冊完 CNAME 後，Mac 用 `nslookup` 可以成功解析 IP，但瀏覽器和 `ping` 卻一直報 `ERR_NAME_NOT_RESOLVED` 錯誤。<br>
+                            <strong>防踩坑解法</strong>：這是 macOS 系統服務 `mDNSResponder` 快取了「未配置 DNS 時的失敗結果」（負向快取）。應手動在 Mac 終端機執行 <code class="text-slate-200 font-mono">sudo killall -HUP mDNSResponder</code> 清除快取，並打開 Chrome 無痕視窗測試。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 4: Prompts -->
+            <section id="tab-prompts" class="glass-card rounded-3xl p-8 space-y-6 hidden">
+                <div class="space-y-2">
+                    <h2 class="text-2xl font-bold font-outfit text-white">📋 精選實用 Prompt 範本</h2>
+                    <p class="text-sm text-slate-400">您可以直接拷貝這些 Prompt 來訓練或命令其他 AI 助手：</p>
+                </div>
+                
+                <div class="space-y-4 text-xs font-mono">
+                    <div class="space-y-1">
+                        <p class="text-slate-400 font-sans text-xs">範本 A. 啟動專案前（鎖定「先討論」原則）：</p>
+                        <div class="bg-dark-950 p-4 rounded-xl border border-slate-800 flex justify-between items-start gap-4">
+                            <pre class="whitespace-pre-wrap flex-1 text-slate-300">我需要你在專案目錄下進行一項新功能的開發。但在你讀取完目錄檔案後，請遵守「先討論，不動手」的原則：
+1. 請先為我分析現有架構，並列出您計畫修改或新增哪些程式碼檔案。
+2. 列出可能產生的風險（如埠口衝突、進程阻塞）。
+3. 在我回覆「同意修改」之前，請不要對程式碼做任何實際的修改或寫入！</pre>
+                            <button onclick="copyCommand('我需要你在專案目錄下進行一項新功能的開發。但在你讀取完目錄檔案後，請遵守「先討論，不動手」的原則：\n1. 請先為我分析現有架構，並列出您計畫修改或新增哪些程式碼檔案。\n2. 列出可能產生的風險（如埠口衝突、進程阻塞）。\n3. 在我回覆「同意修改」之前，請不要對程式碼做任何實際的修改或寫入！')" class="text-slate-500 hover:text-white mt-1"><i class="fa-regular fa-copy text-sm"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <p class="text-slate-400 font-sans text-xs">範本 B. 指令生成 AI 讀取清冊 (Manifest)：</p>
+                        <div class="bg-dark-950 p-4 rounded-xl border border-slate-800 flex justify-between items-start gap-4">
+                            <pre class="whitespace-pre-wrap flex-1 text-slate-300">請幫我整理目前為止我們所有修改過的程式檔案、系統連接埠、控制流邏輯以及踩坑點。
+請將這些內容輸出為一個名為 PROJECT_SUMMARY.md 的 Markdown 檔案，以方便未來的 AI 助手讀取後能立即融入開發。請確保內容結構清晰，並在結尾署名 Falo x Force Cheng 2026/6/28。</pre>
+                            <button onclick="copyCommand('請幫我整理目前為止我們所有修改過的程式檔案、系統連接埠、控制流邏輯以及踩坑點。\n請將這些內容輸出為一個名為 PROJECT_SUMMARY.md 的 Markdown 檔案，以方便未來的 AI 助手讀取後能立即融入開發。請確保內容結構清晰，並在結尾署名 Falo x Force Cheng 2026/6/28。')" class="text-slate-500 hover:text-white mt-1"><i class="fa-regular fa-copy text-sm"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer Signature -->
+        <footer class="glass-card rounded-3xl p-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500 relative overflow-hidden">
+            <div>
+                <p>AI Pair-Programming Guide designed for future engineering training.</p>
+            </div>
+            <div class="flex items-center gap-2 text-slate-300 font-outfit text-sm font-semibold bg-dark-900 px-4 py-2 rounded-xl border border-slate-800">
+                <i class="fa-solid fa-pen-nib text-neon-emerald"></i>
+                Falo x Force Cheng <span class="text-slate-500 font-normal">2026/6/28</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Notification system -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 pointer-events-none"></div>
+
+    <script>
+        function switchTab(tabId) {
+            const tabs = ['tab-philosophy', 'tab-case', 'tab-pitfalls', 'tab-prompts'];
+            tabs.forEach(id => {
+                const el = document.getElementById(id);
+                const btn = document.getElementById('btn-' + id.replace('tab-', ''));
+                if (id === tabId) {
+                    el.classList.remove('hidden');
+                    btn.className = "flex-1 py-3 px-4 text-sm font-semibold rounded-xl transition-all bg-neon-blue/10 text-neon-blue border border-neon-blue/20";
+                } else {
+                    el.classList.add('hidden');
+                    btn.className = "flex-1 py-3 px-4 text-sm font-semibold rounded-xl transition-all text-slate-400 hover:text-white";
+                }
+            });
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = "p-4 rounded-xl bg-slate-900 border border-neon-blue/30 text-neon-blue font-medium text-xs shadow-2xl transition-all duration-300 translate-y-4 opacity-0";
+            toast.innerHTML = `<i class="fa-solid fa-check-circle mr-2"></i> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-4', 'opacity-0');
+                toast.remove();
+            }, 2500);
+        }
+
+        function copyCommand(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("文字已成功複製到剪貼簿！");
+            }).catch(() => {
+                showToast("複製失敗，請手動複製");
+            });
+        }
+    </script>
+</body>
+</html>

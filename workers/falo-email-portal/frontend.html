@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FALO Edge Email Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #0f172a 100%);
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Outfit', sans-serif;
+    }
+    .glass {
+      background: rgba(30, 41, 59, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-input {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+      transition: all 0.3s ease;
+    }
+    .glass-input:focus {
+      border-color: #818cf8;
+      box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.2);
+      outline: none;
+    }
+    .animate-glow {
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+    }
+  </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+  <!-- Main Container -->
+  <main class="flex-grow flex items-center justify-center p-4">
+    
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" class="w-full max-w-md glass p-8 rounded-2xl shadow-2xl animate-glow transition-all duration-500 transform scale-100">
+      <div class="text-center mb-8">
+        <div class="inline-block bg-gradient-to-tr from-indigo-500 to-purple-500 p-3 rounded-2xl mb-4">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l8-5.333a2 2 0 012.22 0l8 5.333A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76"></path>
+          </svg>
+        </div>
+        <h2 class="text-3xl font-extrabold tracking-tight text-white">FALO Edge Email</h2>
+        <p class="text-slate-400 mt-1 text-sm">請使用您的帳密登入發信門戶</p>
+      </div>
+
+      <form id="login-form" class="space-y-5">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">使用者帳號</label>
+          <input type="text" id="login-user" required class="w-full px-4 py-3 rounded-xl glass-input" placeholder="請輸入帳號">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">密碼</label>
+          <input type="password" id="login-pass" required class="w-full px-4 py-3 rounded-xl glass-input" placeholder="請輸入密碼">
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-3.5 rounded-xl transition duration-300 transform active:scale-95 shadow-lg">
+          登入控制台
+        </button>
+      </form>
+    </div>
+
+    <!-- MAIN DASHBOARD (HIDDEN BY DEFAULT) -->
+    <div id="dashboard-screen" class="w-full max-w-4xl glass p-8 rounded-2xl shadow-2xl animate-glow transition-all duration-500 transform scale-95 opacity-0 hidden">
+      <!-- Dashboard Header -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-700/60 pb-5 mb-6">
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="bg-indigo-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Edge Portal</span>
+            <h2 class="text-2xl font-extrabold text-white tracking-tight">FALO 發信控制台</h2>
+          </div>
+          <p class="text-slate-400 text-xs mt-0.5">歡迎回來，使用者: <span id="logged-user-display" class="text-indigo-400 font-semibold"></span></p>
+        </div>
+        <button id="logout-btn" class="mt-3 sm:mt-0 px-4 py-2 border border-slate-600 hover:border-red-500 hover:bg-red-500/10 text-slate-300 hover:text-red-400 rounded-lg text-xs font-semibold transition duration-300">
+          安全登出
+        </button>
+      </div>
+
+      <!-- Navigation Tabs (Dynamic visible tabs) -->
+      <div id="navigation-tabs" class="flex space-x-1 bg-slate-800/60 p-1 rounded-xl mb-6">
+        <button id="tab-send" class="flex-1 py-2.5 rounded-lg text-xs font-bold transition duration-300 bg-indigo-600 text-white">
+          📧 寄送郵件
+        </button>
+        <button id="tab-contacts" class="flex-1 py-2.5 rounded-lg text-xs font-bold transition duration-300 text-slate-400 hover:text-white">
+          👥 聯絡人管理
+        </button>
+        <button id="tab-users" class="flex-1 py-2.5 rounded-lg text-xs font-bold transition duration-300 text-slate-400 hover:text-white hidden">
+          ⚙️ 帳號管理
+        </button>
+        <button id="tab-logs" class="flex-1 py-2.5 rounded-lg text-xs font-bold transition duration-300 text-slate-400 hover:text-white hidden">
+          📋 動作日誌 (Audit)
+        </button>
+      </div>
+
+      <!-- TAB 1: SEND EMAIL PANEL -->
+      <div id="panel-send" class="space-y-5">
+        <form id="send-email-form" class="space-y-5">
+          <div class="grid md:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">發信角色 (From)</label>
+              <select id="email-from" class="w-full px-4 py-3 rounded-xl glass-input">
+                <option value="it@formosa-ai.com">it@formosa-ai.com (IT 資訊)</option>
+                <option value="ai@formosa-ai.com">ai@formosa-ai.com (AI 研發)</option>
+                <option value="fi@formosa-ai.com">fi@formosa-ai.com (FI 財務)</option>
+                <option value="translate@formosa-ai.com">translate@formosa-ai.com (翻譯模組)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">收件者 (To)</label>
+              <div class="flex gap-2">
+                <input type="text" id="email-to" required class="flex-grow px-4 py-3 rounded-xl glass-input" placeholder="請輸入收件者電子郵件，群發請用逗號隔開">
+                <select id="email-to-picker" class="w-48 px-3 py-3 rounded-xl glass-input text-xs">
+                  <option value="">👤 選擇聯絡人</option>
+                  <!-- Loaded dynamically -->
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">郵件主旨</label>
+            <input type="text" id="email-subject" required class="w-full px-4 py-3 rounded-xl glass-input" placeholder="請輸入郵件主題">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">郵件內容</label>
+            <textarea id="email-body" required rows="8" class="w-full px-4 py-3 rounded-xl glass-input font-mono text-sm" placeholder="請輸入郵件本文... 支持純文字或 HTML 代碼格式"></textarea>
+          </div>
+
+          <button type="submit" id="send-btn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-3.5 rounded-xl transition duration-300 shadow-lg transform active:scale-95 flex justify-center items-center">
+            <span id="send-btn-text">🚀 發送郵件 (含 BCC 備份)</span>
+            <svg id="send-spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- TAB 2: USER MANAGEMENT PANEL (FOR ADMIN) -->
+      <div id="panel-users" class="space-y-6 hidden">
+        <!-- Add User Form -->
+        <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700/60">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">🆕 新增使用者</h3>
+          <form id="add-user-form" class="flex flex-col sm:flex-row gap-4">
+            <input type="text" id="new-username" required class="flex-1 px-4 py-2.5 rounded-lg glass-input text-xs" placeholder="輸入新帳號">
+            <input type="text" id="new-password" required class="flex-1 px-4 py-2.5 rounded-lg glass-input text-xs" placeholder="輸入密碼">
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-2.5 rounded-lg text-xs font-bold transition duration-300">
+              確認新增
+            </button>
+          </form>
+        </div>
+
+        <!-- Users List -->
+        <div>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">👥 目前使用者清單</h3>
+          <div class="overflow-x-auto rounded-xl border border-slate-700/60">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-700 text-xs font-semibold text-slate-400 uppercase">
+                  <th class="py-3 px-4">使用者帳號</th>
+                  <th class="py-3 px-4">角色權限</th>
+                  <th class="py-3 px-4 text-right">操作</th>
+                </tr>
+              </thead>
+              <tbody id="users-table-body" class="text-xs">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: AUDIT LOGS PANEL (FOR ADMIN) -->
+      <div id="panel-logs" class="space-y-6 hidden">
+        <div class="flex justify-between items-center">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-slate-200">📋 邊緣動作日誌</h3>
+          <button id="refresh-logs-btn" class="bg-indigo-600/20 border border-indigo-500/30 hover:bg-indigo-600/30 text-indigo-400 px-4 py-1.5 rounded-lg text-xs font-bold transition duration-300">
+            🔄 重新整理
+          </button>
+        </div>
+        <div class="overflow-x-auto max-h-[500px] overflow-y-auto rounded-xl border border-slate-700/60">
+          <table class="w-full text-left border-collapse">
+            <thead class="sticky top-0 bg-slate-900 z-10">
+              <tr class="border-b border-slate-700 text-xs font-semibold text-slate-400 uppercase">
+                <th class="py-3 px-4">時間 (台北時間)</th>
+                <th class="py-3 px-4">使用者</th>
+                <th class="py-3 px-4">動作類別</th>
+                <th class="py-3 px-4">來源 IP</th>
+                <th class="py-3 px-4">日誌細節</th>
+              </tr>
+            </thead>
+            <tbody id="logs-table-body" class="text-xs font-mono">
+              <!-- Loaded dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 4: CONTACTS MANAGEMENT PANEL (FOR ALL LOGGED-IN USERS) -->
+      <div id="panel-contacts" class="space-y-6 hidden">
+        <!-- Add Contact Form -->
+        <div class="bg-slate-800/40 p-6 rounded-xl border border-slate-700/60">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">🆕 新增聯絡人 (儲存於後端邊緣資料庫)</h3>
+          <form id="add-contact-form" class="grid sm:grid-cols-3 gap-4">
+            <input type="text" id="contact-name" required class="px-4 py-2.5 rounded-lg glass-input text-xs" placeholder="聯絡人姓名">
+            <input type="email" id="contact-email" required class="px-4 py-2.5 rounded-lg glass-input text-xs" placeholder="電子郵件 (Email)">
+            <input type="text" id="contact-remark" class="px-4 py-2.5 rounded-lg glass-input text-xs" placeholder="備註 (如：財務客戶、ERP 別名)">
+            <button type="submit" class="sm:col-span-3 bg-indigo-600 hover:bg-indigo-500 py-3 rounded-lg text-xs font-bold transition duration-300">
+              確認建立個人聯絡人
+            </button>
+          </form>
+        </div>
+
+        <!-- Contacts List -->
+        <div>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">👥 我的個人聯絡人清單</h3>
+          <div class="overflow-x-auto rounded-xl border border-slate-700/60 font-sans">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-700 text-xs font-semibold text-slate-400 uppercase">
+                  <th class="py-3 px-4">聯絡人姓名</th>
+                  <th class="py-3 px-4">電子郵件 (Email)</th>
+                  <th class="py-3 px-4">備註說明</th>
+                  <th class="py-3 px-4 text-right">操作</th>
+                </tr>
+              </thead>
+              <tbody id="contacts-table-body" class="text-xs">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed top-5 right-5 transform translate-x-72 transition-all duration-300 ease-out glass px-6 py-4 rounded-xl shadow-2xl flex items-center space-x-3 z-50 pointer-events-none opacity-0">
+    <div id="toast-icon-box" class="p-1.5 rounded-lg">
+      <!-- Dynamic SVG -->
+    </div>
+    <div>
+      <h4 id="toast-title" class="font-bold text-sm text-white"></h4>
+      <p id="toast-desc" class="text-xs text-slate-400 mt-0.5"></p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-slate-500 text-xs tracking-wider border-t border-slate-800/40">
+    &copy; 2026 FALO Edge Platforms. All rights reserved. Powered by Cloudflare Workers.
+  </footer>
+
+  <!-- Frontend JS logic -->
+  <script>
+    let sessionToken = null;
+    let loggedUser = null;
+    let usersList = [];
+    let logsList = [];
+    let contactsList = [];
+
+    // Helper: Show Toast Notification
+    function showToast(title, desc, type = 'success') {
+      const toast = document.getElementById('toast');
+      const iconBox = document.getElementById('toast-icon-box');
+      const toastTitle = document.getElementById('toast-title');
+      const toastDesc = document.getElementById('toast-desc');
+
+      toastTitle.innerText = title;
+      toastDesc.innerText = desc;
+
+      if (type === 'success') {
+        iconBox.className = "p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400";
+        iconBox.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+      } else {
+        iconBox.className = "p-1.5 rounded-lg bg-red-500/10 text-red-400";
+        iconBox.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+      }
+
+      toast.classList.remove('translate-x-72', 'opacity-0');
+      toast.classList.add('translate-x-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-x-0', 'opacity-100');
+        toast.classList.add('translate-x-72', 'opacity-0');
+      }, 3500);
+    }
+
+    // Toggle Screen Elements
+    function switchScreen(toDashboard = true) {
+      const login = document.getElementById('login-screen');
+      const dashboard = document.getElementById('dashboard-screen');
+
+      if (toDashboard) {
+        login.classList.add('scale-95', 'opacity-0', 'hidden');
+        dashboard.classList.remove('hidden');
+        setTimeout(() => {
+          dashboard.classList.remove('scale-95', 'opacity-0');
+          dashboard.classList.add('scale-100', 'opacity-100');
+        }, 50);
+      } else {
+        dashboard.classList.add('scale-95', 'opacity-0', 'hidden');
+        login.classList.remove('hidden');
+        setTimeout(() => {
+          login.classList.remove('scale-95', 'opacity-0');
+          login.classList.add('scale-100', 'opacity-100');
+        }, 50);
+      }
+    }
+
+    // Handle Login
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('login-user').value.trim();
+      const password = document.getElementById('login-pass').value;
+
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+        if (response.ok && data.success) {
+          sessionToken = data.token;
+          loggedUser = username;
+          
+          document.getElementById('logged-user-display').innerText = username;
+          
+          // Setup UI based on user role (force is super-user)
+          if (username === 'force') {
+            document.getElementById('tab-users').classList.remove('hidden');
+            document.getElementById('tab-logs').classList.remove('hidden');
+            loadUsers();
+          } else {
+            document.getElementById('tab-users').classList.add('hidden');
+            document.getElementById('tab-logs').classList.add('hidden');
+          }
+
+          // Preload personal contacts list for the sender picker
+          loadContactsDropdown();
+
+          showToast("登入成功", `歡迎登入，${username}`);
+          switchScreen(true);
+        } else {
+          showToast("登入失敗", data.message || "帳密不符合", "error");
+        }
+      } catch (err) {
+        showToast("錯誤", "連線失敗，請檢查網路", "error");
+      }
+    });
+
+    // Handle Logout
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      sessionToken = null;
+      loggedUser = null;
+      document.getElementById('login-form').reset();
+      switchScreen(false);
+      showToast("安全登出", "您已安全登出系統");
+    });
+
+    // Tab Switching
+    document.getElementById('tab-send').addEventListener('click', () => {
+      setTabActive('tab-send');
+      showPanel('panel-send');
+      loadContactsDropdown(); // Refresh dropdown picker
+    });
+
+    document.getElementById('tab-contacts').addEventListener('click', () => {
+      setTabActive('tab-contacts');
+      showPanel('panel-contacts');
+      loadContacts();
+    });
+
+    document.getElementById('tab-users').addEventListener('click', () => {
+      setTabActive('tab-users');
+      showPanel('panel-users');
+      loadUsers();
+    });
+
+    document.getElementById('tab-logs').addEventListener('click', () => {
+      setTabActive('tab-logs');
+      showPanel('panel-logs');
+      loadLogs();
+    });
+
+    function setTabActive(activeTabId) {
+      const tabs = ['tab-send', 'tab-contacts', 'tab-users', 'tab-logs'];
+      tabs.forEach(tabId => {
+        const tab = document.getElementById(tabId);
+        if (tabId === activeTabId) {
+          tab.className = "flex-1 py-2.5 rounded-lg text-xs font-bold transition duration-300 bg-indigo-600 text-white";
+        } else {
+          tab.className = "flex-1 py-2.5 rounded-lg text-xs font-bold transition duration-300 text-slate-400 hover:text-white";
+        }
+      });
+    }
+
+    function showPanel(activePanelId) {
+      const panels = ['panel-send', 'panel-contacts', 'panel-users', 'panel-logs'];
+      panels.forEach(panelId => {
+        const panel = document.getElementById(panelId);
+        if (panelId === activePanelId) {
+          panel.classList.remove('hidden');
+        } else {
+          panel.classList.add('hidden');
+        }
+      });
+    }
+
+    // Contact Picker Trigger (Auto-fills the Recipient input field)
+    document.getElementById('email-to-picker').addEventListener('change', function() {
+      if (this.value) {
+        document.getElementById('email-to').value = this.value;
+      }
+    });
+
+    // Handle Send Email
+    document.getElementById('send-email-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const sendBtn = document.getElementById('send-btn');
+      const btnText = document.getElementById('send-btn-text');
+      const spinner = document.getElementById('send-spinner');
+
+      const from = document.getElementById('email-from').value;
+      const to = document.getElementById('email-to').value.trim();
+      const subject = document.getElementById('email-subject').value.trim();
+      const body = document.getElementById('email-body').value;
+
+      // Lock buttons
+      sendBtn.disabled = true;
+      btnText.innerText = "發送中...";
+      spinner.classList.remove('hidden');
+
+      try {
+        const response = await fetch('/api/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionToken}`
+          },
+          body: JSON.stringify({ from, to, subject, body })
+        });
+
+        const data = await response.json();
+        if (response.ok && data.success) {
+          showToast("發信成功", "郵件已透過 Cloudflare Edge 成功送出！");
+          document.getElementById('send-email-form').reset();
+          document.getElementById('email-to-picker').value = "";
+        } else {
+          showToast("發信失敗", data.message || "發信過程發生錯誤", "error");
+        }
+      } catch (err) {
+        showToast("連線失敗", "發送時無法連線至 API 節點", "error");
+      } finally {
+        sendBtn.disabled = false;
+        btnText.innerText = "🚀 發送郵件 (含 BCC 備份)";
+        spinner.classList.add('hidden');
+      }
+    });
+
+    // Load Users (for force)
+    async function loadUsers() {
+      try {
+        const response = await fetch('/api/users', {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${sessionToken}` }
+        });
+        const data = await response.json();
+        if (response.ok && data.success) {
+          usersList = data.users;
+          renderUsersTable();
+        }
+      } catch (err) {
+        showToast("載入用戶失敗", "無法從資料庫獲取使用者清單", "error");
+      }
+    }
+
+    // Render Users Table
+    function renderUsersTable() {
+      const tbody = document.getElementById('users-table-body');
+      tbody.innerHTML = '';
+
+      usersList.forEach(user => {
+        const tr = document.createElement('tr');
+        tr.className = "border-b border-slate-800 hover:bg-slate-800/20 transition";
+        tr.innerHTML = `
+          <td class="py-4 px-4 font-mono font-medium">${user.username}</td>
+          <td class="py-4 px-4">
+            <span class="${user.username === 'force' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-slate-700/30 text-slate-300'} px-2 py-1 rounded text-[10px] font-bold">
+              ${user.username === 'force' ? 'SUPER ADMIN' : 'USER'}
+            </span>
+          </td>
+          <td class="py-4 px-4 text-right">
+            ${user.username === 'force' 
+              ? `<span class="text-slate-500 text-xs italic">不可刪除</span>`
+              : `<button onclick="deleteUser('${user.username}')" class="text-red-400 hover:text-red-300 font-bold transition">刪除</button>`
+            }
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Add User
+    document.getElementById('add-user-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('new-username').value.trim();
+      const password = document.getElementById('new-password').value;
+
+      try {
+        const response = await fetch('/api/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionToken}`
+          },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+        if (response.ok && data.success) {
+          showToast("新增成功", `已成功建立帳號: ${username}`);
+          document.getElementById('add-user-form').reset();
+          loadUsers();
+        } else {
+          showToast("新增失敗", data.message || "建立用戶時出錯", "error");
+        }
+      } catch (err) {
+        showToast("錯誤", "無法連線至伺服器", "error");
+      }
+    });
+
+    // Delete User
+    async function deleteUser(username) {
+      if (!confirm(`確定要刪除使用者 ${username} 嗎？`)) return;
+
+      try {
+        const response = await fetch(`/api/users?username=${encodeURIComponent(username)}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${sessionToken}` }
+        });
+
+        const data = await response.json();
+        if (response.ok && data.success) {
+          showToast("刪除成功", `已刪除帳號: ${username}`);
+          loadUsers();
+        } else {
+          showToast("刪除失敗", data.message || "刪除時發生錯誤", "error");
+        }
+      } catch (err) {
+        showToast("錯誤", "無法連線至伺服器", "error");
+      }
+    }
+
+    // Load Audit Logs (for force)
+    async function loadLogs() {
+      const tbody = document.getElementById('logs-table-body');
+      tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-500">🔄 正在從 KV 邊緣載入最新審計日誌...</td></tr>`;
+
+      try {
+        const response = await fetch('/api/logs', {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${sessionToken}` }
+        });
+        const data = await response.json();
+        if (response.ok && data.success) {
+          logsList = data.logs;
+          renderLogsTable();
+        } else {
+          showToast("載入日誌失敗", data.message || "讀取失敗", "error");
+        }
+      } catch (err) {
+        showToast("錯誤", "連線失敗，無法取得日誌", "error");
+      }
+    }
+
+    // Refresh logs handler
+    document.getElementById('refresh-logs-btn').addEventListener('click', loadLogs);
+
+    // Format ISO String to Local Time (Asia/Taipei)
+    function formatTime(isoString) {
+      try {
+        const date = new Date(isoString);
+        return date.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false });
+      } catch {
+        return isoString;
+      }
+    }
+
+    // Action Badge Generator
+    function getActionBadge(action) {
+      let color = "bg-slate-700/30 text-slate-300";
+      if (action.includes("SUCCESS")) color = "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+      if (action.includes("FAILED") || action.includes("ERROR")) color = "bg-red-500/10 text-red-400 border border-red-500/20";
+      if (action === "SEND_EMAIL") color = "bg-sky-500/10 text-sky-400 border border-sky-500/20";
+      if (action.includes("USER")) color = "bg-amber-500/10 text-amber-400 border border-amber-500/20";
+      if (action.includes("CONTACT")) color = "bg-pink-500/10 text-pink-400 border border-pink-500/20";
+      return `<span class="${color} px-2 py-0.5 rounded text-[10px] font-bold">${action}</span>`;
+    }
+
+    // Render Logs Table
+    function renderLogsTable() {
+      const tbody = document.getElementById('logs-table-body');
+      tbody.innerHTML = '';
+
+      if (logsList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-500">📭 目前尚無動作審計日誌記錄</td></tr>`;
+        return;
+      }
+
+      logsList.forEach(log => {
+        const tr = document.createElement('tr');
+        tr.className = "border-b border-slate-800 hover:bg-slate-800/10 transition";
+        tr.innerHTML = `
+          <td class="py-3 px-4 text-slate-400 whitespace-nowrap">${formatTime(log.timestamp)}</td>
+          <td class="py-3 px-4 font-semibold text-indigo-400">${log.username}</td>
+          <td class="py-3 px-4">${getActionBadge(log.action)}</td>
+          <td class="py-3 px-4 text-slate-400">${log.ip}</td>
+          <td class="py-3 px-4 text-slate-200 font-sans max-w-xs truncate" title="${log.details}">${log.details}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Load Contacts Dropdown (For Send Panel)
+    async function loadContactsDropdown() {
+      const picker = document.getElementById('email-to-picker');
+      picker.innerHTML = `<option value="">👤 正在載入...</option>`;
+
+      try {
+        const response = await fetch('/api/contacts', {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${sessionToken}` }
+        });
+        const data = await response.json();
+        if (response.ok && data.success) {
+          contactsList = data.contacts;
+          
+          picker.innerHTML = `<option value="">👤 選擇常用聯絡人</option>`;
+          contactsList.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.email;
+            opt.innerText = `${c.name} (${c.email})`;
+            picker.appendChild(opt);
+          });
+        } else {
+          picker.innerHTML = `<option value="">👤 載入失敗</option>`;
+        }
+      } catch (err) {
+        picker.innerHTML = `<option value="">👤 連線失敗</option>`;
+      }
+    }
+
+    // Load Contacts Panel Table
+    async function loadContacts() {
+      const tbody = document.getElementById('contacts-table-body');
+      tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-slate-500 font-sans">🔄 正在從後端邊緣載入您的專屬聯絡人...</td></tr>`;
+
+      try {
+        const response = await fetch('/api/contacts', {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${sessionToken}` }
+        });
+        const data = await response.json();
+        if (response.ok && data.success) {
+          contactsList = data.contacts;
+          renderContactsTable();
+        } else {
+          showToast("載入聯絡人失敗", data.message || "載入失敗", "error");
+        }
+      } catch (err) {
+        showToast("錯誤", "連線失敗，無法載入聯絡人", "error");
+      }
+    }
+
+    // Render Contacts Table
+    function renderContactsTable() {
+      const tbody = document.getElementById('contacts-table-body');
+      tbody.innerHTML = '';
+
+      if (contactsList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-slate-500 font-sans">📭 目前尚無個人聯絡人，請在上方表單建立</td></tr>`;
+        return;
+      }
+
+      contactsList.forEach(c => {
+        const tr = document.createElement('tr');
+        tr.className = "border-b border-slate-800 hover:bg-slate-800/20 transition font-sans";
+        tr.innerHTML = `
+          <td class="py-4 px-4 text-slate-200 font-medium">${c.name}</td>
+          <td class="py-4 px-4 font-mono text-indigo-400">${c.email}</td>
+          <td class="py-4 px-4 text-slate-400 max-w-xs truncate" title="${c.remark || ''}">${c.remark || '<span class="text-slate-600 italic">無</span>'}</td>
+          <td class="py-4 px-4 text-right">
+            <button onclick="deleteContact('${c.email}')" class="text-red-400 hover:text-red-300 font-bold transition">刪除</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Add Contact
+    document.getElementById('add-contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('contact-name').value.trim();
+      const email = document.getElementById('contact-email').value.trim();
+      const remark = document.getElementById('contact-remark').value.trim();
+
+      try {
+        const response = await fetch('/api/contacts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionToken}`
+          },
+          body: JSON.stringify({ name, email, remark })
+        });
+
+        const data = await response.json();
+        if (response.ok && data.success) {
+          showToast("建立成功", `已成功儲存個人聯絡人: ${name}`);
+          document.getElementById('add-contact-form').reset();
+          loadContacts();
+        } else {
+          showToast("建立失敗", data.message || "建立時發生錯誤", "error");
+        }
+      } catch (err) {
+        showToast("錯誤", "無法連線至伺服器", "error");
+      }
+    });
+
+    // Delete Contact
+    async function deleteContact(email) {
+      if (!confirm(`確定要刪除聯絡人 ${email} 嗎？`)) return;
+
+      try {
+        const response = await fetch(`/api/contacts?email=${encodeURIComponent(email)}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${sessionToken}` }
+        });
+
+        const data = await response.json();
+        if (response.ok && data.success) {
+          showToast("刪除成功", `已移除個人聯絡人`);
+          loadContacts();
+        } else {
+          showToast("刪除失敗", data.message || "刪除時出錯", "error");
+        }
+      } catch (err) {
+        showToast("錯誤", "無法連線至伺服器", "error");
+      }
+    }
+  </script>
+</body>
+</html>

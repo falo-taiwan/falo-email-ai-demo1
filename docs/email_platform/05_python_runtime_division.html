@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 5: Python Runtime 與 Worker 職責邊界分析</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Microsoft JhengHei', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Highlight.js for code highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <!-- Mermaid.js for architecture diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    hljs.highlightAll();
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    pre {
+      background-color: #0f1420 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    code {
+      font-family: 'Fira Code', 'Courier New', Courier, monospace !important;
+    }
+    .mermaid {
+      background: #0f1420;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin: 1.5rem 0;
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+  
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen">
+
+  <!-- Header -->
+  
+  <header class="relative overflow-hidden py-10 border-b border-slate-800 bg-slate-900/40">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.1),transparent_40%)]"></div>
+    <div class="max-w-6xl mx-auto px-6 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <a href="README.html" class="inline-flex items-center gap-2 text-indigo-400 text-sm font-semibold hover:underline mb-2">
+          <i class="fa-solid fa-arrow-left"></i> 返回目錄總覽
+        </a>
+        <h1 class="text-3xl font-bold font-outfit text-slate-100">Module 5: Python Runtime 與 Worker 職責邊界分析</h1>
+      </div>
+      <div>
+        <a href="module_5_slides.html" class="inline-flex items-center gap-2 py-2.5 px-5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-sm font-semibold transition shadow-lg shadow-indigo-500/10">
+          <i class="fa-solid fa-person-chalkboard"></i> 開啟顧問投影片
+        </a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- Layout Grid -->
+  
+  <div class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <aside class="lg:col-span-3 lg:sticky lg:top-8 h-fit hidden lg:block">
+      <div class="glass-card rounded-2xl p-5">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 font-outfit mb-4">本章導覽 (TOC)</h2>
+        <nav class="space-y-1.5 flex flex-col border-l border-slate-800">
+          <a href="#1.-職責劃分總覽-boundary-map" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">1. 職責劃分總覽 (Boundary Map)</a>
+<a href="#2.-邊界決策矩陣-decision-matrix" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">2. 邊界決策矩陣 (Decision Matrix)</a>
+<a href="#3.-協作資料流最佳實踐-collaboration-flow" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">3. 協作資料流最佳實踐 (Collaboration Flow)</a>
+
+        </nav>
+      </div>
+    </aside>
+    <article class="lg:col-span-9 glass-card rounded-3xl p-8 md:p-10 min-w-0">
+      <p class="text-slate-300 leading-relaxed my-4">本模組深入探討在 FALO AI Email Platform 中，邊緣端的 Cloudflare Workers (JavaScript Runtime) 與本機/私有雲端的 Python Runtime 之間的最佳職責邊界與協作架構。</p>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="1.-職責劃分總覽-boundary-map" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>1. 職責劃分總覽 (Boundary Map)</h2>
+<p class="text-slate-300 leading-relaxed my-4">在 AI-Native 的架構設計中，<strong>「讓對的技術做對的事情」</strong>是系統效能與成本控制的關鍵。</p>
+<p class="text-slate-300 leading-relaxed my-4"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`<br>                         [ 📬 傳入郵件 ]<br>                                │<br>                                ▼<br>         ┌─────────────────────────────────────────────┐<br>         │       Cloudflare Workers (Edge Layer)       │<br>         │  - 0ms 冷啟動、全域負載平衡、輕量級標頭過濾  │<br>         └──────────────────────┬──────────────────────┘<br>                                │ (過濾後事件 / 附件存於 R2)<br>                                ▼<br>         ┌─────────────────────────────────────────────┐<br>         │         Python Runtime (Core Layer)         │<br>         │  - OCR (EasyOCR / Tesseract)、複雜 LLM RAG   │<br>         │  - 企業內網 ERP 寫入、長時任務 (Celery/Async)  │<br>         └─────────────────────────────────────────────┘<br><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`</p>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="2.-邊界決策矩陣-decision-matrix" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>2. 邊界決策矩陣 (Decision Matrix)</h2>
+<div class="overflow-x-auto rounded-xl border border-slate-800 my-8"><table class="min-w-full divide-y divide-slate-800"><th class="px-4 py-3 text-slate-200 font-semibold tracking-wider text-sm uppercase bg-slate-900 border-b border-slate-800 text-left">任務範疇</th><th class="px-4 py-3 text-slate-200 font-semibold tracking-wider text-sm uppercase bg-slate-900 border-b border-slate-800 text-center">邊緣 Worker (JS/V8)</th><th class="px-4 py-3 text-slate-200 font-semibold tracking-wider text-sm uppercase bg-slate-900 border-b border-slate-800 text-center">本地/雲端 Python Runtime</th><th class="px-4 py-3 text-slate-200 font-semibold tracking-wider text-sm uppercase bg-slate-900 border-b border-slate-800 text-left">決策原理與架構考量</th><tbody><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>網域路由與 MX 解析</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">✅ <strong>最適合</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">❌ 不適合</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">必須在 Cloudflare Edge 直接攔截 MX 郵件。</td></tr><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>發信人身分檢驗 (SPF/DKIM)</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">✅ <strong>最適合</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">⚠️ 可作為輔助</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">Workers 能在邊緣端快速讀取標頭，直接拒絕（<code class="px-1.5 py-0.5 rounded bg-slate-800 text-indigo-300 text-xs font-mono">message.reject()</code>）惡意或偽造的郵件，省去後端 Python 頻寬。</td></tr><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>輕量級過濾與分流</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">✅ <strong>最適合</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">❌ 不適合</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">根據收件地址（例如 <code class="px-1.5 py-0.5 rounded bg-slate-800 text-indigo-300 text-xs font-mono">ocr@</code> 與 <code class="px-1.5 py-0.5 rounded bg-slate-800 text-indigo-300 text-xs font-mono">translate@</code>）對事件進行初步導航，決定後端派發的 Queue 頻道。</td></tr><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>MIME 附件初步拆解與上傳</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">✅ <strong>適合</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">⚠️ 可選</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">Workers 在邊緣端將附件串流直接上傳至 <strong>Cloudflare R2</strong>，後端 Python 只需取得 R2 URL，降低 Webhook 傳輸體積。</td></tr><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>OCR 圖像文字辨識</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">❌ 不適合</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">✅ <strong>最適合</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">OCR（如 OpenCV、PaddleOCR 或 EasyOCR）需要高度依賴 C++ 底層庫、CUDA 顯示卡加速或重度 CPU 計算，Workers V8 沙盒無法執行此類重型庫。</td></tr><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>RAG 向量檢索與知識庫整合</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">❌ 不適合</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">✅ <strong>最適合</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">向量資料庫連線、Embedding 生成、知識庫檢索與 Context 拼接，在 Python 生態系中有成熟的 LangChain / LlamaIndex 支持，且記憶體消耗較大。</td></tr><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>企業內網系統寫入 (如舊 ERP)</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">❌ 不安全/受限</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">✅ <strong>最適合</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">許多企業 ERP 部署在內網（On-Premise），透過 Cloudflare Tunnel 與 Python 接收端直連最為安全，Workers 無法直接連入企業私有網路。</td></tr><tr class="hover:bg-slate-900/30 transition"><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left"><strong>多 Agent 協作與長時工作流</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">❌ 易超時</td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-center">✅ <strong>最適合</strong></td><td class="px-4 py-3.5 border-b border-slate-800/60 text-slate-300 text-sm text-left">Workers 免費版限制 CPU Time 10ms，付費版最高 50ms。複雜 Agent 思考與長輪詢 Webhook 呼喚很容易被 Workers 強制中斷，必須交由 Python 異步任務處理。</td></tr></tbody></table></div>
+---
+<h2 id="3.-協作資料流最佳實踐-collaboration-flow" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>3. 協作資料流最佳實踐 (Collaboration Flow)</h2>
+<p class="text-slate-300 leading-relaxed my-4">我們以 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">invoice@formosa-ai.com</code> 解析發票並寫入 ERP 為例，展示兩者的高效協作方式：</p>
+<p class="text-slate-300 leading-relaxed my-4"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`<br>[寄件者] ──> (發送郵件含發票 PDF)<br>                │<br>                ▼<br>      [ Cloudflare Worker ]<br>                │<br>                ├── 1. 檢查 SPF/DKIM (拒絕非法來源)<br>                ├── 2. 解析 MIME 提取 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">invoice.pdf</code><br>                ├── 3. 將 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">invoice.pdf</code> 寫入 R2 桶子 (<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">r2://invoices/xyz.pdf</code>)<br>                └── 4. 發送 JSON Webhook 予 Python 端 (僅傳送元數據與 R2 連結)<br>                        │<br>                        ▼ (透過 Cloudflare Tunnel 進內網)<br>              [ Python Runtime ]<br>                        │<br>                        ├── 1. 從 R2 下載該 PDF（極速，免去大檔傳輸負擔）<br>                        ├── 2. 呼叫 OCR Engine 辨識發票影像<br>                        ├── 3. LLM Agent 進行欄位結構化與檢核<br>                        ├── 4. 寫入企業內部 ERP 中介表<br>                        └── 5. 呼叫 LINE API 發送成功通知給財務主管<br><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`<br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>優勢</strong>：</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>極致省錢與省時</strong>：大檔案附件不經過 API Gateway 的 HTTP Payload 傳輸，而是利用 Cloudflare R2（免傳出費用且全球 Edge 儲存極快）做中轉。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>高安全性</strong>：Python 端不對公網暴露任何 Port，全部隱藏在 Cloudflare Tunnel 後方，僅接收來自 Workers 簽章驗證過的 Webhook。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>高彈性</strong>：邊緣 Worker 永遠處於在線狀態（0ms 冷啟動），Python Runtime 即使因本地停電或重啟短暫離線，郵件也會在 Cloudflare 隊列中自動重試，不會丟失事件。</li></p>
+    </article>
+  </div>
+
+
+  <!-- Footer -->
+  
+  <footer class="border-t border-slate-800 mt-20 py-8 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>© 2026 FALO AI Edge Platform. All rights reserved.</div>
+      <div class="flex gap-4">
+        <a href="README.html" class="hover:text-slate-400">目錄總覽</a>
+        <a href="#" class="hover:text-slate-400">Security SOP</a>
+        <a href="#" class="hover:text-slate-400">Docs</a>
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+</html>

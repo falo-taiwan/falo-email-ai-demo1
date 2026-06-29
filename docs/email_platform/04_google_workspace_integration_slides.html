@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>Module 4: Google Workspace 知識層整合研究 - 投影片簡報</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+  <style>
+    .reveal {
+      background: radial-gradient(circle at center, #0b0f19 0%, #020617 100%) !important;
+    }
+    .slide-gradient {
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .glass-box {
+      background: rgba(30, 41, 59, 0.4);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    pre {
+      background-color: #0f1420 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Back button to return to reading HTML -->
+  <div class="fixed top-4 left-4 z-50">
+    <a href="module_4.html" class="inline-flex items-center gap-2 py-1.5 px-3 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 text-xs font-semibold text-indigo-400 transition border border-slate-700/50 backdrop-blur-sm">
+      <i class="fa-solid fa-file-lines"></i> 切換為閱讀模式
+    </a>
+  </div>
+
+  <div class="reveal">
+    <div class="slides text-slate-200">
+      
+      <!-- Cover Slide -->
+      <section class="text-left px-12">
+        <div class="text-indigo-400 font-semibold uppercase tracking-wider mb-2 font-mono text-xl">
+          <i class="fa-solid fa-graduation-cap mr-2"></i> FALO AI Email Platform
+        </div>
+        <h1 class="text-5xl font-extrabold mb-6 leading-tight slide-gradient">Module 4: Google Workspace 知識層整合研究</h1>
+        <p class="text-2xl text-slate-400 mb-8 max-w-2xl leading-relaxed">本模組探討 Google Workspace（Gmail、Drive、Docs、Sheets、NotebookLM、GAS）如何作為 FALO AI Email Platform 的 **Knowledge Layer (知識層)** 與數據協作中樞，提供 AI 代理人讀取與寫入結構化企業知識的能力。</p>
+        <div class="text-slate-500 font-mono text-lg">AI 顧問培訓教材 | Falo x Force Cheng</div>
+      </section>
+    
+      <!-- Slide: 1. Google Workspace 在 FALO 平台中的定位 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">1. Google Workspace 在 FALO 平台中的定位</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">Google Workspace 不僅是辦公工具，更是企業最豐富的「非結構化知識庫」。在 FALO 的三維一體架構中，它是 Edge Platform 與 Python Runtime 的核心協作夥伴：</p>
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm"></code>`<br>[ Cloudflare Edge ] ──(事件觸發)──> [ FALO Python Runtime ]<br>                                            │<br>                   ┌────────────────────────┴────────────────────────┐<br>                   ▼ (寫入/結構化)                                     ▼ (讀取/知識庫)<br>     [ Google Sheets / Docs / Gmail ]                 [ Google Drive / NotebookLM ]<br>      (報表追蹤、客製草稿、工作流狀態)                       (企業規章、SOP、產品手冊、RAG)<br><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm"></code>`</p>
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3">---</p>
+        </div>
+      </section>
+        
+      <!-- Slide: 2. 各元件整合深度解析 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">2. 各元件整合深度解析</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          
+        </div>
+      </section>
+        
+      <!-- Slide: # 1. Google Drive & NotebookLM：動態知識檢索 (RAG) -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># 1. Google Drive & NotebookLM：動態知識檢索 (RAG)</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">定位</strong>：企業的 <strong class="text-indigo-300 font-bold">Knowledge Base (知識庫)</strong>。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">整合機制</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">Google Drive API</strong>：Python Runtime 定時或在事件觸發時，透過 Service Account 存取指定 Drive 資料夾，下載 PDF、Docx 檔案，並進行切片（Chunking）與向量化，存入 FALO 向量資料庫中。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">NotebookLM 協同</strong>：NotebookLM 具備極強的文件理解能力。雖然 NotebookLM 目前主要為 UI 導向，但企業可將 Google Drive 的某個資料夾（例如 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">FALO-AI-KM-Source</code>）作為 NotebookLM 的唯一來源來源。AI 代理人則透過 Google Drive API 動態更新該資料夾內的文件，使 NotebookLM 的知識庫自動保持最新狀態。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">應用場景</strong>：<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">km@</code> 或 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">support@</code> 收件後，AI 代理人透過 RAG 檢索 Google Drive 中最新的「產品退換貨 SOP」，確保生成的回信內容 100% 符合最新規範。</li>
+        </div>
+      </section>
+        
+      <!-- Slide: # 2. Google Sheets：輕量級資料庫與工作流追蹤表 (Tracker) -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># 2. Google Sheets：輕量級資料庫與工作流追蹤表 (Tracker)</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">定位</strong>：HR 履歷篩選、客戶工單、核銷帳款的 <strong class="text-indigo-300 font-bold">輕量級資料庫 / 視覺化追蹤介面</strong>。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">整合機制</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">使用 Python 的 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">gspread</code> 庫或 Google API Client，將結構化事件寫入指定試算表。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">優勢</strong>：對非技術人員而言，Google Sheets 是最友善的儀表板。HR 可以直接在 Sheets 上勾選「同意面試」，該動作可觸發下一個 Webhook，讓 AI 發信給求職者。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">應用場景</strong>：<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">resume@</code> 解析出來的求職者姓名、學歷、技能與評分，會自動寫入 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">2026求職追蹤表.xlsx</code> 的新橫列。</li>
+        </div>
+      </section>
+        
+      <!-- Slide: # 3. Google Docs：複雜報告生成與範本控制 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># 3. Google Docs：複雜報告生成與範本控制</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">定位</strong>：<strong class="text-indigo-300 font-bold">長文檔與稽核報告存儲</strong>。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">整合機制</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">使用 Google Docs API，根據預設範本替換佔位符（Placeholders），例如 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">{CONTRACT_NAME}</code>、<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">{RISK_LEVEL}</code>、<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">{AUDIT_SUMMARY}</code>。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">應用場景</strong>：<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">audit@</code> 解析完一份合約後，AI 自動生成一份精緻的 Doc 稽核報告，並將其轉存成 PDF 格式，回寄給發件者。</li>
+        </div>
+      </section>
+        
+      <!-- Slide: # 4. Gmail API：草稿匣協作與無痛寄件 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># 4. Gmail API：草稿匣協作與無痛寄件</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">定位</strong>：<strong class="text-indigo-300 font-bold">人類審查（Human-in-the-Loop）的中介層</strong>。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">整合機制</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">AI 代理人不直接替使用者發送郵件，而是透過 Gmail API 在使用者的 Gmail 帳號下建立 <strong class="text-indigo-300 font-bold">Draft (草稿)</strong>。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">優勢</strong>：安全可控。使用者在 Gmail 網頁版點開「草稿匣」，檢查 AI 翻譯或寫好的回覆信件，確認無誤後點擊「傳送」。這既保留了使用者的發信身份，又避免了 AI 自主發信的失控風險。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">應用場景</strong>：<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">translate@</code> 或 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">support@</code> 自動產生的中英對照回信，會出現在寄件者的 Gmail 草稿中。</li>
+        </div>
+      </section>
+        
+      <!-- Slide: # 5. GAS (Google Apps Script)：邊緣自動化觸發器 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># 5. GAS (Google Apps Script)：邊緣自動化觸發器</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">定位</strong>：<strong class="text-indigo-300 font-bold">Google Workspace 內部的 Event Handler</strong>。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">整合機制</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">透過 GAS 寫作觸發器（例如 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">onEdit</code>、<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">onChange</code>），當 Sheets 中的資料被修改（如 HR 點選「錄取」）時，GAS 自動向 Cloudflare Edge 發送 HTTPS POST Webhook。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">優勢</strong>：不需維護專屬伺服器，直接在 Google 雲端運行，並可無縫調用 Google 內部服務（如 Calendar, MailApp）。</li>
+        </div>
+      </section>
+        
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      transition: 'fade'
+    });
+    hljs.highlightAll();
+  </script>
+</body>
+</html>

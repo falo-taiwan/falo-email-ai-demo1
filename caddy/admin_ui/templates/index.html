@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FALO Go - Caddy 轉址管理平台</title>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        dark: {
+                            900: '#030712',
+                            800: '#0b0f19',
+                            700: '#111827',
+                            600: '#1f2937',
+                        },
+                        neon: {
+                            blue: '#38bdf8',
+                            indigo: '#6366f1',
+                            pink: '#ec4899',
+                            emerald: '#10b981',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-card {
+            background: rgba(31, 41, 55, 0.35);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.15);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(3, 7, 18, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.6);
+        }
+        /* Glowing effects */
+        .glow-emerald {
+            box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.4);
+        }
+        .glow-red {
+            box-shadow: 0 0 20px -3px rgba(239, 68, 68, 0.4);
+        }
+        .glow-indigo {
+            box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.35);
+        }
+        /* Animate background grid */
+        .grid-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-slate-100 font-sans min-h-screen grid-bg relative overflow-x-hidden">
+
+    <!-- Top decorative light beams -->
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-neon-indigo/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute top-20 right-1/4 w-96 h-96 bg-neon-blue/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+        
+        <!-- Header -->
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-8 pb-6 border-b border-dark-600/30 gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-neon-indigo to-neon-blue flex items-center justify-center shadow-lg shadow-neon-indigo/35">
+                    <i class="fa-solid fa-square-share-nodes text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold font-outfit tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+                        FALO Go Gateway
+                    </h1>
+                    <p class="text-sm text-slate-400">Caddy 輕量級邊緣轉址與代理管理系統</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-xs bg-dark-800 text-slate-400 px-3  py-1.5 rounded-full border border-dark-600/50 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-neon-emerald animate-pulse"></span>
+                    Admin UI Online
+                </span>
+                <a href="http://go.formosa-ai.com:8080/caddy-health" target="_blank" class="text-xs hover:text-white bg-dark-700 hover:bg-dark-600 text-slate-300 px-3 py-1.5 rounded-full border border-dark-600/50 transition-all flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    go.formosa-ai.com
+                </a>
+            </div>
+        </header>
+
+        <!-- Status Dashboard -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <!-- Caddy Status Card -->
+            <div class="glass-card rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden group">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 tracking-wider uppercase mb-1">Caddy 服務狀態</p>
+                        <h3 class="text-2xl font-bold font-outfit" id="caddy-status-text">載入中...</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center bg-dark-700 border border-dark-600/50" id="status-icon-container">
+                        <i class="fa-solid fa-circle-notch animate-spin text-slate-400"></i>
+                    </div>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button onclick="startCaddy()" id="btn-start" class="flex-1 py-2 px-4 bg-gradient-to-r from-neon-emerald to-emerald-600 text-white font-medium text-sm rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-play"></i> 啟動
+                    </button>
+                    <button onclick="stopCaddy()" id="btn-stop" class="flex-1 py-2 px-4 bg-gradient-to-r from-red-500 to-red-700 text-white font-medium text-sm rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-stop"></i> 停止
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cloudflare Tunnel Status Card -->
+            <div class="glass-card rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden group">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 tracking-wider uppercase mb-1">Cloudflare Tunnel 狀態</p>
+                        <h3 class="text-2xl font-bold font-outfit" id="tunnel-status-text">載入中...</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center bg-dark-700 border border-dark-600/50" id="tunnel-icon-container">
+                        <i class="fa-solid fa-circle-notch animate-spin text-slate-400"></i>
+                    </div>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button onclick="startTunnel()" id="btn-tunnel-start" class="flex-1 py-2 px-4 bg-gradient-to-r from-neon-emerald to-emerald-600 text-white font-medium text-sm rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-play"></i> 啟動
+                    </button>
+                    <button onclick="stopTunnel()" id="btn-tunnel-stop" class="flex-1 py-2 px-4 bg-gradient-to-r from-red-500 to-red-700 text-white font-medium text-sm rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-stop"></i> 停止
+                    </button>
+                </div>
+            </div>
+
+            <!-- Rules Count Card -->
+            <div class="glass-card rounded-3xl p-6 flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 tracking-wider uppercase mb-1">轉址路由規則數</p>
+                        <h3 class="text-4xl font-extrabold font-outfit mt-1" id="rules-count">0</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-neon-indigo/10 border border-neon-indigo/20 flex items-center justify-center text-neon-indigo">
+                        <i class="fa-solid fa-route"></i>
+                    </div>
+                </div>
+                <div class="text-xs text-slate-400 mt-2 flex items-center gap-1">
+                    <i class="fa-solid fa-info-circle"></i> 
+                    規則修改後會即時進行 Caddyfile 熱重載 (Hot-Reload)
+                </div>
+            </div>
+
+            <!-- API Endpoint Info Card -->
+            <div class="glass-card rounded-3xl p-6 flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 tracking-wider uppercase mb-1">對接連接埠資訊</p>
+                        <div class="mt-2 space-y-1">
+                            <p class="text-xs flex justify-between gap-4"><span class="text-slate-500">Admin UI Port:</span> <span class="font-mono text-neon-blue">8088 (HTTP)</span></p>
+                            <p class="text-xs flex justify-between gap-4"><span class="text-slate-500">Caddy Gate Port:</span> <span class="font-mono text-neon-indigo">8080 (HTTP)</span></p>
+                            <p class="text-xs flex justify-between gap-4"><span class="text-slate-500">Caddy API Port:</span> <span class="font-mono text-slate-300">2019 (HTTP)</span></p>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-neon-blue/10 border border-neon-blue/20 flex items-center justify-center text-neon-blue">
+                        <i class="fa-solid fa-server"></i>
+                    </div>
+                </div>
+                <div class="text-xs text-slate-400 mt-2 flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-neon-blue"></span>
+                    本機對外隧道綁定 go-admin.formosa-ai.com
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Configuration Area -->
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Rules Table Area -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="glass-panel rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-neon-indigo text-lg"></i>
+                            <h2 class="text-xl font-bold font-outfit">轉址與反向代理規則</h2>
+                        </div>
+                        <button onclick="openRuleModal()" class="py-1.5 px-4 bg-gradient-to-r from-neon-indigo to-neon-blue text-white font-medium text-sm rounded-xl hover:opacity-90 active:scale-[0.98] transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus text-xs"></i> 新增規則
+                        </button>
+                    </div>
+
+                    <!-- Rules List -->
+                    <div class="overflow-x-auto min-h-[200px]">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-dark-600/30 text-xs text-slate-400 tracking-wider">
+                                    <th class="py-3 px-4">來源路徑</th>
+                                    <th class="py-3 px-4">類型</th>
+                                    <th class="py-3 px-4">目標 (Target)</th>
+                                    <th class="py-3 px-4">說明</th>
+                                    <th class="py-3 px-4 text-right">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rules-tbody">
+                                <!-- Loading placeholder -->
+                                <tr>
+                                    <td colspan="5" class="py-8 text-center text-slate-500">
+                                        <i class="fa-solid fa-spinner animate-spin text-neon-indigo text-xl mb-2"></i>
+                                        <p>正在載入路由規則...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Connection Visit History Panel -->
+                <div class="glass-panel rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line text-neon-emerald text-lg"></i>
+                            <h2 class="text-xl font-bold font-outfit">連線訪問紀錄</h2>
+                        </div>
+                        <div class="flex items-center gap-2 flex-wrap w-full sm:w-auto">
+                            <!-- Search -->
+                            <div class="relative flex-1 sm:flex-none">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-500"></i>
+                                <input type="text" id="visit-search" oninput="filterVisits()" placeholder="搜尋紀錄..." class="w-full sm:w-48 pl-8 pr-3 py-1.5 bg-dark-800 border border-dark-600/50 rounded-xl text-xs focus:outline-none focus:border-neon-emerald text-slate-300">
+                            </div>
+                            <!-- Export CSV -->
+                            <a href="/api/visits/export" class="py-1.5 px-3 bg-dark-700 hover:bg-dark-600 text-slate-200 hover:text-white border border-dark-600/50 text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5">
+                                <i class="fa-solid fa-file-export text-[10px]"></i> 匯出 CSV
+                            </a>
+                            <!-- Clear Logs -->
+                            <button onclick="clearVisits()" class="py-1.5 px-3 bg-red-950/20 hover:bg-red-900/30 text-red-400 border border-red-900/30 text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5">
+                                <i class="fa-solid fa-broom text-[10px]"></i> 清除紀錄
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Visits List -->
+                    <div class="overflow-x-auto max-h-[300px] overflow-y-auto pr-1">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-dark-600/30 text-xs text-slate-400 tracking-wider">
+                                    <th class="py-3 px-3 cursor-pointer hover:text-white select-none" onclick="sortVisits('timestamp')">
+                                        訪問時間 <i id="sort-icon-timestamp" class="fa-solid fa-sort-down ml-1 opacity-70"></i>
+                                    </th>
+                                    <th class="py-3 px-3 cursor-pointer hover:text-white select-none" onclick="sortVisits('client_ip')">
+                                        來源 IP <i id="sort-icon-client_ip" class="fa-solid fa-sort ml-1 opacity-40"></i>
+                                    </th>
+                                    <th class="py-3 px-3 cursor-pointer hover:text-white select-none" onclick="sortVisits('path')">
+                                        訪問路徑 <i id="sort-icon-path" class="fa-solid fa-sort ml-1 opacity-40"></i>
+                                    </th>
+                                    <th class="py-3 px-3 cursor-pointer hover:text-white select-none" onclick="sortVisits('status')">
+                                        狀態 <i id="sort-icon-status" class="fa-solid fa-sort ml-1 opacity-40"></i>
+                                    </th>
+                                    <th class="py-3 px-3">轉址目標</th>
+                                </tr>
+                            </thead>
+                            <tbody id="visits-tbody">
+                                <tr>
+                                    <td colspan="5" class="py-8 text-center text-slate-500 text-sm">
+                                        <i class="fa-solid fa-spinner animate-spin text-neon-emerald text-xl mb-2"></i>
+                                        <p>正在載入連線紀錄...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Log Panel -->
+                <div class="glass-panel rounded-3xl p-6 shadow-2xl">
+                    <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                        <div class="flex items-center gap-1.5 bg-dark-800 p-1 rounded-xl border border-dark-600/30">
+                            <button onclick="switchLogTab('caddy')" id="tab-log-caddy" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all bg-neon-indigo text-white shadow-lg shadow-neon-indigo/10 flex items-center gap-1">
+                                <i class="fa-solid fa-server"></i> Caddy 日誌
+                            </button>
+                            <button onclick="switchLogTab('tunnel')" id="tab-log-tunnel" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white flex items-center gap-1">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Tunnel 日誌
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label class="text-xs text-slate-400 flex items-center gap-1 cursor-pointer">
+                                <input type="checkbox" id="auto-refresh-logs" checked class="rounded border-dark-600 bg-dark-800 text-neon-indigo focus:ring-0 focus:ring-offset-0">
+                                自動重整
+                            </label>
+                            <button onclick="fetchActiveLogs()" class="p-1.5 bg-dark-700 hover:bg-dark-600 text-slate-300 rounded-lg border border-dark-600/50 hover:text-white transition-all">
+                                <i class="fa-solid fa-rotate-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="logs-container" class="h-64 bg-dark-900/90 rounded-2xl p-4 border border-dark-600/50 font-mono text-xs text-slate-300 overflow-y-auto whitespace-pre-wrap">
+                        載入日誌中...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Caddyfile Preview Column -->
+            <div class="lg:col-span-1">
+                <div class="glass-panel rounded-3xl p-6 shadow-2xl h-full flex flex-col">
+                    <div class="flex items-center justify-between mb-4 pb-2 border-b border-dark-600/30">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-file-code text-amber-500 text-lg"></i>
+                            <h2 class="text-lg font-bold font-outfit">Caddyfile 即時預覽</h2>
+                        </div>
+                        <span class="text-[10px] bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded border border-amber-500/20 font-medium">Read-Only</span>
+                    </div>
+                    <div id="caddyfile-preview" class="flex-1 bg-dark-900/50 rounded-2xl p-4 border border-dark-600/50 font-mono text-[11px] text-slate-400 overflow-y-auto leading-relaxed h-[630px]">
+                        # 正在產生 Caddyfile...
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Add/Edit Rule Modal -->
+    <div id="rule-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark-950/80 backdrop-blur-sm hidden">
+        <div class="w-full max-w-lg glass-panel rounded-3xl shadow-2xl border border-dark-600/50 overflow-hidden animate-fadeIn">
+            <div class="p-6 border-b border-dark-600/30 flex justify-between items-center">
+                <h3 class="text-xl font-bold font-outfit flex items-center gap-2" id="modal-title">
+                    <i class="fa-solid fa-plus-circle text-neon-indigo"></i> 新增轉址規則
+                </h3>
+                <button onclick="closeRuleModal()" class="text-slate-400 hover:text-white transition-all">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="saveRule(event)" class="p-6 space-y-4">
+                <input type="hidden" id="rule-index">
+                
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 tracking-wider uppercase mb-1">類型</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="flex items-center justify-center gap-2 p-3 bg-dark-800 hover:bg-dark-700 border border-dark-600/50 rounded-xl cursor-pointer text-sm font-medium transition-all" id="label-proxy">
+                            <input type="radio" name="rule-type" value="proxy" checked onchange="onTypeChange()" class="sr-only">
+                            <i class="fa-solid fa-shuffle text-neon-blue"></i> Reverse Proxy
+                        </label>
+                        <label class="flex items-center justify-center gap-2 p-3 bg-dark-800 hover:bg-dark-700 border border-dark-600/50 rounded-xl cursor-pointer text-sm font-medium transition-all" id="label-redirect">
+                            <input type="radio" name="rule-type" value="redirect" onchange="onTypeChange()" class="sr-only">
+                            <i class="fa-solid fa-arrow-turn-right text-neon-pink"></i> HTTP 302 轉址
+                        </label>
+                        <label class="flex items-center justify-center gap-2 p-3 bg-dark-800 hover:bg-dark-700 border border-dark-600/50 rounded-xl cursor-pointer text-sm font-medium transition-all" id="label-static">
+                            <input type="radio" name="rule-type" value="static" onchange="onTypeChange()" class="sr-only">
+                            <i class="fa-solid fa-folder-open text-neon-emerald"></i> 本地空間
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="rule-path" class="block text-xs font-semibold text-slate-400 tracking-wider uppercase mb-1">來源路徑</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-2.5 text-xs text-slate-500 font-mono">go.formosa-ai.com</span>
+                        <input type="text" id="rule-path" required placeholder="/api" class="w-full pl-[150px] pr-4 py-2 bg-dark-800 border border-dark-600/50 rounded-xl text-sm focus:outline-none focus:border-neon-indigo font-mono text-white">
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-1" id="path-hint">
+                        例如 /api 會對應到 go.formosa-ai.com/api。底層會自動對接 /api/* 並將路徑首碼轉發。
+                    </p>
+                </div>
+
+                <div>
+                    <label for="rule-target" class="block text-xs font-semibold text-slate-400 tracking-wider uppercase mb-1" id="target-label">目標服務位址</label>
+                    <input type="text" id="rule-target" required placeholder="http://localhost:8100" class="w-full px-4 py-2 bg-dark-800 border border-dark-600/50 rounded-xl text-sm focus:outline-none focus:border-neon-indigo font-mono text-white">
+                    <p class="text-[10px] text-slate-500 mt-1" id="target-hint">
+                        請輸入本地運作中的 Port (例如 http://localhost:8100) 或外部 URL (例如 https://example.com)。
+                    </p>
+                </div>
+
+                <div>
+                    <label for="rule-desc" class="block text-xs font-semibold text-slate-400 tracking-wider uppercase mb-1">規則備註與說明</label>
+                    <input type="text" id="rule-desc" placeholder="e.g. 轉導本地 Python OCR 服務" class="w-full px-4 py-2 bg-dark-800 border border-dark-600/50 rounded-xl text-sm focus:outline-none focus:border-neon-indigo text-slate-300">
+                </div>
+
+                <div class="flex items-center gap-2 pt-2">
+                    <input type="checkbox" id="rule-active" checked class="rounded border-dark-600 bg-dark-800 text-neon-indigo focus:ring-0 focus:ring-offset-0">
+                    <label for="rule-active" class="text-xs text-slate-300 font-medium cursor-pointer">啟用此轉址規則</label>
+                </div>
+
+                <div class="flex gap-3 pt-4 border-t border-dark-600/30">
+                    <button type="button" onclick="closeRuleModal()" class="flex-1 py-2 bg-dark-700 hover:bg-dark-600 text-slate-300 hover:text-white font-medium text-sm rounded-xl transition-all border border-dark-600/50">
+                        取消
+                    </button>
+                    <button type="submit" class="flex-1 py-2 bg-gradient-to-r from-neon-indigo to-neon-blue text-white font-medium text-sm rounded-xl hover:opacity-90 active:scale-[0.98] transition-all">
+                        確認儲存
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification system -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 space-y-2 pointer-events-none"></div>
+
+    <script>
+        // Global variables
+        let allRules = [];
+        let allVisits = [];
+        let logInterval = null;
+        let activeLogTab = "caddy"; // "caddy" | "tunnel"
+        let visitSortKey = "timestamp";
+        let visitSortAsc = false;
+
+        // On Page Load
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchStatus();
+            fetchRules();
+            fetchVisits();
+            fetchActiveLogs();
+            
+            // Set intervals
+            setInterval(fetchStatus, 3000);
+            setInterval(fetchVisits, 3000); // 每 3 秒重整一次連線紀錄
+            
+            // Check auto refresh logs checkbox
+            logInterval = setInterval(() => {
+                if (document.getElementById('auto-refresh-logs').checked) {
+                    fetchActiveLogs();
+                }
+            }, 3000);
+        });
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `p-4 rounded-2xl glass-panel shadow-2xl flex items-center gap-3 border transition-all duration-300 translate-y-4 opacity-0 pointer-events-auto ${
+                type === 'success' ? 'border-neon-emerald/30 text-neon-emerald bg-emerald-950/20' : 'border-red-500/30 text-red-400 bg-red-950/20'
+            }`;
+            
+            const icon = type === 'success' ? 'fa-circle-check' : 'fa-triangle-exclamation';
+            toast.innerHTML = `
+                <i class="fa-solid ${icon} text-lg"></i>
+                <span class="text-sm font-medium text-slate-200">${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => {
+                toast.classList.remove('translate-y-4', 'opacity-0');
+            }, 10);
+            
+            // Auto remove
+            setTimeout(() => {
+                toast.classList.add('translate-y-4', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Copy text to clipboard with fallback
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("已複製公網網址到剪貼簿！");
+            }).catch(err => {
+                const textarea = document.createElement("textarea");
+                textarea.value = text;
+                textarea.style.position = "fixed";
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand("copy");
+                    showToast("已複製公網網址到剪貼簿！");
+                } catch (e) {
+                    showToast("複製失敗，請手動複製", "error");
+                }
+                document.body.removeChild(textarea);
+            });
+        }
+
+        // Fetch Caddy and Tunnel status
+        async function fetchStatus() {
+            // 1. Fetch Caddy Status
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+                
+                const textEl = document.getElementById('caddy-status-text');
+                const iconContainer = document.getElementById('status-icon-container');
+                const btnStart = document.getElementById('btn-start');
+                const btnStop = document.getElementById('btn-stop');
+                
+                if (data.status === 'running') {
+                    textEl.textContent = '運行中 (Running)';
+                    textEl.className = 'text-2xl font-bold font-outfit text-neon-emerald';
+                    iconContainer.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-neon-emerald/10 border border-neon-emerald/20 text-neon-emerald glow-emerald';
+                    iconContainer.innerHTML = '<i class="fa-solid fa-check text-sm"></i>';
+                    btnStart.disabled = true;
+                    btnStop.disabled = false;
+                } else {
+                    textEl.textContent = '已停止 (Stopped)';
+                    textEl.className = 'text-2xl font-bold font-outfit text-red-500';
+                    iconContainer.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-red-500/10 border border-red-500/20 text-red-500 glow-red';
+                    iconContainer.innerHTML = '<i class="fa-solid fa-power-off text-sm"></i>';
+                    btnStart.disabled = false;
+                    btnStop.disabled = true;
+                }
+                
+                document.getElementById('rules-count').textContent = data.rules_count;
+                
+            } catch (err) {
+                console.error("無法連接 Caddy API:", err);
+            }
+
+            // 2. Fetch Tunnel Status
+            try {
+                const response = await fetch('/api/tunnel/status');
+                const data = await response.json();
+                
+                const textEl = document.getElementById('tunnel-status-text');
+                const iconContainer = document.getElementById('tunnel-icon-container');
+                const btnStart = document.getElementById('btn-tunnel-start');
+                const btnStop = document.getElementById('btn-tunnel-stop');
+                
+                if (data.status === 'running') {
+                    textEl.textContent = '運行中 (Running)';
+                    textEl.className = 'text-2xl font-bold font-outfit text-neon-emerald';
+                    iconContainer.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-neon-emerald/10 border border-neon-emerald/20 text-neon-emerald glow-emerald';
+                    iconContainer.innerHTML = '<i class="fa-solid fa-check text-sm"></i>';
+                    btnStart.disabled = true;
+                    btnStop.disabled = false;
+                } else {
+                    textEl.textContent = '已停止 (Stopped)';
+                    textEl.className = 'text-2xl font-bold font-outfit text-red-500';
+                    iconContainer.className = 'w-10 h-10 rounded-full flex items-center justify-center bg-red-500/10 border border-red-500/20 text-red-500 glow-red';
+                    iconContainer.innerHTML = '<i class="fa-solid fa-power-off text-sm"></i>';
+                    btnStart.disabled = false;
+                    btnStop.disabled = true;
+                }
+            } catch (err) {
+                console.error("無法連接 Tunnel API:", err);
+            }
+        }
+
+        // Fetch redirection rules
+        async function fetchRules() {
+            try {
+                const response = await fetch('/api/rules');
+                allRules = await response.json();
+                renderRules();
+                renderCaddyfilePreview();
+            } catch (err) {
+                showToast("載入規則失敗，請確認伺服器連線", "error");
+            }
+        }
+
+        // Fetch Caddy visit history logs
+        async function fetchVisits() {
+            try {
+                const response = await fetch('/api/visits');
+                allVisits = await response.json();
+                renderVisits();
+            } catch (err) {
+                console.error("無法載入連線紀錄:", err);
+            }
+        }
+
+        // Render visits history to the table
+        function renderVisits() {
+            const tbody = document.getElementById('visits-tbody');
+            if (!tbody) return;
+            if (allVisits.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-8 text-center text-slate-500 text-xs">
+                            <i class="fa-solid fa-circle-info text-slate-600 text-lg mb-2 text-slate-400"></i>
+                            <p>目前尚無任何轉址連線訪問紀錄</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // 1. Filter visits based on search term
+            const query = document.getElementById('visit-search').value ? document.getElementById('visit-search').value.toLowerCase().trim() : "";
+            let filtered = allVisits.filter(v => {
+                return v.timestamp.toLowerCase().includes(query) ||
+                       v.client_ip.toLowerCase().includes(query) ||
+                       v.host.toLowerCase().includes(query) ||
+                       v.path.toLowerCase().includes(query) ||
+                       v.redirect_target.toLowerCase().includes(query);
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-8 text-center text-slate-500 text-xs">
+                            <i class="fa-solid fa-magnifying-glass text-slate-600 text-lg mb-2 text-slate-400"></i>
+                            <p>找不到符合的搜尋結果</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // 2. Sort visits based on sort key and order
+            filtered.sort((a, b) => {
+                let valA = a[visitSortKey];
+                let valB = b[visitSortKey];
+
+                if (visitSortKey === 'status') {
+                    valA = parseInt(valA) || 0;
+                    valB = parseInt(valB) || 0;
+                } else {
+                    valA = valA.toString().toLowerCase();
+                    valB = valB.toString().toLowerCase();
+                }
+
+                if (valA < valB) return visitSortAsc ? -1 : 1;
+                if (valA > valB) return visitSortAsc ? 1 : -1;
+                return 0;
+            });
+
+            // 3. Render rows
+            tbody.innerHTML = filtered.map(v => {
+                let statusBadge = '';
+                if (v.status >= 300 && v.status < 400) {
+                    statusBadge = `<span class="px-2 py-0.5 text-[10px] font-semibold bg-neon-indigo/10 border border-neon-indigo/30 text-neon-indigo rounded-full">${v.status} (轉址)</span>`;
+                } else if (v.status >= 200 && v.status < 300) {
+                    statusBadge = `<span class="px-2 py-0.5 text-[10px] font-semibold bg-neon-emerald/10 border border-neon-emerald/30 text-neon-emerald rounded-full">${v.status} (成功)</span>`;
+                } else {
+                    statusBadge = `<span class="px-2 py-0.5 text-[10px] font-semibold bg-red-500/10 border border-red-500/30 text-red-400 rounded-full">${v.status}</span>`;
+                }
+
+                // Make target copyable and clickable
+                const targetHtml = v.redirect_target 
+                    ? `<div class="flex items-center gap-1.5 max-w-[200px] sm:max-w-[300px]">
+                           <a href="${v.redirect_target}" target="_blank" class="truncate text-slate-300 hover:text-white underline text-xs transition-colors">${v.redirect_target}</a>
+                       </div>`
+                    : `<span class="text-slate-500 italic text-xs">無轉導 (健康檢查或靜態)</span>`;
+
+                return `
+                    <tr class="border-b border-dark-600/20 hover:bg-dark-800/20 transition-all text-xs text-slate-300">
+                        <td class="py-2.5 px-3 font-mono">${v.timestamp}</td>
+                        <td class="py-2.5 px-3 font-mono text-slate-400">${v.client_ip}</td>
+                        <td class="py-2.5 px-3 truncate max-w-[150px]" title="${v.host}${v.path}">
+                            <span class="text-slate-400 font-medium">${v.host}</span><span class="text-neon-blue font-mono font-semibold">${v.path}</span>
+                        </td>
+                        <td class="py-2.5 px-3">${statusBadge}</td>
+                        <td class="py-2.5 px-3">${targetHtml}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Search visits input trigger
+        function filterVisits() {
+            renderVisits();
+        }
+
+        // Header click sorting
+        function sortVisits(key) {
+            if (visitSortKey === key) {
+                visitSortAsc = !visitSortAsc;
+            } else {
+                visitSortKey = key;
+                visitSortAsc = true;
+            }
+
+            // Update header sorting icons
+            const keys = ['timestamp', 'client_ip', 'path', 'status'];
+            keys.forEach(k => {
+                const icon = document.getElementById(`sort-icon-${k}`);
+                if (!icon) return;
+                
+                if (k === visitSortKey) {
+                    icon.className = visitSortAsc ? "fa-solid fa-sort-up ml-1 opacity-100 text-neon-emerald" : "fa-solid fa-sort-down ml-1 opacity-100 text-neon-emerald";
+                } else {
+                    icon.className = "fa-solid fa-sort ml-1 opacity-40 text-slate-500";
+                }
+            });
+
+            renderVisits();
+        }
+
+        // Clear all visit logs
+        async function clearVisits() {
+            if (!confirm("⚠️ 確定要清除所有連線訪問紀錄嗎？此動作將會清空 caddy.log 檔案。")) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/visits/clear', { method: 'POST' });
+                const res = await response.json();
+                if (res.success) {
+                    showToast("訪問紀錄已成功清除！");
+                    allVisits = [];
+                    renderVisits();
+                } else {
+                    showToast(res.message, "error");
+                }
+            } catch (err) {
+                showToast("清除紀錄請求失敗", "error");
+            }
+        }
+
+        // Fetch logs depending on active tab
+        async function fetchActiveLogs() {
+            try {
+                const endpoint = activeLogTab === "caddy" ? '/api/logs' : '/api/tunnel/logs';
+                const response = await fetch(endpoint);
+                const data = await response.json();
+                const container = document.getElementById('logs-container');
+                
+                const isAtBottom = container.scrollHeight - container.clientHeight <= container.scrollTop + 50;
+                
+                container.textContent = data.logs;
+                
+                if (isAtBottom) {
+                    container.scrollTop = container.scrollHeight;
+                }
+            } catch (err) {
+                document.getElementById('logs-container').textContent = "無法取得日誌連線。";
+            }
+        }
+
+        // Switch log tabs
+        function switchLogTab(tab) {
+            if (activeLogTab === tab) return;
+            activeLogTab = tab;
+            
+            const btnCaddy = document.getElementById('tab-log-caddy');
+            const btnTunnel = document.getElementById('tab-log-tunnel');
+            
+            if (tab === 'caddy') {
+                btnCaddy.className = "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all bg-neon-indigo text-white shadow-lg shadow-neon-indigo/10 flex items-center gap-1";
+                btnTunnel.className = "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white flex items-center gap-1";
+            } else {
+                btnCaddy.className = "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white flex items-center gap-1";
+                btnTunnel.className = "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all bg-neon-indigo text-white shadow-lg shadow-neon-indigo/10 flex items-center gap-1";
+            }
+            
+            document.getElementById('logs-container').textContent = "切換日誌載入中...";
+            fetchActiveLogs();
+        }
+
+        // Render rules to the DOM table
+        function renderRules() {
+            const tbody = document.getElementById('rules-tbody');
+            if (allRules.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-12 text-center text-slate-500 text-sm">
+                            <i class="fa-solid fa-folder-open text-3xl text-slate-600 mb-2 block"></i>
+                            目前無自訂路由規則，請點擊「新增規則」開始建立。
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = allRules.map((rule, idx) => {
+                const path = rule.path.startsWith("/") ? rule.path : "/" + rule.path;
+                const localUrl = `http://localhost:8080${path}`;
+                const publicUrl = `https://go.formosa-ai.com${path}`;
+                const displayPath = rule.path.replace(/^\//, '');
+                return `
+                <tr class="border-b border-dark-600/20 text-sm hover:bg-dark-800/20 transition-all ${rule.active ? '' : 'opacity-50'}">
+                    <td class="py-4 px-4 font-mono font-medium text-slate-200">
+                        <div class="flex items-center gap-1.5">
+                            <a href="${localUrl}" target="_blank" class="hover:underline hover:text-neon-indigo transition-all flex items-center gap-1" title="點擊在本地 Port 8080 測試此路徑">
+                                <span class="text-xs text-slate-500 font-normal">go/</span>${displayPath}
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-slate-500 opacity-60"></i>
+                            </a>
+                            <button onclick="copyText('${publicUrl}')" class="p-1 hover:bg-dark-700 rounded text-slate-500 hover:text-neon-blue transition-all" title="複製公網網址 (${publicUrl})">
+                                <i class="fa-regular fa-copy text-[11px]"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td class="py-4 px-4">
+                        ${
+                            rule.type === 'proxy' 
+                            ? `<span class="text-[10px] px-2 py-0.5 bg-neon-blue/10 text-neon-blue border border-neon-blue/20 rounded font-semibold"><i class="fa-solid fa-shuffle mr-1 text-[9px]"></i>Proxy</span>` 
+                            : rule.type === 'redirect'
+                            ? `<span class="text-[10px] px-2 py-0.5 bg-neon-pink/10 text-neon-pink border border-neon-pink/20 rounded font-semibold"><i class="fa-solid fa-arrow-turn-right mr-1 text-[9px]"></i>Redirect</span>`
+                            : `<span class="text-[10px] px-2 py-0.5 bg-neon-emerald/10 text-neon-emerald border border-neon-emerald/20 rounded font-semibold"><i class="fa-solid fa-folder-open mr-1 text-[9px]"></i>Static</span>`
+                        }
+                    </td>
+                    <td class="py-4 px-4 font-mono text-slate-400 text-xs truncate max-w-[200px]" title="${rule.target}">
+                        ${rule.target}
+                    </td>
+                    <td class="py-4 px-4 text-slate-400 text-xs max-w-[150px] truncate" title="${rule.description || '-'}">
+                        ${rule.description || '<span class="text-slate-600 italic">無</span>'}
+                    </td>
+                    <td class="py-4 px-4 text-right">
+                        <div class="flex justify-end gap-1.5">
+                            <button onclick="toggleRuleActive(${idx})" class="p-1 text-slate-400 hover:text-white rounded transition-all" title="${rule.active ? '停用' : '啟用'}">
+                                <i class="fa-solid ${rule.active ? 'fa-toggle-on text-neon-emerald' : 'fa-toggle-off text-slate-600'} text-base"></i>
+                            </button>
+                            <button onclick="editRule(${idx})" class="p-1 text-slate-400 hover:text-neon-blue rounded transition-all" title="編輯">
+                                <i class="fa-solid fa-pen-to-square text-xs"></i>
+                            </button>
+                            <button onclick="deleteRule(${idx})" class="p-1 text-slate-400 hover:text-red-500 rounded transition-all" title="刪除">
+                                <i class="fa-solid fa-trash text-xs"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                `;
+            }).join('');
+        }
+
+        // Render Caddyfile live preview (Read-Only client simulation)
+        function renderCaddyfilePreview() {
+            const previewEl = document.getElementById('caddyfile-preview');
+            
+            let staticHeader = `{
+    # Caddy 管理 API，用於監控與動態載入
+    admin localhost:2019
+
+    # 輸出日誌到檔案 (JSON 格式以供管理端點解析)
+    log {
+        output file caddy.log
+        format json
+    }
+}
+
+# go.formosa-ai.com 的 Caddy 轉址服務 (預設監聽 8080 埠口)
+http://go.formosa-ai.com:8080, http://localhost:8080 {
+    
+    # 記錄存取日誌到 caddy.log 且為 JSON 格式
+    log {
+        output file caddy.log
+        format json
+    }
+    
+    # 健康檢查端點
+    respond /caddy-health "OK" 200
+
+    # [DYNAMIC_RULES_START]`;
+
+            let dynamicPart = "";
+            allRules.forEach(r => {
+                if (!r.active) return;
+                let path = r.path.startsWith("/") ? r.path : "/" + r.path;
+                dynamicPart += `\n    # ${r.description || '自訂規則'}\n`;
+                if (r.type === 'redirect') {
+                    dynamicPart += `    redir ${path} ${r.target} 302\n`;
+                } else if (r.type === 'proxy') {
+                    let cleanPath = path.endsWith("/") ? path : path + "/";
+                    dynamicPart += `    handle_path ${cleanPath}* {\n        reverse_proxy ${r.target}\n    }\n`;
+                } else if (r.type === 'static') {
+                    let cleanPath = path.endsWith("/") ? path : path + "/";
+                    if (path !== "/") {
+                        let basePath = path.replace(/\/$/, '');
+                        dynamicPart += `    redir ${basePath} ${basePath}/ 308\n`;
+                    }
+                    dynamicPart += `    handle_path ${cleanPath}* {\n        root * ${r.target}\n        file_server\n    }\n`;
+                }
+            });
+
+            let staticFooter = `\n    # [DYNAMIC_RULES_END]\n}`;
+            
+            previewEl.textContent = staticHeader + dynamicPart + staticFooter;
+        }
+
+        // Start/Stop Caddy Operations
+        async function startCaddy() {
+            try {
+                const response = await fetch('/api/start', { method: 'POST' });
+                const res = await response.json();
+                if (res.success) {
+                    showToast("Caddy 服務已啟動！");
+                    fetchStatus();
+                } else {
+                    showToast(res.message, "error");
+                }
+            } catch (err) {
+                showToast("啟動請求失敗，請稍後重試", "error");
+            }
+        }
+
+        async function stopCaddy() {
+            try {
+                const response = await fetch('/api/stop', { method: 'POST' });
+                const res = await response.json();
+                if (res.success) {
+                    showToast("Caddy 服務已停止！");
+                    fetchStatus();
+                } else {
+                    showToast(res.message, "error");
+                }
+            } catch (err) {
+                showToast("停止請求失敗，請稍後重試", "error");
+            }
+        }
+
+        // Start/Stop Tunnel Operations
+        async function startTunnel() {
+            try {
+                const response = await fetch('/api/tunnel/start', { method: 'POST' });
+                const res = await response.json();
+                if (res.success) {
+                    showToast("Cloudflare Tunnel 服務已啟動！");
+                    fetchStatus();
+                } else {
+                    showToast(res.message, "error");
+                }
+            } catch (err) {
+                showToast("啟動 Tunnel 請求失敗，請稍後重試", "error");
+            }
+        }
+
+        async function stopTunnel() {
+            try {
+                const response = await fetch('/api/tunnel/stop', { method: 'POST' });
+                const res = await response.json();
+                if (res.success) {
+                    showToast("Cloudflare Tunnel 服務已停止！");
+                    fetchStatus();
+                } else {
+                    showToast(res.message, "error");
+                }
+            } catch (err) {
+                showToast("停止 Tunnel 請求失敗，請稍後重試", "error");
+            }
+        }
+
+        // Toggle Rule active/inactive
+        async function toggleRuleActive(idx) {
+            allRules[idx].active = !allRules[idx].active;
+            await saveRulesToServer();
+        }
+
+        // Save rules array to python server
+        async function saveRulesToServer() {
+            try {
+                const response = await fetch('/api/rules', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(allRules)
+                });
+                const res = await response.json();
+                if (res.success) {
+                    showToast(res.message);
+                    fetchRules();
+                } else {
+                    showToast(res.message, "error");
+                }
+            } catch (err) {
+                showToast("儲存規則時與伺服器斷線", "error");
+            }
+        }
+
+        // Delete rule
+        async function deleteRule(idx) {
+            if (confirm(`確定要刪除此路由規則 go/...${allRules[idx].path} 嗎？`)) {
+                allRules.splice(idx, 1);
+                await saveRulesToServer();
+            }
+        }
+
+        // Modal Controls
+        function openRuleModal(isEdit = false) {
+            const modal = document.getElementById('rule-modal');
+            const title = document.getElementById('modal-title');
+            
+            if (!isEdit) {
+                title.innerHTML = '<i class="fa-solid fa-plus-circle text-neon-indigo"></i> 新增轉址規則';
+                document.getElementById('rule-index').value = '';
+                document.getElementById('rule-path').value = '';
+                document.getElementById('rule-target').value = '';
+                document.getElementById('rule-desc').value = '';
+                document.getElementById('rule-active').checked = true;
+                document.querySelector('input[name="rule-type"][value="proxy"]').checked = true;
+            }
+            
+            onTypeChange();
+            modal.classList.remove('hidden');
+        }
+
+        function closeRuleModal() {
+            document.getElementById('rule-modal').classList.add('hidden');
+        }
+
+        function onTypeChange() {
+            const rtype = document.querySelector('input[name="rule-type"]:checked').value;
+            const targetLabel = document.getElementById('target-label');
+            const targetInput = document.getElementById('rule-target');
+            const pathHint = document.getElementById('path-hint');
+            const targetHint = document.getElementById('target-hint');
+            
+            const labelProxy = document.getElementById('label-proxy');
+            const labelRedirect = document.getElementById('label-redirect');
+            const labelStatic = document.getElementById('label-static');
+
+            // 先重置成預設樣式
+            labelProxy.className = 'flex items-center justify-center gap-2 p-3 bg-dark-800 hover:bg-dark-700 border border-dark-600/50 rounded-xl cursor-pointer text-sm font-medium transition-all';
+            labelRedirect.className = 'flex items-center justify-center gap-2 p-3 bg-dark-800 hover:bg-dark-700 border border-dark-600/50 rounded-xl cursor-pointer text-sm font-medium transition-all';
+            labelStatic.className = 'flex items-center justify-center gap-2 p-3 bg-dark-800 hover:bg-dark-700 border border-dark-600/50 rounded-xl cursor-pointer text-sm font-medium transition-all';
+
+            if (rtype === 'proxy') {
+                targetLabel.textContent = '本地轉導 Port 位址 (Reverse Proxy Target)';
+                targetInput.placeholder = 'http://localhost:8100';
+                pathHint.innerHTML = `例如 <strong>/api</strong> 將匹配 go.formosa-ai.com/api/*。底層會自動消除前綴 /api，並將流量反向代理到本地 Port。`;
+                targetHint.textContent = '請輸入本地運作的服務位址（如 http://localhost:8100 或 http://127.0.0.1:8200）。';
+                labelProxy.className = 'flex items-center justify-center gap-2 p-3 bg-neon-blue/10 border border-neon-blue/40 rounded-xl cursor-pointer text-sm font-semibold text-neon-blue shadow-lg shadow-neon-blue/5 transition-all';
+            } else if (rtype === 'redirect') {
+                targetLabel.textContent = '外部重新導向網址 (Redirect Target URL)';
+                targetInput.placeholder = 'https://www.google.com';
+                pathHint.innerHTML = `例如 <strong>/g</strong> 將匹配 go.formosa-ai.com/g。任何連線會立即跳轉至目標 URL。`;
+                targetHint.textContent = '請輸入目標網址，必須包含協定（例如 https://www.google.com 或 https://example.com/some/path）。';
+                labelRedirect.className = 'flex items-center justify-center gap-2 p-3 bg-neon-pink/10 border border-neon-pink/40 rounded-xl cursor-pointer text-sm font-semibold text-neon-pink shadow-lg shadow-neon-pink/5 transition-all';
+            } else if (rtype === 'static') {
+                targetLabel.textContent = '本地實體目錄路徑 (Static Directory Path)';
+                targetInput.placeholder = '/Users/force/work-area';
+                pathHint.innerHTML = `例如 <strong>/works</strong> 將匹配 go.formosa-ai.com/works/，並讀取指定實體目錄下的 index.html。`;
+                targetHint.textContent = '請輸入 Mac 上的目錄絕對路徑（如 /Users/force/work-area 或波浪號開頭 ~/work-area）。';
+                labelStatic.className = 'flex items-center justify-center gap-2 p-3 bg-neon-emerald/10 border border-neon-emerald/40 rounded-xl cursor-pointer text-sm font-semibold text-neon-emerald shadow-lg shadow-neon-emerald/5 transition-all';
+            }
+        }
+
+        // Edit rule trigger
+        function editRule(idx) {
+            const rule = allRules[idx];
+            
+            document.getElementById('rule-index').value = idx;
+            document.getElementById('rule-path').value = rule.path;
+            document.getElementById('rule-target').value = rule.target;
+            document.getElementById('rule-desc').value = rule.description || '';
+            document.getElementById('rule-active').checked = rule.active;
+            
+            document.querySelector(`input[name="rule-type"][value="${rule.type}"]`).checked = true;
+            
+            openRuleModal(true);
+            const title = document.getElementById('modal-title');
+            title.innerHTML = '<i class="fa-solid fa-pen-to-square text-neon-blue"></i> 編輯轉址規則';
+        }
+
+        // Save rule (Form Submit)
+        async function saveRule(e) {
+            e.preventDefault();
+            
+            const idxStr = document.getElementById('rule-index').value;
+            const path = document.getElementById('rule-path').value.trim();
+            const target = document.getElementById('rule-target').value.trim();
+            const description = document.getElementById('rule-desc').value.trim();
+            const active = document.getElementById('rule-active').checked;
+            const type = document.querySelector('input[name="rule-type"]:checked').value;
+            
+            // Format validation
+            if (!path.startsWith('/')) {
+                showToast("路徑必須以 / 開頭，例如 /api", "error");
+                return;
+            }
+
+            if (type === 'redirect' && !target.startsWith('http://') && !target.startsWith('https://')) {
+                showToast("轉址目標必須包含 http:// 或 https://", "error");
+                return;
+            }
+
+            if (type === 'static') {
+                if (target.startsWith('http://') || target.startsWith('https://')) {
+                    showToast("本地目錄路徑不能是網址", "error");
+                    return;
+                }
+                if (!target.startsWith('/') && !target.startsWith('~/') && !target.startsWith('./')) {
+                    showToast("本地目錄路徑必須以 / 或 ~/ 或 ./ 開頭", "error");
+                    return;
+                }
+            }
+
+            const ruleData = { path, type, target, description, active };
+            
+            if (idxStr === '') {
+                // Check if path conflicts
+                const conflict = allRules.some(r => r.path === path);
+                if (conflict) {
+                    showToast(`路徑 ${path} 已存在，請使用編輯功能或修改路徑`, "error");
+                    return;
+                }
+                // Add new
+                allRules.push(ruleData);
+            } else {
+                // Update existing
+                const idx = parseInt(idxStr);
+                allRules[idx] = ruleData;
+            }
+            
+            closeRuleModal();
+            await saveRulesToServer();
+        }
+    </script>
+</body>
+</html>

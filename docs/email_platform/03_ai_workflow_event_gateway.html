@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 3: AI Workflow & Enterprise Event Gateway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Microsoft JhengHei', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Highlight.js for code highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <!-- Mermaid.js for architecture diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    hljs.highlightAll();
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    pre {
+      background-color: #0f1420 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    code {
+      font-family: 'Fira Code', 'Courier New', Courier, monospace !important;
+    }
+    .mermaid {
+      background: #0f1420;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin: 1.5rem 0;
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+  
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen">
+
+  <!-- Header -->
+  
+  <header class="relative overflow-hidden py-10 border-b border-slate-800 bg-slate-900/40">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.1),transparent_40%)]"></div>
+    <div class="max-w-6xl mx-auto px-6 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <a href="README.html" class="inline-flex items-center gap-2 text-indigo-400 text-sm font-semibold hover:underline mb-2">
+          <i class="fa-solid fa-arrow-left"></i> 返回目錄總覽
+        </a>
+        <h1 class="text-3xl font-bold font-outfit text-slate-100">Module 3: AI Workflow & Enterprise Event Gateway</h1>
+      </div>
+      <div>
+        <a href="module_3_slides.html" class="inline-flex items-center gap-2 py-2.5 px-5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-sm font-semibold transition shadow-lg shadow-indigo-500/10">
+          <i class="fa-solid fa-person-chalkboard"></i> 開啟顧問投影片
+        </a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- Layout Grid -->
+  
+  <div class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <aside class="lg:col-span-3 lg:sticky lg:top-8 h-fit hidden lg:block">
+      <div class="glass-card rounded-2xl p-5">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 font-outfit mb-4">本章導覽 (TOC)</h2>
+        <nav class="space-y-1.5 flex flex-col border-l border-slate-800">
+          <a href="#1.-統一事件模型-unified-falo-event-model" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">1. 統一事件模型 (Unified FALO Event Model)</a>
+<a href="#📋-falo-event-schema-json" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">📋 FALO Event Schema (JSON)</a>
+<a href="#2.-核心-ai-workflow-流程設計" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">2. 核心 AI Workflow 流程設計</a>
+<a href="#💼-六大-ai-工作流實踐路徑" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">💼 六大 AI 工作流實踐路徑</a>
+<a href="#3.-saas--erp-系統整合判斷與決策指引" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">3. SaaS / ERP 系統整合判斷與決策指引</a>
+<a href="#1.-api-原生系統-如-salesforce,-dynamics-365,-modern-saas-erp" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">1. API 原生系統 (如 Salesforce, Dynamics 365, Modern SaaS ERP)</a>
+<a href="#2.-傳統--封閉型-erp-系統-如傳統-on-premise-系統" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">2. 傳統 / 封閉型 ERP 系統 (如傳統 On-Premise 系統)</a>
+
+        </nav>
+      </div>
+    </aside>
+    <article class="lg:col-span-9 glass-card rounded-3xl p-8 md:p-10 min-w-0">
+      <p class="text-slate-300 leading-relaxed my-4">本模組探討如何將不同來源的通訊管道（Email, API, Webhook, LINE, File Upload）抽象化為統一的 <strong>FALO Event Model</strong>，並設計對接各類 SaaS / ERP 系統的 AI 自動化工作流。</p>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="1.-統一事件模型-unified-falo-event-model" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>1. 統一事件模型 (Unified FALO Event Model)</h2>
+<p class="text-slate-300 leading-relaxed my-4">為了讓後端的 Python AI Runtime 與 Workflow Engine 能夠以一致的方式處理各種不同來源的事件，我們必須將原始輸入（如 MIME 郵件、LINE Webhook、API 請求）包裝成統一的事件格式。</p>
+<h3 id="📋-falo-event-schema-json" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">📋 FALO Event Schema (JSON)</h3>
+<pre><code class="language-json">{
+  "eventId": "evt_9b1a2c3d4e5f6g7h8i9j",
+  "timestamp": "2026-06-29T11:08:19+08:00",
+  "source": "email", 
+  "sender": {
+    "id": "supplier@partner.com",
+    "name": "捷安特股份有限公司",
+    "ip": "203.0.113.5"
+  },
+  "recipient": {
+    "id": "invoice@formosa-ai.com",
+    "serviceName": "invoice_processing"
+  },
+  "payload": {
+    "subject": "請款單_2026年6月份_捷安特",
+    "bodyText": "陳小姐您好，這是本月份的請款單，再請協助安排付款，謝謝！",
+    "bodyHtml": "<div>...</div>",
+    "headers": {
+      "message-id": "<xyz123@giant.com>",
+      "spf": "pass",
+      "dkim": "pass"
+    },
+    "attachments": [
+      {
+        "filename": "giant_invoice_202606.pdf",
+        "mimeType": "application/pdf",
+        "sizeBytes": 1048576,
+        "storageUrl": "r2://attachments/giant_invoice_202606.pdf"
+      }
+    ]
+  },
+  "context": {
+    "traceId": "trace_cf_edge_001",
+    "retryCount": 0
+  }
+}</code></pre>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>統一性</strong>：無論是來自 LINE 的訊息（<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">source: "line"</code>）、來自網頁上傳的發票（<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">source: "web_upload"</code>）抑或 Email，其事件主體均遵循此 Schema。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>追蹤性</strong>：利用 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">traceId</code> 追蹤事件從邊緣進入、AI 處理、直到寫入 ERP 與發送 LINE 通知的整個生命週期。</li>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="2.-核心-ai-workflow-流程設計" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>2. 核心 AI Workflow 流程設計</h2>
+<p class="text-slate-300 leading-relaxed my-4">基於 FALO Event Model，我們設計了以下典型企業 AI 工作流（Workflows）：</p>
+<p class="text-slate-300 leading-relaxed my-4"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`<br>[ Email Event ] ──> [ Event Validator ] ──> [ AI Processor (LLM/OCR) ] ──> [ Enterprise Connector ] ──> [ System Log & Notification ]<br><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`</p>
+<h3 id="💼-六大-ai-工作流實踐路徑" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">💼 六大 AI 工作流實踐路徑</h3>
+<p class="text-slate-300 leading-relaxed my-4">#### 1. <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">invoice@</code> 流程：自動進帳單核銷<br><div class="text-center my-4 font-mono text-indigo-300">\[\text{Email Attachment (PDF/Image)} \longrightarrow \text{OCR + LLM Extraction} \longrightarrow \text{ERP Connector} \longrightarrow \text{LINE Financial Group Notification}\]</div><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 處理</strong>：提取發票號碼、金額、品名與統編。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>整合決策</strong>：自動比對 ERP 採購單（PO），若金額與品名相符，則直接建立 ERP 付款單草稿，並回信給供應商確認收到。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">#### 2. <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">meeting@</code> 流程：會議追蹤與指派<br><div class="text-center my-4 font-mono text-indigo-300">\[\text{Voice/Text Input} \longrightarrow \text{Whisper (STT) + Summary Agent} \longrightarrow \text{Action Items Extraction} \longrightarrow \text{Google Calendar \& Sheets}\]</div><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 處理</strong>：辨識會議內容，提取 Action Items 與對應負責人。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>整合決策</strong>：在 Google Sheets 建立追蹤卡，同時向各負責人的 LINE 發送私訊提報待辦與時限。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">#### 3. <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">audit@</code> 流程：風險合規自動稽核<br><div class="text-center my-4 font-mono text-indigo-300">\[\text{Contract Word/PDF} \longrightarrow \text{RAG Clause Analysis} \longrightarrow \text{Risk Assessment Generation} \longrightarrow \text{Compliance Dashboard}\]</div><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 處理</strong>：檢查合約條款是否踩到企業法規紅線。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>整合決策</strong>：將稽核結果產出為 HTML 報告，上傳至 Cloudflare Pages 生成預覽連結，並通知法務主管。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">#### 4. <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">support@</code> 流程：智慧客服分流與回覆<br><div class="text-center my-4 font-mono text-indigo-300">\[\text{Customer Email} \longrightarrow \text{Sentiment \& Topic Classification} \longrightarrow \text{RAG Knowledge Retrieval} \longrightarrow \text{Auto-Reply / CRM Ticket}\]</div><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 處理</strong>：判斷客戶情緒（怒/平靜）與問題分類，自動查詢 FAQ 庫生成回覆信件。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>整合決策</strong>：同步在 CRM 系統（如 Salesforce 或 HubSpot）建立工單，若情緒為「憤怒」，立即將工單層級拉高並通知人工作服。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">#### 5. <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">resume@</code> 流程：HR AI 篩選<br><div class="text-center my-4 font-mono text-indigo-300">\[\text{Resume PDF} \longrightarrow \text{Profile Parsing} \longrightarrow \text{JD Similarity Match} \longrightarrow \text{ATS / HR Tracker Sheet}\]</div><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 處理</strong>：結構化履歷，依據學經歷、技能與職缺匹配度打分。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>整合決策</strong>：將符合條件的履歷自動分類歸檔至 Google Drive，並將關鍵資訊登載至 HR Sheets。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">#### 6. <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">translate@</code> 流程：商務無障礙翻譯<br><div class="text-center my-4 font-mono text-indigo-300">\[\text{Foreign Language Email} \longrightarrow \text{LLM Translation} \longrightarrow \text{Contextual Draft Response} \longrightarrow \text{Sender Gmail Drafts}\]</div><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>AI 處理</strong>：高品質商業翻譯，保留原文格式。</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>整合決策</strong>：直接調用 Google Gmail API，在寄件人的「草稿匣」中生成翻譯好的回信草稿。</li></p>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="3.-saas--erp-系統整合判斷與決策指引" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>3. SaaS / ERP 系統整合判斷與決策指引</h2>
+<p class="text-slate-300 leading-relaxed my-4">針對 ERP 與 SaaS 公司的整合，我們將系統區分為 <strong>「API 原生（API-Active）」</strong> 與 <strong>「傳統/封閉（API-Passive）」</strong> 兩種類型，並提供對應的整合策略：</p>
+<p class="text-slate-300 leading-relaxed my-4"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`<br>                           ┌─────────────────────────────┐<br>                           │   ERP / SaaS System Type    │<br>                           └──────────────┬──────────────┘<br>                                          │<br>                  ┌───────────────────────┴───────────────────────┐<br>                  ▼                                               ▼<br>      【 API 原生 (API-Active) 】                     【 傳統 / 封閉 (API-Passive) 】<br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">具備 Webhook 與 RESTful API                  - 無 API，或僅支援資料庫/檔案對接</li><br><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">提供 SDK 與標準認證 (OAuth2)                 - 通常部署於企業內網 (On-Premise)</li><br>                  │                                               │<br>                  ▼                                               ▼<br>        [ 🤖 直連整合 Webhook ]                         [ 🛡️ 中介 / Tunnel / RPA 整合 ]<br><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`</p>
+<h3 id="1.-api-原生系統-如-salesforce,-dynamics-365,-modern-saas-erp" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">1. API 原生系統 (如 Salesforce, Dynamics 365, Modern SaaS ERP)</h3>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>整合模式</strong>：<strong>Webhook 直連 / API 主動推送</strong>。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>實作方式</strong>：</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">FALO AI Runtime 解析完事件後，直接呼叫 SaaS 的 RESTful API（例如 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">POST /api/v1/invoices</code>）。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">使用 OAuth2 或 API Key 進行邊緣端安全認證。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6">利用 Webhook 接收 SaaS 系統的反饋（例如：「此發票已被主管拒絕，請 AI 發信重新向廠商要檔案」），觸發下一階段 AI Workflow。</li>
+<h3 id="2.-傳統--封閉型-erp-系統-如傳統-on-premise-系統" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">2. 傳統 / 封閉型 ERP 系統 (如傳統 On-Premise 系統)</h3>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>整合模式</strong>：<strong>中介資料表 (Staging Table) / 檔案交換 (ETL) / RPA 機器人</strong>。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>實作方式</strong>：</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>方法 A：中介資料庫同步 (推薦)</strong></li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">FALO AI Runtime 透過 <strong>Cloudflare Tunnel</strong> 安全連線至企業內網的 Read-Write Replica 資料庫。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">將解析出的發票結構化數據，寫入雙方約定好的「中介資料表 (Staging Table)」，例如 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">STG_INCOMING_INVOICES</code>。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">ERP 內部的排程（Stored Procedure）定時掃描此表，將驗證通過的資料轉載入 ERP 主檔。這種方式對舊 ERP 的衝擊最低，安全性最高。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>方法 B：SFTP 檔案交換 (CSV/XML)</strong></li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">很多舊型 ERP 僅能匯入特定格式的 CSV 或 XML 檔案。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">FALO Python Runtime 可自動將 Event 轉為標準 CSV，透過 SFTP 上傳至指定目錄，觸發 ERP 匯入精靈。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>方法 C：RPA (Robotic Process Automation) 協同</strong></li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">若 ERP 系統完全沒有任何外部匯入途徑，可由 FALO 提供 API，由企業內部的 RPA 機器人定期從 FALO 提取結構化事件，模擬人工鍵盤滑鼠操作，輸入 ERP 畫面。</li>
+    </article>
+  </div>
+
+
+  <!-- Footer -->
+  
+  <footer class="border-t border-slate-800 mt-20 py-8 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>© 2026 FALO AI Edge Platform. All rights reserved.</div>
+      <div class="flex gap-4">
+        <a href="README.html" class="hover:text-slate-400">目錄總覽</a>
+        <a href="#" class="hover:text-slate-400">Security SOP</a>
+        <a href="#" class="hover:text-slate-400">Docs</a>
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+</html>

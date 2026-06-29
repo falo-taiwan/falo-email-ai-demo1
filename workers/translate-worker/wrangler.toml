@@ -1,0 +1,12 @@
+name = "translate-worker"
+main = "index.js"
+compatibility_date = "2026-06-29"
+
+[observability]
+enabled = true
+
+[ai]
+binding = "AI"
+
+[[send_email]]
+name = "EMAIL"

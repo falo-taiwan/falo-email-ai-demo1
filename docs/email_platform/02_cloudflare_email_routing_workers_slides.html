@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>Module 2: Cloudflare Email Routing & Workers 最佳實踐 - 投影片簡報</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+  <style>
+    .reveal {
+      background: radial-gradient(circle at center, #0b0f19 0%, #020617 100%) !important;
+    }
+    .slide-gradient {
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .glass-box {
+      background: rgba(30, 41, 59, 0.4);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    pre {
+      background-color: #0f1420 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Back button to return to reading HTML -->
+  <div class="fixed top-4 left-4 z-50">
+    <a href="module_2.html" class="inline-flex items-center gap-2 py-1.5 px-3 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 text-xs font-semibold text-indigo-400 transition border border-slate-700/50 backdrop-blur-sm">
+      <i class="fa-solid fa-file-lines"></i> 切換為閱讀模式
+    </a>
+  </div>
+
+  <div class="reveal">
+    <div class="slides text-slate-200">
+      
+      <!-- Cover Slide -->
+      <section class="text-left px-12">
+        <div class="text-indigo-400 font-semibold uppercase tracking-wider mb-2 font-mono text-xl">
+          <i class="fa-solid fa-graduation-cap mr-2"></i> FALO AI Email Platform
+        </div>
+        <h1 class="text-5xl font-extrabold mb-6 leading-tight slide-gradient">Module 2: Cloudflare Email Routing & Workers 最佳實踐</h1>
+        <p class="text-2xl text-slate-400 mb-8 max-w-2xl leading-relaxed">本模組深入研究 Cloudflare Email Routing 的設定與限制，以及如何編寫 Email Worker 以程式化地解析、過濾並處理由邊緣路由進來的電子郵件。</p>
+        <div class="text-slate-500 font-mono text-lg">AI 顧問培訓教材 | Falo x Force Cheng</div>
+      </section>
+    
+      <!-- Slide: 1. Cloudflare Email Routing 深度研究 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">1. Cloudflare Email Routing 深度研究</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">Cloudflare Email Routing 是一項免費且高效的郵件路由服務，能將自訂網域的郵件無縫轉發至目的地信箱。</p>
+        </div>
+      </section>
+        
+      <!-- Slide: # ⚙️ 核心路由模式與機制 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># ⚙️ 核心路由模式與機制</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">Email Aliases (別名路由)</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">建立精確的一對一或一對多轉寄規則。例如：將 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">info@formosa-ai.com</code> 轉寄至主管與助理的真實 Gmail 信箱。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">優點</strong>：極度精確，安全性高。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">缺點</strong>：每當需要新增一個別名時，需透過 Cloudflare Dashboard 或 API 進行設定。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">Catch-all (全捕獲路由)</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">將所有未明確設定別名規則的郵件，全部路由至同一個目的地（如某個主信箱或 Email Worker）。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">優點</strong>：靈活性極高。例如員工可以任意創造 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">client_a_invoice@yourcompany.com</code> 而不需事先設定，AI 能自動在後台進行動態解析。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">缺點</strong>：容易遭受垃圾郵件攻擊（Spam Harvesting）。必須搭配 SPF/DKIM/DMARC 檢驗與 Email Worker 的邊緣過濾機制。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold">Destination Address (目的地驗證)</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">轉寄的目的地信箱必須通過驗證。Cloudflare 會發送驗證信，收件者點擊連結後方可啟用轉寄。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">轉寄至 Email Worker 時，則<strong class="text-indigo-300 font-bold">不需要</strong>驗證目的地信箱，因為郵件是在邊緣端由代碼直接消費。</li>
+        </div>
+      </section>
+        
+      <!-- Slide: # ⚠️ 限制與最佳實踐 (Limits & Best Practices) -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># ⚠️ 限制與最佳實踐 (Limits & Best Practices)</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">免費額度限制</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">Cloudflare Email Routing 目前無嚴格的每日發信量限制，但受限於 Cloudflare 全球 Edge 的 Rate Limit。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">對於超大規模的企業收信（如每日數十萬封），應考慮在 MX 層面部署 WAF 規則。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">發信源認證限制 (SPF/DKIM/DMARC)</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">當 Cloudflare 轉寄郵件時，它會利用 <strong class="text-indigo-300 font-bold">SRS (Sender Rewriting Scheme)</strong> 來重寫寄件者地址，以確保轉寄的郵件不會被目的地的郵件伺服器（例如 Gmail）判定為垃圾信。</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">最佳安全配置</strong>：</li>
+<li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">強烈建議在網域 DNS 中正確配置 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">SPF</code>、<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">DKIM</code> 和 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">DMARC</code> 記錄，保障網域的寄信信用額度。</li>
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3">---</p>
+        </div>
+      </section>
+        
+      <!-- Slide: 2. Cloudflare Email Workers 技術解析 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">2. Cloudflare Email Workers 技術解析</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">Email Workers 允許開發者編寫 JavaScript 來直接攔截、解析並動態路由電子郵件。</p>
+        </div>
+      </section>
+        
+      <!-- Slide: # 💻 Email Worker 核心 API 結構 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># 💻 Email Worker 核心 API 結構</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">當郵件抵達時，Worker 會觸發 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">email</code> 事件，並傳入 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">message</code> 物件。</p>
+<pre><code class="language-javascript text-sm">export default {
+  async email(message, env, ctx) {
+    // 1. 讀取郵件基本標頭
+    const fromAddress = message.from;
+    const toAddress = message.to;
+    const subject = message.headers.get("subject");
+    const messageId = message.headers.get("message-id");
+    
+    console.log(<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">✉️ 收到新郵件：從 ${fromAddress} 到 ${toAddress}，主旨：${subject}</code>);
+    
+    // 2. 邊緣端拒絕/回覆/轉寄邏輯
+    if (fromAddress.endsWith("@spamdomain.com")) {
+      // 拒絕郵件，寄件者會收到退信通知
+      message.reject("We do not accept spam.");
+      return;
+    }
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3">// 3. 讀取郵件原始 MIME 數據<br>    const rawEmailSize = message.rawSize; // 位元組大小<br>    const rawEmailStream = message.raw;   // 可讀串流 (ReadableStream)<br>    <br>    // 4. 交給非同步處理（避免阻塞 Worker 響應）<br>    ctx.waitUntil(handleEmailProcessing(message, env));<br>  }<br>}</code></pre></p>
+        </div>
+      </section>
+        
+      <!-- Slide: # 📦 郵件解析 (MIME Parser) 與附件處理 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4"># 📦 郵件解析 (MIME Parser) 與附件處理</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">由於 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">message.raw</code> 是一個原始的 MIME 格式 Stream（符合 RFC 5322），在 Worker 的輕量 JS 環境中，直接操作 Raw Stream 較為繁瑣。我們通常有兩種最佳實踐：</p>
+        </div>
+      </section>
+        
+      <!-- Slide: 實踐 A：邊緣端輕量解析（適用於 Worker 內直接處理） -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">實踐 A：邊緣端輕量解析（適用於 Worker 內直接處理）</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">利用開源的 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">postal-mime</code> 庫，在 Worker 內部將 MIME 串流完整解析為 JSON 結構（包含附件的 ArrayBuffer）。<br><pre><code class="language-javascript text-sm">import PostalMime from 'postal-mime';</p>
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3">async function handleEmailProcessing(message, env) {<br>  // 將 ReadableStream 轉為 ArrayBuffer<br>  const rawEmail = await new Response(message.raw).arrayBuffer();<br>  <br>  // 解析 MIME<br>  const parser = new PostalMime();<br>  const parsedEmail = await parser.parse(rawEmail);<br>  <br>  console.log("內文 (Text):", parsedEmail.text);<br>  console.log("HTML:", parsedEmail.html);<br>  <br>  // 處理附件<br>  if (parsedEmail.attachments && parsedEmail.attachments.length > 0) {<br>    for (const attachment of parsedEmail.attachments) {<br>      console.log(<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">發現附件: ${attachment.filename} (${attachment.mimeType})</code>);<br>      <br>      // 將附件上傳至 Cloudflare R2 進行持久化存儲<br>      const fileKey = <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">attachments/${Date.now()}_${attachment.filename}</code>;<br>      await env.ATTACHMENT_BUCKET.put(fileKey, attachment.content, {<br>        httpMetadata: { contentType: attachment.mimeType }<br>      });<br>      console.log(<code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">✅ 附件已成功存儲於 R2: ${fileKey}</code>);<br>    }<br>  }<br>}</code></pre></p>
+        </div>
+      </section>
+        
+      <!-- Slide: 實踐 B：整封轉發至 Python Backend（適用於複雜 OCR/AI 處理） -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">實踐 B：整封轉發至 Python Backend（適用於複雜 OCR/AI 處理）</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">將 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">message.raw</code> 透過 Multipart FormData 直接轉發至本機 Python FastAPI（經由 Cloudflare Tunnel），由 Python 端使用強大的 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">email</code> 內建庫或 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">pydantic</code> 進行重度解析。這可大幅節省 Worker 的 CPU Time。</p>
+<p class="text-slate-400 text-lg leading-relaxed text-left my-3">---</p>
+        </div>
+      </section>
+        
+      <!-- Slide: 3. Email Worker 邊緣端動作指令 -->
+      <section class="text-left px-12">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">3. Email Worker 邊緣端動作指令</h2>
+        <div class="mt-4 max-h-[500px] overflow-y-auto pr-2">
+          <p class="text-slate-400 text-lg leading-relaxed text-left my-3">Email Worker API 提供了三個關鍵的終端動作方法：<br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">message.forward(destination)</code></strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">將郵件原封不動轉寄至另一個驗證過的目的地地址。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">應用場景</strong>：經 AI 過濾後，將正常郵件轉寄給人工客服。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">message.reject(reason)</code></strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">拒絕接收此郵件，並向寄件者發送退信通知（Bounce Mail），說明拒絕原因。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left"><strong class="text-indigo-300 font-bold">應用場景</strong>：封鎖垃圾郵件來源，或對未經授權的寄件者拒收。</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-decimal ml-6 text-left"><strong class="text-indigo-300 font-bold"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-400 font-mono text-sm">message.reply(replyMessage)</code></strong>：</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">*（目前處於 Beta 或需搭配第三方寄信服務）*</li><br><li class="text-slate-300 text-lg leading-relaxed mb-2 list-disc ml-6 text-left">在 Worker 中直接回信。若要在 Worker 內實現完全靈活的郵件回覆，通常建議將郵件內容解析後，呼叫 <strong class="text-indigo-300 font-bold">Resend API</strong> 或 <strong class="text-indigo-300 font-bold">MailChannels</strong> 發送結構化回信，這樣能保證 100% 的發信成功率與 DKIM 簽章。</li></p>
+        </div>
+      </section>
+        
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      transition: 'fade'
+    });
+    hljs.highlightAll();
+  </script>
+</body>
+</html>

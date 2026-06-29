@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FALO AI Email Platform - 基礎建設總覽</title>
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Microsoft JhengHei', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gradient-border {
+      position: relative;
+    }
+    .gradient-border::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #a855f7, #6366f1);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen">
+
+  <!-- Header / Hero Section -->
+  <header class="relative overflow-hidden py-16 border-b border-slate-800 bg-slate-900/40">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.15),transparent_45%)]"></div>
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+      <div class="flex items-center gap-3 text-indigo-400 font-semibold tracking-wider text-sm uppercase mb-3 font-outfit">
+        <i class="fa-solid fa-cloud-bolt"></i> FALO Edge Platform Module
+      </div>
+      <h1 class="text-4xl md:text-5xl font-extrabold font-outfit mb-4">
+        FALO AI <span class="gradient-text">Email Platform</span>
+      </h1>
+      <p class="text-slate-400 text-lg max-w-3xl leading-relaxed">
+        下一代企業級 AI 原生收信與事件閘道架構（Enterprise Event Gateway）。
+        以非侵入式設計適應既有工作流，將郵件轉化為結構化的企業事件與工作自動化流。
+      </p>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-6xl mx-auto px-6 py-12">
+    
+    <!-- Architecture Quick Look -->
+    <section class="mb-16">
+      <div class="flex items-center gap-2 mb-6">
+        <i class="fa-solid fa-sitemap text-indigo-400 text-xl"></i>
+        <h2 class="text-2xl font-bold font-outfit">系統架構總覽 (Email 2.0)</h2>
+      </div>
+      <div class="glass-card rounded-2xl p-6 md:p-8">
+        <div class="relative rounded-xl overflow-hidden bg-slate-950/80 p-2 border border-slate-800">
+          <img src="architecture.jpg" alt="FALO AI Email Platform Architecture" class="w-full h-auto rounded-lg">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          <div class="p-5 rounded-xl bg-slate-900/50 border border-slate-800">
+            <div class="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-4">
+              <i class="fa-solid fa-paper-plane text-lg"></i>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">不改使用者習慣</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              使用者依然只需寄送 Email。AI 在背景默默完成所有附件解析、OCR、結構化與工作流觸發。
+            </p>
+          </div>
+          <div class="p-5 rounded-xl bg-slate-900/50 border border-slate-800">
+            <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 mb-4">
+              <i class="fa-solid fa-microchip text-lg"></i>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">一個地址一項服務</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              每個信箱（如 <code class="text-purple-300">ocr@</code>, <code class="text-purple-300">meeting@</code>）都是一個獨立的 AI Function/Service，成本低且易於維護。
+            </p>
+          </div>
+          <div class="p-5 rounded-xl bg-slate-900/50 border border-slate-800">
+            <div class="w-10 h-10 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 mb-4">
+              <i class="fa-solid fa-link text-lg"></i>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">企業事件閘道</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              統一 Events 模型，完美串接傳統/舊版 ERP 系統、LINE 群組通知與 Google Workspace 協作知識層。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Documents Navigator Grid -->
+    <section class="mb-16">
+      <div class="flex items-center gap-2 mb-6">
+        <i class="fa-solid fa-book-open text-indigo-400 text-xl"></i>
+        <h2 class="text-2xl font-bold font-outfit">知識庫與教材清單 (一體三面)</h2>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4">
+        <!-- Header row -->
+        <div class="hidden md:grid grid-cols-12 gap-4 px-6 py-3 text-slate-400 text-sm font-semibold uppercase tracking-wider font-outfit border-b border-slate-800">
+          <div class="col-span-1 text-center">序號</div>
+          <div class="col-span-7">模組名稱與研究主題</div>
+          <div class="col-span-2 text-center">人看閱讀版</div>
+          <div class="col-span-2 text-center">顧問投影片</div>
+        </div>
+
+        <!-- Row 1 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center glass-card hover:bg-slate-800/40 transition duration-200 rounded-xl md:rounded-none px-6 py-5 md:py-4 border-b border-slate-800/50">
+          <div class="md:col-span-1 text-slate-400 font-bold text-center font-outfit text-lg md:text-base">M1</div>
+          <div class="col-span-1 md:col-span-7">
+            <div class="font-semibold text-slate-200">Email 2.0 角色定義與 AI Email Service</div>
+            <div class="text-xs text-slate-400 mt-1">從 Communication 進化為 Enterprise Event Gateway、AI 信箱地址矩陣規劃</div>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="01_email_role_redefinition.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-file-lines"></i> 閱讀 HTML
+            </a>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="01_email_role_redefinition_slides.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-person-chalkboard"></i> 教材投影片
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center glass-card hover:bg-slate-800/40 transition duration-200 rounded-xl md:rounded-none px-6 py-5 md:py-4 border-b border-slate-800/50">
+          <div class="md:col-span-1 text-slate-400 font-bold text-center font-outfit text-lg md:text-base">M2</div>
+          <div class="col-span-1 md:col-span-7">
+            <div class="font-semibold text-slate-200">Cloudflare Email Routing & Workers 最佳實踐</div>
+            <div class="text-xs text-slate-400 mt-1">Alias、Catch-all 機制限制、Email Worker API、MIME 附件上傳 R2</div>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="02_cloudflare_email_routing_workers.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-file-lines"></i> 閱讀 HTML
+            </a>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="02_cloudflare_email_routing_workers_slides.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-person-chalkboard"></i> 教材投影片
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center glass-card hover:bg-slate-800/40 transition duration-200 rounded-xl md:rounded-none px-6 py-5 md:py-4 border-b border-slate-800/50">
+          <div class="md:col-span-1 text-slate-400 font-bold text-center font-outfit text-lg md:text-base">M3</div>
+          <div class="col-span-1 md:col-span-7">
+            <div class="font-semibold text-slate-200">AI Workflow 與 Enterprise Event Gateway</div>
+            <div class="text-xs text-slate-400 mt-1">FALO Event Model JSON Schema 設計、SaaS / ERP 平台對接整合判斷</div>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="03_ai_workflow_event_gateway.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-file-lines"></i> 閱讀 HTML
+            </a>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="03_ai_workflow_event_gateway_slides.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-person-chalkboard"></i> 教材投影片
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center glass-card hover:bg-slate-800/40 transition duration-200 rounded-xl md:rounded-none px-6 py-5 md:py-4 border-b border-slate-800/50">
+          <div class="md:col-span-1 text-slate-400 font-bold text-center font-outfit text-lg md:text-base">M4</div>
+          <div class="col-span-1 md:col-span-7">
+            <div class="font-semibold text-slate-200">Google Workspace 知識層協同整合</div>
+            <div class="text-xs text-slate-400 mt-1">Gmail 草稿箱協作、Sheets/Docs 寫入、NotebookLM 知識檢索庫角色</div>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="04_google_workspace_integration.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-file-lines"></i> 閱讀 HTML
+            </a>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="04_google_workspace_integration_slides.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-person-chalkboard"></i> 教材投影片
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 5 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center glass-card hover:bg-slate-800/40 transition duration-200 rounded-xl md:rounded-none px-6 py-5 md:py-4 border-b border-slate-800/50">
+          <div class="md:col-span-1 text-slate-400 font-bold text-center font-outfit text-lg md:text-base">M5</div>
+          <div class="col-span-1 md:col-span-7">
+            <div class="font-semibold text-slate-200">Python Runtime 與 Worker 職責分工</div>
+            <div class="text-xs text-slate-400 mt-1">邊緣輕量邏輯 vs 核心重度運算（OCR, LLM RAG, ETL）職責決策矩陣</div>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="05_python_runtime_division.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-file-lines"></i> 閱讀 HTML
+            </a>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="05_python_runtime_division_slides.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-person-chalkboard"></i> 教材投影片
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 6 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center glass-card hover:bg-slate-800/40 transition duration-200 rounded-xl md:rounded-none px-6 py-5 md:py-4 border-b border-slate-800/50">
+          <div class="md:col-span-1 text-slate-400 font-bold text-center font-outfit text-lg md:text-base">M6</div>
+          <div class="col-span-1 md:col-span-7">
+            <div class="font-semibold text-slate-200">商業模式與多平台成本效益比較</div>
+            <div class="text-xs text-slate-400 mt-1">SME、Enterprise 商業定位、Cloudflare/Resend/G-Suite 多平台精算對比</div>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="06_business_model_cost_analysis.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-file-lines"></i> 閱讀 HTML
+            </a>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="06_business_model_cost_analysis_slides.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-person-chalkboard"></i> 教材投影片
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 7 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center glass-card hover:bg-slate-800/40 transition duration-200 rounded-xl md:rounded-none px-6 py-5 md:py-4 border-b border-slate-800/50">
+          <div class="md:col-span-1 text-slate-400 font-bold text-center font-outfit text-lg md:text-base">M7</div>
+          <div class="col-span-1 md:col-span-7">
+            <div class="font-semibold text-slate-200">教材大綱與系統藍圖</div>
+            <div class="text-xs text-slate-400 mt-1">動態交互 Sequence 圖、適用於 Skyline、天心 ERP 與 FALO 的培訓大綱</div>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="07_materials_and_blueprints.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-file-lines"></i> 閱讀 HTML
+            </a>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="07_materials_and_blueprints_slides.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-person-chalkboard"></i> 教材投影片
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 8 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center glass-card hover:bg-slate-800/40 transition duration-200 rounded-xl md:rounded-none px-6 py-5 md:py-4 border-b border-slate-800/50">
+          <div class="md:col-span-1 text-slate-400 font-bold text-center font-outfit text-lg md:text-base">M8</div>
+          <div class="col-span-1 md:col-span-7">
+            <div class="font-semibold text-slate-200">AI 智能翻譯信箱部署 (Llama 3.1 邊緣加速)</div>
+            <div class="text-xs text-slate-400 mt-1">郵件自動偵測語系、雙向智能翻譯與回覆工作流實作與計費剖析</div>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="08_ai_translation_mailbox.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-file-lines"></i> 閱讀 HTML
+            </a>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="08_ai_translation_mailbox_slides.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-person-chalkboard"></i> 教材投影片
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 9 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center glass-card hover:bg-slate-800/40 transition duration-200 rounded-xl md:rounded-none px-6 py-5 md:py-4 border-b border-slate-800/50">
+          <div class="md:col-span-1 text-slate-400 font-bold text-center font-outfit text-lg md:text-base">M9</div>
+          <div class="col-span-1 md:col-span-7">
+            <div class="font-semibold text-slate-200">FALO Edge 發信門戶與動作審計模組</div>
+            <div class="text-xs text-slate-400 mt-1">前端玻璃態控制台、多角色發信選擇、KV 使用者動態管理與動作稽核日誌</div>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="09_edge_email_portal_audit.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-file-lines"></i> 閱讀 HTML
+            </a>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="09_edge_email_portal_audit_slides.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-person-chalkboard"></i> 教材投影片
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 10 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center glass-card hover:bg-slate-800/40 transition duration-200 rounded-xl md:rounded-none px-6 py-5 md:py-4 border-b border-slate-800/50">
+          <div class="md:col-span-1 text-slate-400 font-bold text-center font-outfit text-lg md:text-base">M10</div>
+          <div class="col-span-1 md:col-span-7">
+            <div class="font-semibold text-slate-200">雙軌 AI 翻譯與智能摘要服務</div>
+            <div class="text-xs text-slate-400 mt-1">全文翻譯與智能摘要雙軌分流路由、4096 Tokens 擴展與零成本中文過濾</div>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="10_dual_track_translation_summary.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-file-lines"></i> 閱讀 HTML
+            </a>
+          </div>
+          <div class="col-span-6 md:col-span-2 text-center">
+            <a href="10_dual_track_translation_summary_slides.html" class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-semibold transition">
+              <i class="fa-solid fa-person-chalkboard"></i> 教材投影片
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Prototypes -->
+    <section>
+      <div class="flex items-center gap-2 mb-6">
+        <i class="fa-solid fa-code text-indigo-400 text-xl"></i>
+        <h2 class="text-2xl font-bold font-outfit">實作代碼原型 (Examples)</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a href="../../examples/email_worker/index.js" class="glass-card p-6 rounded-2xl border border-slate-800 hover:border-indigo-500/50 transition duration-300 block group">
+          <div class="flex justify-between items-start mb-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
+              <i class="fa-brands fa-js text-xl"></i>
+            </div>
+            <span class="text-xs font-semibold text-indigo-400 group-hover:underline">查看源碼 <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+          <h3 class="text-xl font-bold text-slate-200 mb-2">Cloudflare Email Worker 原型</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            運行在 Cloudflare 邊緣，負責攔截 SMTP 郵件，進行 SPF 驗證、R2 附件上傳，並調用 Webhook 轉發。
+          </p>
+        </a>
+        <a href="../../examples/email_event_handler/app.py" class="glass-card p-6 rounded-2xl border border-slate-800 hover:border-purple-500/50 transition duration-300 block group">
+          <div class="flex justify-between items-start mb-4">
+            <div class="w-12 h-12 rounded-xl bg-sky-500/10 flex items-center justify-center text-sky-400">
+              <i class="fa-brands fa-python text-xl"></i>
+            </div>
+            <span class="text-xs font-semibold text-purple-400 group-hover:underline">查看源碼 <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+          <h3 class="text-xl font-bold text-slate-200 mb-2">Python FastAPI 接收端與 Workflow</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            本地/私有雲後台伺服器。定義統一的 FALO Event Schema，模擬 OCR 識別、會議摘要與 ERP/LINE 自動化寫入。
+          </p>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800 mt-20 py-8 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>© 2026 FALO AI Edge Platform. All rights reserved.</div>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-slate-400">Security</a>
+        <a href="#" class="hover:text-slate-400">SOP</a>
+        <a href="#" class="hover:text-slate-400">Docs</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

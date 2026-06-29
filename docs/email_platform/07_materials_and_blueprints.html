@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 7: 教材大綱與系統藍圖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Microsoft JhengHei', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Highlight.js for code highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <!-- Mermaid.js for architecture diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    hljs.highlightAll();
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    pre {
+      background-color: #0f1420 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    code {
+      font-family: 'Fira Code', 'Courier New', Courier, monospace !important;
+    }
+    .mermaid {
+      background: #0f1420;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin: 1.5rem 0;
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+  
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen">
+
+  <!-- Header -->
+  
+  <header class="relative overflow-hidden py-10 border-b border-slate-800 bg-slate-900/40">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.1),transparent_40%)]"></div>
+    <div class="max-w-6xl mx-auto px-6 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <a href="README.html" class="inline-flex items-center gap-2 text-indigo-400 text-sm font-semibold hover:underline mb-2">
+          <i class="fa-solid fa-arrow-left"></i> 返回目錄總覽
+        </a>
+        <h1 class="text-3xl font-bold font-outfit text-slate-100">Module 7: 教材大綱與系統藍圖</h1>
+      </div>
+      <div>
+        <a href="module_7_slides.html" class="inline-flex items-center gap-2 py-2.5 px-5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-sm font-semibold transition shadow-lg shadow-indigo-500/10">
+          <i class="fa-solid fa-person-chalkboard"></i> 開啟顧問投影片
+        </a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- Layout Grid -->
+  
+  <div class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <aside class="lg:col-span-3 lg:sticky lg:top-8 h-fit hidden lg:block">
+      <div class="glass-card rounded-2xl p-5">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 font-outfit mb-4">本章導覽 (TOC)</h2>
+        <nav class="space-y-1.5 flex flex-col border-l border-slate-800">
+          <a href="#1.-系統交互序列圖-system-sequence-diagram" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">1. 系統交互序列圖 (System Sequence Diagram)</a>
+<a href="#2.-培訓教材與白皮書規劃" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">2. 培訓教材與白皮書規劃</a>
+<a href="#📘-版本-a：falo-官方白皮書與技術標準版" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">📘 版本 A：FALO 官方白皮書與技術標準版</a>
+<a href="#📙-版本-b：skyline--現代-saas-系統整合版" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">📙 版本 B：Skyline / 現代 SaaS 系統整合版</a>
+<a href="#📗-版本-c：傳統企業--天心-erp-實戰無痛升級版" class="block py-1 text-sm hover:text-indigo-400 transition pl-6 text-xs text-slate-400">📗 版本 C：傳統企業 / 天心 ERP 實戰無痛升級版</a>
+<a href="#3.-教材文件結構大綱-markdown-&-html" class="block py-1 text-sm hover:text-indigo-400 transition pl-2 font-semibold text-slate-300">3. 教材文件結構大綱 (Markdown & HTML)</a>
+
+        </nav>
+      </div>
+    </aside>
+    <article class="lg:col-span-9 glass-card rounded-3xl p-8 md:p-10 min-w-0">
+      <p class="text-slate-300 leading-relaxed my-4">本模組彙整 FALO AI Email Platform 的系統設計圖表（使用 Mermaid.js 繪製），並為 Skyline、天心 ERP 與 FALO 提供教材大綱及培訓白皮書規劃。</p>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="1.-系統交互序列圖-system-sequence-diagram" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>1. 系統交互序列圖 (System Sequence Diagram)</h2>
+<p class="text-slate-300 leading-relaxed my-4">以下 Mermaid 序列圖詳細呈現了從外部寄件者發送郵件，到 Cloudflare Edge 解析、R2 儲存、Python AI Runtime 處理、最終寫入 ERP 與發送 LINE 通知的完整交互流程：</p>
+<div class="mermaid">sequenceDiagram
+    autonumber
+    actor User as 寄件者 (User/Supplier)
+    participant CF_Route as Cloudflare Email Routing
+    participant CF_Worker as Cloudflare Email Worker
+    participant R2 as Cloudflare R2 Bucket
+    participant Tunnel as Cloudflare Tunnel
+    participant Py_API as Python AI Runtime
+    participant ERP as 企業 ERP / SaaS
+    participant LINE as LINE / Notify
+<p class="text-slate-300 leading-relaxed my-4">User->>CF_Route: 發送郵件 (含 PDF 附件)<br>    CF_Route->>CF_Worker: 觸發 email() 事件<br>    activate CF_Worker<br>    CF_Worker->>CF_Worker: 1. 檢查 SPF/DKIM 標頭<br/>2. 提取 MIME 與附件<br>    CF_Worker->>R2: 上傳附件儲存 (取得 R2 URL)<br>    R2-->>CF_Worker: 返回儲存路徑<br>    CF_Worker->>Py_API: 發送 Webhook (FALO Event Model JSON)<br>    deactivate CF_Worker<br>    activate Py_API<br>    Note over Py_API, Tunnel: 透過 Secure Tunnel 穿透防火牆</p>
+<p class="text-slate-300 leading-relaxed my-4">Py_API->>R2: 使用 R2 URL 下載發票 PDF<br>    R2-->>Py_API: 返回 PDF 二進位檔<br>    Py_API->>Py_API: 1. 呼叫 OCR 辨識影像文字<br/>2. LLM Agent 欄位結構化與檢核<br>    <br>    alt 系統整合決策: API 原生 (SaaS)<br>        Py_API->>ERP: RESTful API 直連寫入<br>    else 系統整合決策: 傳統 ERP<br>        Py_API->>ERP: 寫入內網中介資料表 (Staging Table)<br>    end<br>    ERP-->>Py_API: 回傳寫入結果 (Success)</p>
+<p class="text-slate-300 leading-relaxed my-4">Py_API->>LINE: 發送 LINE 訊息通知 (附審核網址)<br>    Py_API->>User: 自動回信 (Resend API) 「已收到，案號 #123」<br>    deactivate Py_API</div></p>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="2.-培訓教材與白皮書規劃" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>2. 培訓教材與白皮書規劃</h2>
+<p class="text-slate-300 leading-relaxed my-4">為協助企業、SaaS 生態圈夥伴及 IT 人員快速掌握 FALO AI Email Platform，我們設計了三套不同版本的教材藍圖：</p>
+<h3 id="📘-版本-a：falo-官方白皮書與技術標準版" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">📘 版本 A：FALO 官方白皮書與技術標準版</h3>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>目標受眾</strong>：FALO 架構師、雲端工程師、合作夥伴開發者。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>教學重點</strong>：</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>標準 Event Model 設計規範</strong>：如何擴充 Event Schema 以適應 Slack, Webhook, File Drop。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>Cloudflare Workers 進階開發</strong>：流式解析（Streaming parsing）、邊緣安全（Cloudflare Zero Trust Access）與 API 憑證託管。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>Python AI Runtime 優化</strong>：OCR 模型微調（Fine-tuning）、LLM Agent 提示詞防禦（Prompt Injection Defense）與長異步任務管理（Celery / Redis Queue）。</li>
+<h3 id="📙-版本-b：skyline--現代-saas-系統整合版" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">📙 版本 B：Skyline / 現代 SaaS 系統整合版</h3>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>目標受眾</strong>：SaaS 平台產品經理、系統架構師、API 合作夥伴。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>教學重點</strong>：</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>別名帳戶池管理</strong>：如何透過 Cloudflare API 自動化為 SaaS 用戶生成、回收 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">user_xxxx@saas.com</code> 電子郵件別名。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>多租戶隔離與計費模式</strong>：計算每個 Tenant 消耗的 Edge 流量與 AI Tokens，建立精準的計費後台。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>UI 結合最佳實踐</strong>：如何在 SaaS 前端展示「AI 解析狀態」，並與 Gmail 草稿匣進行 Human-in-the-loop 的對接。</li>
+<h3 id="📗-版本-c：傳統企業--天心-erp-實戰無痛升級版" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">📗 版本 C：傳統企業 / 天心 ERP 實戰無痛升級版</h3>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>目標受眾</strong>：傳統企業 IT 主管、MIS 人員、ERP 系統管理員。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>教學重點</strong>：</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>非侵入式 AI 升級技術</strong>：為什麼不需修改 ERP 代碼，即可透過「讀信」完成資料輸入自動化。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>中介資料表 (Staging Table) 對接 SOP</strong>：</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">如何設計 SQL Server / Oracle 中的中介表欄位。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">安全地限制 Python API 的資料庫寫入權限（僅能寫入 Staging，不能直接修改核心 Account Ledger）。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">設計自動對帳（Reconciliation）與防重入（Idempotency）機制，防止同一封 Email 重複寫入。</li>
+<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>LINE Notify 整合教學</strong>：MIS 如何快速申請 LINE Notify Token，並在本地 Python 腳本中呼叫發送通知。</li>
+<p class="text-slate-300 leading-relaxed my-4">---</p>
+<h2 id="3.-教材文件結構大綱-markdown-&-html" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>3. 教材文件結構大綱 (Markdown & HTML)</h2>
+<p class="text-slate-300 leading-relaxed my-4">所有培訓文件將包裝為以下結構，便於網頁部署與列印：</p>
+<p class="text-slate-300 leading-relaxed my-4"><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`<br>📁 falo-email-platform-training/<br>├── 📄 01_Executive_Summary.md      # 決策者導讀：Email 2.0 商業價值與 ROI<br>├── 📄 02_Architecture_Deep_Dive.md # 技術架構深探：從 Edge 到 Local Runtime<br>├── 📄 03_CF_Setup_Guide.md         # Cloudflare 設定指南：DNS、Routing 與 Worker 部署<br>├── 📄 04_Python_Runtime_Guide.md   # Python 接收端設置：FastAPI 與 OCR 模組配置<br>├── 📄 05_ERP_Integration_SOP.md    # 企業 ERP 整合實戰：中介表與 API 連線規範<br>└── 📁 assets/                      # 教學圖、架構圖、Mermaid 原始檔<br><code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono"></code>`</p>
+    </article>
+  </div>
+
+
+  <!-- Footer -->
+  
+  <footer class="border-t border-slate-800 mt-20 py-8 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>© 2026 FALO AI Edge Platform. All rights reserved.</div>
+      <div class="flex gap-4">
+        <a href="README.html" class="hover:text-slate-400">目錄總覽</a>
+        <a href="#" class="hover:text-slate-400">Security SOP</a>
+        <a href="#" class="hover:text-slate-400">Docs</a>
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+</html>

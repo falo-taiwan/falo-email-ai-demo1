@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>FALO AI Email Platform - 投影片簡報</title>
+  <!-- Reveal.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css">
+  <!-- Tailwind CSS CDN for slide styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .reveal {
+      background: radial-gradient(circle at center, #0b0f19 0%, #030712 100%) !important;
+    }
+    .slide-gradient {
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .glass-box {
+      background: rgba(30, 41, 59, 0.4);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides text-slate-200">
+      
+      <!-- Slide 1: Cover -->
+      <section class="text-left px-12">
+        <div class="text-indigo-400 font-semibold uppercase tracking-wider mb-2 font-mono text-xl">
+          <i class="fa-solid fa-cloud-bolt mr-2"></i> FALO Edge Platform
+        </div>
+        <h1 class="text-6xl font-extrabold mb-6 leading-tight">
+          FALO AI <br><span class="slide-gradient">Email Platform</span>
+        </h1>
+        <p class="text-2xl text-slate-400 mb-8 max-w-2xl leading-relaxed">
+          下一代企業 AI 原生收信與事件閘道架構（Enterprise Event Gateway）。
+        </p>
+        <div class="text-slate-500 font-mono text-lg">
+          Falo x Force Cheng | 2026/06/29
+        </div>
+      </section>
+
+      <!-- Slide 2: Core Vision -->
+      <section class="text-left px-12">
+        <h2 class="text-4xl font-bold mb-8 text-indigo-300 border-l-4 border-indigo-500 pl-4">本專案的核心願景</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+          <div class="glass-box p-6 rounded-2xl">
+            <h3 class="text-2xl font-semibold mb-4 text-purple-300">
+              <i class="fa-solid fa-ban mr-2 text-purple-400"></i> 不是研究 Email
+            </h3>
+            <p class="text-lg text-slate-400 leading-relaxed">
+              本專案不是在傳統郵件的收發上兜圈子，而是重構 Email 扮演的企業定位。
+            </p>
+          </div>
+          <div class="glass-box p-6 rounded-2xl">
+            <h3 class="text-2xl font-semibold mb-4 text-indigo-300">
+              <i class="fa-solid fa-diagram-project mr-2 text-indigo-400"></i> Enterprise Event Gateway
+            </h3>
+            <p class="text-lg text-slate-400 leading-relaxed">
+              Email 演變為 AI Workflow 的通用觸發器、AI 服務的統一入口，以及結構化企業事件。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3: Design Principles -->
+      <section class="text-left px-12">
+        <h2 class="text-4xl font-bold mb-8 text-indigo-300 border-l-4 border-indigo-500 pl-4">設計原則：適應使用者</h2>
+        <div class="glass-box p-8 rounded-2xl border border-indigo-500/20 max-w-4xl">
+          <p class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400 leading-normal mb-6">
+            「不要教使用者使用 AI，而是讓 AI 去適應使用者既有的工作方式。」
+          </p>
+          <div class="grid grid-cols-2 gap-6 mt-6">
+            <div>
+              <div class="text-slate-400 font-semibold mb-2">使用者行為</div>
+              <div class="text-2xl font-bold text-slate-100">完全照舊，只需寄信。</div>
+            </div>
+            <div>
+              <div class="text-slate-400 font-semibold mb-2">AI 行為</div>
+              <div class="text-2xl font-bold text-slate-100">在後台默默完成所有工作。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4: Architecture Map -->
+      <section class="text-center">
+        <h2 class="text-3xl font-bold mb-4 text-indigo-300">系統資料流與架構</h2>
+        <div class="max-w-4xl mx-auto glass-box p-4 rounded-xl">
+          <img src="architecture.jpg" alt="Architecture" class="w-full h-auto rounded-lg max-h-[500px] object-contain">
+        </div>
+      </section>
+
+      <!-- Slide 5: Teaching Modules -->
+      <section class="text-left px-12">
+        <h2 class="text-4xl font-bold mb-6 text-indigo-300 border-l-4 border-indigo-500 pl-4">核心教材章節</h2>
+        <div class="grid grid-cols-2 gap-4 text-lg">
+          <div class="glass-box p-4 rounded-xl">
+            <div class="font-bold text-slate-100">Part 1 - 3: 邊緣收信與解析</div>
+            <div class="text-sm text-slate-400 mt-1">Email 2.0、Cloudflare Email Routing 與 Workers MIME 附件處理。</div>
+          </div>
+          <div class="glass-box p-4 rounded-xl">
+            <div class="font-bold text-slate-100">Part 4 - 5: 事件閘道與 Workflow</div>
+            <div class="text-sm text-slate-400 mt-1">統一 FALO Event Model，收據、會議、合規稽核自動化。</div>
+          </div>
+          <div class="glass-box p-4 rounded-xl">
+            <div class="font-bold text-slate-100">Part 6 - 7: Python Runtime 與 知識層</div>
+            <div class="text-sm text-slate-400 mt-1">邊緣與本地 GPU/Python 職責劃分，整合 Workspace RAG。</div>
+          </div>
+          <div class="glass-box p-4 rounded-xl">
+            <div class="font-bold text-slate-100">Part 8 - 10: 商業模式與藍圖</div>
+            <div class="text-sm text-slate-400 mt-1">SME/SaaS 多平台成本精算與 ERP 整合對接 SOP。</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 6: End -->
+      <section class="text-center">
+        <h2 class="text-5xl font-extrabold mb-6 leading-tight slide-gradient">開始我們的 AI 郵件革命！</h2>
+        <p class="text-2xl text-slate-400 mb-8">請點選各章節的投影片連結進行教學演示。</p>
+        <div class="text-indigo-400 font-mono text-lg">
+          按左下角導覽控制鍵或鍵盤方向鍵可翻頁。
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      transition: 'slide'
+    });
+  </script>
+</body>
+</html>
