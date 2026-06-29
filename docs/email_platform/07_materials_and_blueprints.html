@@ -125,26 +125,16 @@
 <h2 id="2.-培訓教材與白皮書規劃" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>2. 培訓教材與白皮書規劃</h2>
 <p class="text-slate-300 leading-relaxed my-4">為協助企業、SaaS 生態圈夥伴及 IT 人員快速掌握 FALO AI Email Platform，我們設計了三套不同版本的教材藍圖：</p>
 <h3 id="📘-版本-a：falo-官方白皮書與技術標準版" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">📘 版本 A：FALO 官方白皮書與技術標準版</h3>
-<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>目標受眾</strong>：FALO 架構師、雲端工程師、合作夥伴開發者。</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>教學重點</strong>：</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>標準 Event Model 設計規範</strong>：如何擴充 Event Schema 以適應 Slack, Webhook, File Drop。</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>Cloudflare Workers 進階開發</strong>：流式解析（Streaming parsing）、邊緣安全（Cloudflare Zero Trust Access）與 API 憑證託管。</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>Python AI Runtime 優化</strong>：OCR 模型微調（Fine-tuning）、LLM Agent 提示詞防禦（Prompt Injection Defense）與長異步任務管理（Celery / Redis Queue）。</li>
+<ul class="my-4 space-y-1"><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>目標受眾</strong>：FALO 架構師、雲端工程師、合作夥伴開發者。</li><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>教學重點</strong>：</li></ul>
+<ol class="my-4 space-y-1"><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>標準 Event Model 設計規範</strong>：如何擴充 Event Schema 以適應 Slack, Webhook, File Drop。</li><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>Cloudflare Workers 進階開發</strong>：流式解析（Streaming parsing）、邊緣安全（Cloudflare Zero Trust Access）與 API 憑證託管。</li><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>Python AI Runtime 優化</strong>：OCR 模型微調（Fine-tuning）、LLM Agent 提示詞防禦（Prompt Injection Defense）與長異步任務管理（Celery / Redis Queue）。</li></ol>
 <h3 id="📙-版本-b：skyline--現代-saas-系統整合版" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">📙 版本 B：Skyline / 現代 SaaS 系統整合版</h3>
-<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>目標受眾</strong>：SaaS 平台產品經理、系統架構師、API 合作夥伴。</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>教學重點</strong>：</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>別名帳戶池管理</strong>：如何透過 Cloudflare API 自動化為 SaaS 用戶生成、回收 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">user_xxxx@saas.com</code> 電子郵件別名。</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>多租戶隔離與計費模式</strong>：計算每個 Tenant 消耗的 Edge 流量與 AI Tokens，建立精準的計費後台。</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>UI 結合最佳實踐</strong>：如何在 SaaS 前端展示「AI 解析狀態」，並與 Gmail 草稿匣進行 Human-in-the-loop 的對接。</li>
+<ul class="my-4 space-y-1"><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>目標受眾</strong>：SaaS 平台產品經理、系統架構師、API 合作夥伴。</li><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>教學重點</strong>：</li></ul>
+<ol class="my-4 space-y-1"><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>別名帳戶池管理</strong>：如何透過 Cloudflare API 自動化為 SaaS 用戶生成、回收 <code class="px-1.5 py-0.5 rounded bg-slate-900 text-indigo-300 text-sm font-mono">user_xxxx@saas.com</code> 電子郵件別名。</li><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>多租戶隔離與計費模式</strong>：計算每個 Tenant 消耗的 Edge 流量與 AI Tokens，建立精準的計費後台。</li><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>UI 結合最佳實踐</strong>：如何在 SaaS 前端展示「AI 解析狀態」，並與 Gmail 草稿匣進行 Human-in-the-loop 的對接。</li></ol>
 <h3 id="📗-版本-c：傳統企業--天心-erp-實戰無痛升級版" class="text-xl font-semibold font-outfit mt-8 mb-4 text-indigo-300">📗 版本 C：傳統企業 / 天心 ERP 實戰無痛升級版</h3>
-<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>目標受眾</strong>：傳統企業 IT 主管、MIS 人員、ERP 系統管理員。</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>教學重點</strong>：</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>非侵入式 AI 升級技術</strong>：為什麼不需修改 ERP 代碼，即可透過「讀信」完成資料輸入自動化。</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>中介資料表 (Staging Table) 對接 SOP</strong>：</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">如何設計 SQL Server / Oracle 中的中介表欄位。</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">安全地限制 Python API 的資料庫寫入權限（僅能寫入 Staging，不能直接修改核心 Account Ledger）。</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">設計自動對帳（Reconciliation）與防重入（Idempotency）機制，防止同一封 Email 重複寫入。</li>
-<li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>LINE Notify 整合教學</strong>：MIS 如何快速申請 LINE Notify Token，並在本地 Python 腳本中呼叫發送通知。</li>
+<ul class="my-4 space-y-1"><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>目標受眾</strong>：傳統企業 IT 主管、MIS 人員、ERP 系統管理員。</li><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6"><strong>教學重點</strong>：</li></ul>
+<ol class="my-4 space-y-1"><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>非侵入式 AI 升級技術</strong>：為什麼不需修改 ERP 代碼，即可透過「讀信」完成資料輸入自動化。</li><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>中介資料表 (Staging Table) 對接 SOP</strong>：</li></ol>
+<ul class="my-4 space-y-1"><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">如何設計 SQL Server / Oracle 中的中介表欄位。</li><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">安全地限制 Python API 的資料庫寫入權限（僅能寫入 Staging，不能直接修改核心 Account Ledger）。</li><li class="text-slate-300 leading-relaxed mb-2 list-disc ml-6">設計自動對帳（Reconciliation）與防重入（Idempotency）機制，防止同一封 Email 重複寫入。</li></ul>
+<ol class="my-4 space-y-1"><li class="text-slate-300 leading-relaxed mb-2 list-decimal ml-6"><strong>LINE Notify 整合教學</strong>：MIS 如何快速申請 LINE Notify Token，並在本地 Python 腳本中呼叫發送通知。</li></ol>
 <p class="text-slate-300 leading-relaxed my-4">---</p>
 <h2 id="3.-教材文件結構大綱-markdown-&-html" class="text-2xl font-bold font-outfit mt-12 mb-6 text-slate-100 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="w-1.5 h-6 bg-indigo-500 rounded-full inline-block"></span>3. 教材文件結構大綱 (Markdown & HTML)</h2>
 <p class="text-slate-300 leading-relaxed my-4">所有培訓文件將包裝為以下結構，便於網頁部署與列印：</p>

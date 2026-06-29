@@ -95,7 +95,7 @@ IF 收件者為 [翻譯信箱] AND 內文中文字元數量 > 10:
 
 為了便於顧問示範與學員練習，我們在本地目錄提供了以下 4 個測試流程中所產生的 `.html` 範例信件。學員可以直接點擊在瀏覽器新分頁中開啟檢視：
 
-* **[01_translate_smart_summary_response.html](examples/01_translate_smart_summary_response.html)**：向摘要信箱發送英文郵件後，由 AI 生成的**智能摘要與待辦行動回信範例**。
-* **[02_translate_blocked_chinese_warning.html](examples/02_translate_blocked_chinese_warning.html)**：向翻譯信箱發送中文郵件後，網關秒級攔截並退回的**中文未處理退信通知範例**。
-* **[03_translate_faithful_translation_alternative.html](examples/03_translate_faithful_translation_alternative.html)**：翻譯信箱的全文對照回信對比範例。
-* **[04_translate_smart_summary_alternative.html](examples/04_translate_smart_summary_alternative.html)**：摘要信箱的智能摘要與待辦回信對比範例。
+* **[01_english_faithful_translation.html](examples/01_english_faithful_translation.html)**：向翻譯信箱發送**英文郵件**後，由 AI 產出的**全文忠實對照翻譯回信範例**。
+* **[02_english_smart_summary.html](examples/02_english_smart_summary.html)**：向摘要信箱發送**英文郵件**後，由 AI 產出的**智能摘要與關鍵行動回信範例**。
+* **[03_chinese_smart_summary.html](examples/03_chinese_smart_summary.html)**：向摘要信箱發送**中文郵件**後，由 AI 產出的**智能摘要與行動項回信範例**（中文信件亦適用摘要別名）。
+* **[04_chinese_translation_blocked.html](examples/04_chinese_translation_blocked.html)**：向翻譯信箱發送**中文郵件**後，由網關預處理規則直接攔截並退回的**處理提示與警示通知範例**。
